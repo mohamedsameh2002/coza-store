@@ -1,0 +1,45 @@
+{% for product in data %}
+
+<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women product-box">
+    <!-- Block2 -->
+    <div class="block2">
+        <div class="block2-pic hov-img0">
+            <img src="{{product.image.url}}" alt="IMG-PRODUCT">
+
+            <a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+                Quick View
+            </a>
+        </div>
+
+        <div class="block2-txt flex-w flex-t p-t-14">
+            <div class="block2-txt-child1 flex-col-l ">
+                <a href="{% url 'product_details' product.id %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                    {{product.product_name}}
+                </a>
+
+                <span class="stext-105 cl3">
+                    ${{product.price}}
+                </span>
+            </div>
+
+            <input type="hidden" id="prod-id-Ou" value="{{product.id}}">
+
+            <div class="block2-txt-child2 flex-r p-t-3">
+                {% if product.id in id_products_list  %}
+                <button  class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 DisADdfaV"  data-product-id-dis="{{product.id}}" value="on">
+                    <img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
+                    <img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
+                </button>
+                {% else %}
+                <button  class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 aDdTofavEOu"  data-product-id-fav="{{product.id}}" value="off">
+                    <img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
+                    <img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
+                </button>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}

@@ -36,6 +36,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',#الخاص بالترجمة
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -55,6 +56,7 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.i18n',#ترجمة
                 'django.contrib.messages.context_processors.messages',
                 'store.context_processors.LOOP_PRODUCT_CON',
                 'cart.context_processors.COUNTER_ITEM_CON',
@@ -101,7 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'#.
 
 TIME_ZONE = 'UTC'
 
@@ -109,6 +111,12 @@ USE_I18N = True
 
 USE_TZ = True
 
+LANGUAGES = [    #.
+    ("ar",("Arabic")),
+    ("en",("English")),
+]
+
+LOCALE_PATHS = [os.path.join(BASE_DIR,'locale')]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/

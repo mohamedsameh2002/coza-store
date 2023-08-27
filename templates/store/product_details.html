@@ -34,8 +34,9 @@
 						<div class="wrap-slick3 flex-sb flex-w">
 							<div class="wrap-slick3-dots"></div>
 							<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
-
-							<div class="slick3 gallery-lb">
+								
+							
+							<div class="slick3 gallery-lb " >
 								{% for i in product_gallery %}
 								<div class="item-slick3" data-thumb="{{i.img.url}}">
 									<div class="wrap-pic-w pos-relative">
@@ -60,7 +61,7 @@
 						</h4>
 
 						<span class="mtext-106 cl2">
-							$58.79
+							$ {{product.price}}
 						</span>
 
 						<p class="stext-102 cl3 p-t-23">
@@ -68,8 +69,7 @@
 						</p>
 						
 						<!--  -->
-					<form action="{% url 'add_cart' product.id %}" method="post">  
-							{% csrf_token %}
+
 						<div class="p-t-33">
 							<div class="flex-w flex-r-m p-b-10">
 								<div class="size-203 flex-c-m respon6">
@@ -78,12 +78,11 @@
 
 								<div class="size-204 respon6-next">
 									<div class="rs1-select2 bor8 bg0">
-										<select class="js-select2" name="time">
-											<option>Choose an option</option>
-											<option>Size S</option>
-											<option>Size M</option>
-											<option>Size L</option>
-											<option>Size XL</option>
+										<select class="js-select2" name="time" id="SizE-CH" required>
+											<option value="" disabled selected>Select</option>
+											{% for size in sizes %}
+											<option>{{size|capfirst}}</option>
+											{% endfor %}
 										</select>
 										<div class="dropDownSelect2"></div>
 									</div>
@@ -97,18 +96,17 @@
 
 								<div class="size-204 respon6-next">
 									<div class="rs1-select2 bor8 bg0">
-										<select class="js-select2" name="time">
-											<option>Choose an option</option>
-											<option>Red</option>
-											<option>Blue</option>
-											<option>White</option>
-											<option>ff</option>
+										<select class="js-select2" name="time"  id="cOLor-CH" required>
+											<option value="" disabled selected>Select</option>
+											{% for color in colors %}
+											<option>{{color|capfirst}}</option>
+											{% endfor %}
 										</select>
 										<div class="dropDownSelect2"></div>
 									</div>
 								</div>
 							</div>
-
+                            <input type="hidden" id="prod-id" value="{{product.id}}">
 							<div class="flex-w flex-r-m p-b-10">
 								<div class="size-204 flex-w flex-m respon6-next">
 									<div class="wrap-num-product flex-w m-r-20 m-tb-10">
@@ -116,36 +114,35 @@
 											<i class="fs-16 zmdi zmdi-minus"></i>
 										</div>
 
-										<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
+										<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1" id="QtY-In" readonly>
 
 										<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
 											<i class="fs-16 zmdi zmdi-plus"></i>
 										</div>
 									</div>
-
-									<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+                                    
+									<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail" id='Add-To-carT'>
 										Add to cart
 									</button>
 								</div>
 							</div>	
 						</div>
-					</form>
+					
 
 						<!--  -->
 						<div class="flex-w flex-m p-l-100 p-t-40 respon7">
 							<div class="flex-m bor9 p-r-10 m-r-11">
                                 {% if is_fav %}
-								<a href="{% url 'add_favorite' product.id %}" class="btn-addwish-b2 dis-block pos-relative js-addwish-b1">
-									<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-								</a>
+								<button  class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 ImAG-On" id="aDdTofavEIn">
+									<img class="icon-heart1 dis-block trans-04 " src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
+									<img class="icon-heart2 dis-block trans-04 ab-t-l " src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
+								</button>
 								{% else %}
-								<a href="{% url 'add_favorite' product.id %}" class="btn-addwish-b2 dis-block pos-relative js-addwish-b1">
+								<button class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 ImagE-Off" id="aDdTofavEIn">
 									<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
 									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-								</a>
+								</button>
 								{% endif %}
-
 							</div>
 
 							<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
@@ -188,7 +185,7 @@
 						<div class="tab-pane fade show active" id="description" role="tabpanel">
 							<div class="how-pos2 p-lr-15-md">
 								<p class="stext-102 cl6">
-									Aenean sit amet gravida nisi. Nam fermentum est felis, quis feugiat nunc fringilla sit amet. Ut in blandit ipsum. Quisque luctus dui at ante aliquet, in hendrerit lectus interdum. Morbi elementum sapien rhoncus pretium maximus. Nulla lectus enim, cursus et elementum sed, sodales vitae eros. Ut ex quam, porta consequat interdum in, faucibus eu velit. Quisque rhoncus ex ac libero varius molestie. Aenean tempor sit amet orci nec iaculis. Cras sit amet nulla libero. Curabitur dignissim, nunc nec laoreet consequat, purus nunc porta lacus, vel efficitur tellus augue in ipsum. Cras in arcu sed metus rutrum iaculis. Nulla non tempor erat. Duis in egestas nunc.
+									{{product.description}}
 								</p>
 							</div>
 						</div>
@@ -625,3 +622,75 @@
 		
 
 {% endblock content %}
+
+
+
+{% block scripts %}	
+<script>
+	
+
+$('#Add-To-carT').click(function(){
+	var id =$('#prod-id').val();
+	var count=$('.js-show-cart').data('notify');
+	var size=$('#SizE-CH').val();
+	var color=$('#cOLor-CH').val();
+	var qty = $('#QtY-In').val();
+	
+	
+	$.ajax({
+
+		url:'/cart/add_cart/',
+		data:{
+			'id':id,
+			'size':size,
+			'color':color,
+			'qty':qty,
+			
+		},
+		dataType:'json',
+		success: function(data){
+			$('.square-CarT-Pc').text(data['cart_count']); 
+			$('.square-CarT-PhoNE').text(data['cart_count']);
+			$('.Noti-ShopCart-PC').text(data['cart_count']); 
+
+		}
+
+	});
+});
+</script>
+
+
+
+
+
+<script>
+$('#aDdTofavEIn').click(function(){
+
+	var id =$('#prod-id').val();
+	
+	
+
+	
+
+	$.ajax({
+
+		url:'/products/add_favorite/',
+		data:{
+			'id':id,
+			
+		},
+		dataType:'json',
+		success: function(data){
+			$('.square-FaVE-Pc').text(Object.values(data)); 
+			$('.square-FaVE-PhoNe').text(Object.values(data));
+			$('.ImAG-On').replaceWith('.ImagE-Off');
+			
+	
+		}
+
+	});
+});
+</script>
+
+
+{% endblock scripts %}

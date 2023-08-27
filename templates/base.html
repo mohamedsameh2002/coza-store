@@ -53,28 +53,36 @@
 
 					<div class="right-top-bar flex-w h-full">
 						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							Help & FAQs
+							{% trans 'Help & FAQs' %}
 						</a>
 
 						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							My Account
+							{% trans 'My Account' %}
 						</a>
-
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							EN
-						</a>
-
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							USD
-						</a>
+						
+						<form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+							{% get_current_language as LANGUAGE_CODE %}
+							<input name="next" type="hidden" value="{{ redirect_to }}">
+							{% if LANGUAGE_CODE == 'ar' %}
+							<button type="submit" name="language" value="en" class="flex-c-m trans-04 p-lr-25"
+								style="background-color: #222221; color: rgb(177, 177, 177); padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+								<span class="label"></span> English
+							</button>
+							{% else %}
+							<button type="submit" name="language" value="ar" class="flex-c-m trans-04 p-lr-25"
+								style="background-color: #222221; color: rgb(177, 177, 177); padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+								<span class="label"></span> عربي
+							</button>
+							{% endif %}
+						</form> 
 					</div>
 				</div>
 			</div>
 
-			<div class="wrap-menu-desktop how-shadow1">
+			<div class="wrap-menu-desktop">
 				<nav class="limiter-menu-desktop container">
-					
-					<!-- Logo desktop -->		
+
+					<!-- Logo desktop -->
 					<a href="#" class="logo">
 						<img src="{% static 'images/icons/sahar1.png' %}" alt="IMG-LOGO">
 					</a>
@@ -83,36 +91,63 @@
 					<div class="menu-desktop">
 						<ul class="main-menu">
 							<li>
-								<a href="/">Home</a>
+								<a href="/">{% trans 'Home' %}</a>
 							</li>
-                            {% if '/products/' in request.path %}
+
+							{% if '/products/' in request.path %}
 							<li class="active-menu">
 								{% else %}
 								<li class="menu">
 							{% endif %}
-								<a href="{% url 'store' %}">Shop</a>
+								<a href="{% url 'store' %}">{% trans 'Shop' %}</a>
 							</li>
-                            {% if '/cart/' in request.path %}
+
+							{% if '/cart/' in request.path %}
 							<li class="active-menu">
 								{% else %}
-								<li class="label1" data-label1="{{cart_count}}">
+								<li class="menu">
 							{% endif %}
-								<a href="{% url 'cart' %}">Shopping Cart</a>
+								<a href="{% url 'cart' %}">{% trans 'Shopping Cart' %}</a>
 							</li>
 
 							<li>
-								<a href="blog.html">Blog</a>
+								<a href="blog.html">{% trans 'Blog' %}</a>
 							</li>
 
 							<li>
-								<a href="about.html">About</a>
+								<a href="">{% trans 'About' %}</a>
 							</li>
 
 							<li>
-								<a href="contact.html">Contact</a>
+								<a href="">{% trans 'Contact' %}</a>
 							</li>
 						</ul>
-					</div>	
+					</div>
+					<!-- count icon for Shopping Cart PC -->
+					<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+						<head>
+							<style>
+							.Noti-ShopCart-PC {
+							width: 30px;
+							height: 20px;
+							background-color: rgb(245, 77, 62);
+							border-radius: 50%;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							color: white;
+							font-size: 13px;
+							font-weight: bold;
+							position: absolute;
+							top: -28px;
+							left: -250px;
+							}
+							</style>
+						</head>
+						<body>
+							<div class="Noti-ShopCart-PC">{{cart_count}}</div>
+						</body>
+					</div>
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
@@ -120,16 +155,60 @@
 							<i class="zmdi zmdi-search"></i>
 						</div>
 
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="{{cart_count}}">
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11  js-show-cart"  >
 							<i class="zmdi zmdi-shopping-cart"></i>
-						</div>
+							<head>
+								<style>
+								.square-CarT-Pc {
+								width: 22px;
+								height: 17px;
+								background-color: rgb(134, 142, 252);
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								color: white;
+								font-size: 13px;
+								font-weight: bold;
+								position: absolute;
+								top: -13px;
+								left: 40px;
+								}
+								</style>
+							</head>
+							<body>
+								<div class="square-CarT-Pc">{{cart_count}}</div>
+							</body>
+						</div >
 
-						<a href="{% url 'favorite' %}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti " data-notify="{{count_fav}}">
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+							<head>
+								<style>
+								.square-FaVE-Pc {
+								width: 22px;
+								height: 17px;
+								background-color: rgb(134, 142, 252);
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								color: white;
+								font-size: 13px;
+								font-weight: bold;
+								position: absolute;
+								top: -24px;
+								left: 70px;
+								}
+								</style>
+							</head>
+							<body>
+								<div class="square-FaVE-Pc">{{count_fav}}</div>
+							</body>
+						</div>
+						<a href="{% url 'favorite' %}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 " >
 							<i class="zmdi zmdi-favorite-outline"></i>
 						</a>
 					</div>
 				</nav>
-			</div>	
+			</div>
 		</div>
 
 		<!-- Header Mobile -->
@@ -145,11 +224,57 @@
 					<i class="zmdi zmdi-search"></i>
 				</div>
 
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="{{cart_count}}">
+				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10  js-show-cart">
 					<i class="zmdi zmdi-shopping-cart"></i>
+
+					<head>
+						<style>
+						.square-CarT-PhoNE {
+						width: 22px;
+						height: 17px;
+						background-color: rgb(134, 142, 252);
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						color: white;
+						font-size: 13px;
+						font-weight: bold;
+						position: absolute;
+						top: -13px;
+						left: 27px;
+						}
+						</style>
+					</head>
+					<body>
+						<div class="square-CarT-PhoNE">{{cart_count}}</div>
+					</body>
 				</div>
 
-				<a href="{% url 'favorite' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti" data-notify="5">
+				<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+					<head>
+						<style>
+						.square-FaVE-PhoNe {
+						width: 22px;
+						height: 17px;
+						background-color: rgb(134, 142, 252);
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						color: white;
+						font-size: 13px;
+						font-weight: bold;
+						position: absolute;
+						top: -24px;
+						left: 60px;
+						}
+						</style>
+					</head>
+					<body>
+						<div class="square-FaVE-PhoNe">{{count_fav}}</div>
+					</body>
+				</div>
+
+				<a href="{% url 'favorite' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 " >
 					<i class="zmdi zmdi-favorite-outline"></i>
 				</a>
 			</div>
@@ -175,48 +300,57 @@
 				<li>
 					<div class="right-top-bar flex-w h-full">
 						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							Help & FAQs
+							{% trans "Help & FAQs" %}
 						</a>
 
 						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							My Account
+							{% trans "My Account" %}
 						</a>
 
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							EN
-						</a>
+						<form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+							{% get_current_language as LANGUAGE_CODE %}
+							<input name="next" type="hidden" value="{{ redirect_to }}">
+							{% if LANGUAGE_CODE == 'ar' %}
+							<button type="submit" name="language" value="en" class="flex-c-m trans-04 p-lr-25"
+								style="background-color: #222221; color: rgb(177, 177, 177); padding: 0px 20px; border: none; border-radius: 5px; cursor: pointer;">
+								<span class="label"></span> English
+							</button>
+							{% else %}
+							<button type="submit" name="language" value="ar" class="flex-c-m trans-04 p-lr-25"
+								style="background-color: #222221; color: rgb(177, 177, 177); padding: 0px 20px; border: none; border-radius: 5px; cursor: pointer;">
+								<span class="label"></span> عربي
+							</button>
+							{% endif %}
+						</form>
 
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							USD
-						</a>
 					</div>
 				</li>
 			</ul>
 
 			<ul class="main-menu-m">
 				<li>
-					<a href="/">Home</a>
+					<a href="/">{% trans "Home" %}</a>
 				</li>
 
 				<li>
-					<a href="{% url 'store' %}">Shop</a>
+					<a href="{% url 'store' %}">{% trans "Shop" %}</a>
 				</li>
 				
 
 				<li>
-					<a href="{% url 'cart' %}" class="label1 rs1" data-label1="{{cart_count}}">Shopping Cart</a>
+					<a href="{% url 'cart' %}" class="label1 rs1" data-label1="{{cart_count}}">{% trans "Shopping Cart" %}</a>
 				</li>
 
 				<li>
-					<a href="blog.html">Blog</a>
+					<a href="blog.html">{% trans "Blog" %}</a>
 				</li>
 
 				<li>
-					<a href="about.html">About</a>
+					<a href="about.html">{% trans "About" %}</a>
 				</li>
 
 				<li>
-					<a href="contact.html">Contact</a>
+					<a href="contact.html">{% trans "Contact" %}</a>
 				</li>
 			</ul>
 		</div>
@@ -307,31 +441,47 @@
 			<div class="row">
 				<div class="col-sm-6 col-lg-3 p-b-50">
 					<h4 class="stext-301 cl0 p-b-30">
-						{% trans 'Categories' %}
+						{% trans "Categories" %}
 					</h4>
 
 					<ul>
 						<li class="p-b-10">
 							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								{% trans 'Women' %}
+								Women
+							</a>
+						</li>
+
+						
+					</ul>
+				</div>
+
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						{% trans "Help" %}
+					</h4>
+
+					<ul>
+						<li class="p-b-10">
+							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+								{% trans "Track Order" %}
 							</a>
 						</li>
 
 						<li class="p-b-10">
 							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								{% trans 'Men' %}
+								{% trans "Returns" %}
 							</a>
 						</li>
 
 						<li class="p-b-10">
 							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								{% trans 'Shoes' %}
+								{% trans "Shipping" %}
 							</a>
 						</li>
 
 						<li class="p-b-10">
 							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								{% trans 'Watches' %}
+								{% trans "FAQs" %}
 							</a>
 						</li>
 					</ul>
@@ -339,45 +489,12 @@
 
 				<div class="col-sm-6 col-lg-3 p-b-50">
 					<h4 class="stext-301 cl0 p-b-30">
-						{% trans 'Help' %}
-					</h4>
-
-					<ul>
-						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								{% trans 'Track Order' %}
-							</a>
-						</li>
-
-						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								{% trans 'Returns' %}
-							</a>
-						</li>
-
-						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								{% trans 'Shipping' %}
-							</a>
-						</li>
-
-						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								{% trans 'FAQs' %}
-							</a>
-						</li>
-					</ul>
-				</div>
-
-				<div class="col-sm-6 col-lg-3 p-b-50">
-					<h4 class="stext-301 cl0 p-b-30">
-						{% trans 'GET IN TOUCH' %}
+						{% trans "GET IN TOUCH" %}
 					</h4>
 
 					<p class="stext-107 cl7 size-201">
-						{% trans "Any questions? Let us know in store at 8th floor, 379 Hudson St, New York,  
-						NY 10018 or call us on (+1) 96 716 6879" %}						
-
+						{% trans 'Any questions? Let us know in store at 8th floor, 379 Hudson St, New York, NY 10018 or call us on (+1) 96 716 6879' %}
+						
 					</p>
 
 					<div class="p-t-27">
@@ -397,7 +514,7 @@
 
 				<div class="col-sm-6 col-lg-3 p-b-50">
 					<h4 class="stext-301 cl0 p-b-30">
-						{% trans 'Newsletter' %}
+						{% trans "Newsletter" %}
 					</h4>
 
 					<form>
@@ -409,7 +526,7 @@
 
 						<div class="p-t-18">
 							<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
-								{% trans 'Subscribe' %}
+								{% trans "Subscribe" %}
 							</button>
 						</div>
 					</form>
@@ -438,6 +555,7 @@
 						<img src="{% static 'images/icons/icon-pay-05.png' %}" alt="ICON-PAY">
 					</a>
 				</div>
+
 
 			</div>
 		</div>
@@ -550,9 +668,33 @@
 				ps.update();
 			})
 		});
+
+
+			
+		/*==================================================================
+    [ Show modal1 ]*/
+    $('.js-show-modal1').on('click',function(e){
+		var id = $(this).data('quick-id');
+		var name = $('.NeamPROd[data-name="' + id + '"]').html();
+		var price = $('.PriCEPROd[data-price="' + id + '"]').html();
+		e.preventDefault();
+		$('.js-modal1').addClass('show-modal1');
+		$('.Qick-NamE').html(name); 
+		$('.QiCK-Price').html(price);
+
+    });
+
+    $('.js-hide-modal1').on('click',function(){
+        $('.js-modal1').removeClass('show-modal1');
+		
+    });
+
+		
 	</script>
 	<!--===============================================================================================-->
 	<script src="{% static 'Js/main.js' %}"></script>
+	{% block scripts %}
+	{% endblock scripts %}
 
 </body>
 

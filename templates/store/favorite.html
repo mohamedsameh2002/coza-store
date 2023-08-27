@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block content %}
+
 
 	<!-- Product -->
 	<div class="bg0 m-t-23 p-b-140">
@@ -14,7 +14,7 @@
 
 			<div class="row isotope-grid">
                 {% for fav in favorite %}
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item cont-Fave" data-id-fave="{{fav.product.id}}">
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-pic hov-img0">
@@ -36,11 +36,11 @@
 								</span>
 							</div>
 
-							<div class="block2-txt-child2 flex-r p-t-3">
-								<a href="{% url 'add_favorite' fav.product.id %}" class="btn-addwish-b2 dis-block pos-relative js-addwish-b1">
+							<div class="block2-txt-child2 flex-r p-t-3 ">
+								<button class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 aDdTofavINPagE" data-produ-id-favepage="{{fav.product.id}}">
 									<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
 									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-								</a>
+								</button>
 							</div>
 						</div>
 					</div>
@@ -131,7 +131,7 @@
 							</p>
 							
 							<!--  -->
-						<form action="{% url 'add_cart' product.id %}" method="post">  
+						<form  method="post">  
 							{% csrf_token %}
 							<div class="p-t-33">
 								<div class="flex-w flex-r-m p-b-10">
@@ -223,3 +223,53 @@
 
 
 {% endblock content %}
+
+
+{% block scripts %}
+<style>
+
+	.icongfsdfg { 
+		width: 100px; 
+		height: 145px; 
+		position: absolute; 
+		top: 150px; 
+		left: 150px; 
+	}
+</style>
+
+<script>
+	
+
+	$('.aDdTofavINPagE').click(function(){
+		var id =$(this).data('produ-id-favepage');
+		var x ='<img class="icongfsdfg" src="{% static "images/icons/x.png" %}">'
+		
+		
+		
+		
+		$.ajax({
+	
+			url:'/products/add_favorite/',
+			data:{
+				'id':id,
+				
+			},
+			dataType:'json',
+			success: function(data){
+				
+				$('.square-FaVE-Pc').text(Object.values(data)); 
+				$('.square-FaVE-PhoNe').text(Object.values(data));
+				$('.cont-Fave[data-id-fave="' + id + '"]').contents().remove();
+				$('.cont-Fave[data-id-fave="' + id + '"]').html(x);
+				
+				
+		
+			}
+	
+		});
+	});
+	
+	</script>
+
+
+{% endblock scripts %}
