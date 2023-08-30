@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="section-content padding-y bg">
+    <div class="container">
+
+        <!-- ============================ COMPONENT 1 ================================= -->
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="row">
+            <aside class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Billing Address</h4>
+                        <form action="{% url 'go_pyment' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label for="">First Name</label>
+                                    <input type="text" name="first_name" class="bor8 bg0 m-b-12" required style="font-size: 22px;">                                </div>
+                                <div class="col form-group">
+                                    <label for="">Last Name</label>
+                                    <input type="text" name="last_name" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label for="">Email</label>
+                                    <input type="email" name="email" class="form-control" required>
+                                </div>
+                                <div class="col form-group">
+                                    <label for="">Phone Numper</label>
+                                    <input type="text" name="phone" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label for="">Addres Line 1</label>
+                                    <input type="text" name="address_line_1" class="form-control" required>
+                                </div>
+                                <div class="col form-group">
+                                    <label for="">Addres Line 2</label>
+                                    <input type="text" name="address_line_2" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label for="">City</label>
+                                    <input type="text" name="city" class="form-control" required>
+                                </div>
+                                <div class="col form-group">
+                                    <label for="">State</label>
+                                    <input type="text" name="state" class="form-control" required>
+                                </div>
+                                <div class="col form-group">
+                                    <label for="">Country</label>
+                                    <input type="text" name="country" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label for="">Order Note</label>
+                                <textarea name="order_note" rows="2" class="form-control"></textarea>
+                            </div>
+
+                        
+                    </div>
+                </div> <!-- card.// -->
+
+            </aside> <!-- col.// -->
+            <aside class="col-lg-6">
+
+                <div class="card">
+                    <div class="card-body">
+
+
+							<table class="table-shopping-cart">
+								<tr class="table_head">
+									<th class="column-1">Product</th>
+									<th class="column-2"></th>
+									<th class="column-3">Price</th>
+									<th class="column-4">Quantity</th>
+									<th class="column-5">SubTotal</th>
+								</tr>
+                                
+                                {% for item in cart_items %}
+								
+								<tr class="table_row ConTent" data-content="{{item.product.id}}" data-size="{{item.size}}"data-color="{{item.color}}">
+									<td class="column-1">
+										<div style="position: relative; ">
+											<a href="{% url 'product_details' item.product.id %}">
+												<img src="{{item.product.image.url}}" alt="IMG" width="90" height="105" class="move-right"></a>
+												<br>
+												<div>
+													<br>
+
+													
+												</div>
+											</div>
+										</td>
+										<td class="column-2">
+											<div>
+												<a class="stext-110 cl2" href="{% url 'product_details' item.product.id %}">
+													{{item.product.product_name}}
+												</a>
+												<br>
+												<span>
+													Size : {{item.size}}
+												</span>
+												<br>
+												<span>
+													Color : {{item.color}}
+												</span>
+											</div>
+										</td>
+										<td class="column-3">$ {{item.product.price}}</td>
+										<td class="column-4">
+											<div class="wrap-num-product flex-w m-l-auto m-r-0">
+												<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+													<button class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m BuT-mInuS" type="button" id="button-plus" data-product-id-minus="{{item.product.id}}" data-item-id-minus="{{item.id}}" data-product-id-color="{{item.color}}"data-product-id-size="{{item.size}}">
+														<i class="fs-16 zmdi zmdi-minus"></i>
+													</button>
+												</div>
+												<input class="mtext-104 cl3 txt-center num-product pRodUct-Qty" type="number" name="num-product1" value="{{item.quantity}}" data-qty="{{item.product.id}}" data-color="{{item.color}}"data-size="{{item.size}}" readonly>
+												<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+													<button class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m BuT-pLUS" type="button" id="button-plus" data-product-id-plus="{{item.product.id}}" data-product-id-color="{{item.color}}"data-product-id-size="{{item.size}}">
+														<i class="fs-16 zmdi zmdi-plus"></i>
+													</button>
+												</div>
+											</div>
+										</td>
+										
+										
+										<td class="column-5 SUb-totAl" data-subtotal-id="{{item.product.id}}"data-subtotal-color="{{item.color}}"data-subtotal-size="{{item.size}}">$ {{item.sub_total}}</td>
+									</tr>
+									<input type="hidden" class="Thj-PrICEE" value="{{item.product.price}}" data-pprice="{{item.product.id}}">
+									{% endfor %}
+								</table>
+
+                        
+                                <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" type="submit" name="submit" >Go to payment</button>
+                            </form>
+                    </div> <!-- card-body.// -->
+                </div> <!-- card.// -->
+
+            </aside> <!-- col.// -->
+
+
+        </div> <!-- row.// -->
+        <!-- ============================ COMPONENT 1 END .// ================================= -->
+
+    </div> <!-- container .//  -->
+</section>
+{% endblock content %}

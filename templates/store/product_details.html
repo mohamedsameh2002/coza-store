@@ -360,25 +360,33 @@
 			<!-- Slide2 -->
 			<div class="wrap-slick2">
 				<div class="slick2">
+
+
+					
+
+					
+					
+					
+
+					
+
+					{% for product in products %}
 					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
 						<!-- Block2 -->
 						<div class="block2">
 							<div class="block2-pic hov-img0">
-								<img src="{% static 'images/product-01.jpg' %}" alt="IMG-PRODUCT">
+								<img src="{{product.image.url}}" alt="IMG-PRODUCT">
 
-								<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-									Quick View
-								</a>
+								<button class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1 QuicK-ViEw" data-link-action="quickview" title="Quick view" data-bs-toggle="modal" data-bs-target="#exampleModal-{{forloop.counter}}" data-quick-id="{{product.id}}">QuicK ViEw</button>
 							</div>
-
 							<div class="block2-txt flex-w flex-t p-t-14">
 								<div class="block2-txt-child1 flex-col-l ">
 									<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-										Esprit Ruffle Shirt
+										{{product.product_name}}
 									</a>
 
 									<span class="stext-105 cl3">
-										$16.64
+										$ {{product.price}}
 									</span>
 								</div>
 
@@ -391,235 +399,180 @@
 							</div>
 						</div>
 					</div>
+					{% endfor %}
 
-					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-						<!-- Block2 -->
-						<div class="block2">
-							<div class="block2-pic hov-img0">
-								<img src="{% static 'images/product-02.jpg' %}" alt="IMG-PRODUCT">
 
-								<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-									Quick View
-								</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	{% for product in products %}
+<div class="modal modal-2 fade" id="exampleModal-{{forloop.counter}}" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <i class="pe-7s-close"></i></button>
+				<div class="row">
+					<div class="col-lg-6 col-sm-12 col-xs-12 mb-lm-30px mb-md-30px mb-sm-30px">
+						<!-- Swiper -->
+						<div class="swiper-container gallery-top">
+							<div class="swiper-wrapper">
+								
+								{% for i in product.productgallery_set.all %}
+								<div class="swiper-slide">
+									<img class="img-responsive m-auto" src="{{i.img.url}}" alt="">
+								</div>
+								{% endfor %}
 							</div>
-
-							<div class="block2-txt flex-w flex-t p-t-14">
-								<div class="block2-txt-child1 flex-col-l ">
-									<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-										Herschel supply
-									</a>
-
-									<span class="stext-105 cl3">
-										$35.31
-									</span>
+						</div>
+						<div class="swiper-container gallery-thumbs mt-20px slider-nav-style-1 small-nav">
+							<div class="swiper-wrapper">
+								{% for i in product.productgallery_set.all %}
+								<div class="swiper-slide">
+									<img class="img-responsive m-auto" src="{{i.img.url}}" alt="">
 								</div>
-
-								<div class="block2-txt-child2 flex-r p-t-3">
-									<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-										<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-										<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-									</a>
-								</div>
+								{% endfor %}
+							
+							</div>
+							<!-- Add Arrows -->
+							<div class="swiper-buttons">
+								<div class="swiper-button-next"></div>
+								<div class="swiper-button-prev"></div>
 							</div>
 						</div>
 					</div>
-
-					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-						<!-- Block2 -->
-						<div class="block2">
-							<div class="block2-pic hov-img0">
-								<img src="{% static 'images/product-03.jpg' %}" alt="IMG-PRODUCT">
-
-								<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-									Quick View
-								</a>
+					<div class="col-lg-6 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="200">
+						<div class="product-details-content quickview-content">
+							<h2>{{product.product_name}}</h2>
+							<div class="pricing-meta">
+								<ul class="d-flex">
+									<li class="new-price">$20.90</li>
+								</ul>
 							</div>
-
-							<div class="block2-txt flex-w flex-t p-t-14">
-								<div class="block2-txt-child1 flex-col-l ">
-									<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-										Only Check Trouser
-									</a>
-
-									<span class="stext-105 cl3">
-										$25.50
-									</span>
+							<div class="pro-details-rating-wrap">
+								<div class="rating-product">
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+								</div>
+								<span class="read-review"><a class="reviews" href="#">( 2 Review )</a></span>
+							</div>
+							<p class="mt-30px">{{product.product_name}}</p>
+							<div class="pro-details-categories-info pro-details-same-style d-flex m-0">
+								<span>SKU:</span>
+								<ul class="d-flex">
+									<li>
+										<a href="#">Ch-256xl</a>
+									</li>
+								</ul>
+							</div>
+							<div class="pro-details-categories-info pro-details-same-style d-flex m-0">
+								<span>Categories: </span>
+								<ul class="d-flex">
+									<li>
+										<a href="#">Smart Device, </a>
+									</li>
+									<li>
+										<a href="#">ETC</a>
+									</li>
+								</ul>
+							</div>
+							<div class="pro-details-categories-info pro-details-same-style d-flex m-0">
+								<span>Tags: </span>
+								<ul class="d-flex">
+									<li>
+										<a href="#">Smart Device, </a>
+									</li>
+									<li>
+										<a href="#">Phone</a>
+									</li>
+								</ul>
+							</div>
+							<div class="pro-details-quality">
+								<div class="cart-plus-minus">
+									<input class="cart-plus-minus-box" type="text" name="qtybutton" value="1" />
 								</div>
 
-								<div class="block2-txt-child2 flex-r p-t-3">
-									<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-										<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-										<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
 
-					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-						<!-- Block2 -->
-						<div class="block2">
-							<div class="block2-pic hov-img0">
-								<img src="{% static 'images/product-04.jpg' %}" alt="IMG-PRODUCT">
+								<div class="flex-w flex-r-m p-b-10">
+									<div class="size-203 flex-c-m respon6">
+										Size
+									</div>
 
-								<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-									Quick View
-								</a>
-							</div>
-
-							<div class="block2-txt flex-w flex-t p-t-14">
-								<div class="block2-txt-child1 flex-col-l ">
-									<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-										Classic Trench Coat
-									</a>
-
-									<span class="stext-105 cl3">
-										$75.00
-									</span>
+									<div class="size-204 respon6-next">
+										<div class="rs1-select2 bor8 bg0">
+											<select class="js-select2" name="time" id="SizE-cHo-mODal" data-size="{{product.id}}">
+												<option>Choose an option</option>
+												<option>Size S</option>
+												<option>Size M</option>
+												<option>Size L</option>
+												<option>Size XL</option>
+											</select>
+											<div class="dropDownSelect2"></div>
+										</div>
+									</div>
 								</div>
 
-								<div class="block2-txt-child2 flex-r p-t-3">
-									<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-										<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-										<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
+								<div class="flex-w flex-r-m p-b-10">
+									<div class="size-203 flex-c-m respon6">
+										Color
+									</div>
 
-					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-						<!-- Block2 -->
-						<div class="block2">
-							<div class="block2-pic hov-img0">
-								<img src="{% static 'images/product-05.jpg' %}" alt="IMG-PRODUCT">
-
-								<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-									Quick View
-								</a>
-							</div>
-
-							<div class="block2-txt flex-w flex-t p-t-14">
-								<div class="block2-txt-child1 flex-col-l ">
-									<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-										Front Pocket Jumper
-									</a>
-
-									<span class="stext-105 cl3">
-										$34.75
-									</span>
+									<div class="size-204 respon6-next">
+										<div class="rs1-select2 bor8 bg0">
+											<select class="js-select2" name="time" id="coLOr-CHo-MOdal" data-color="{{product.id}}">
+												<option>Choose an option</option>
+												<option>Red</option>
+												<option>Blue</option>
+												<option>White</option>
+												<option>Grey</option>
+											</select>
+											<div class="dropDownSelect2"></div>
+										</div>
+									</div>
 								</div>
 
-								<div class="block2-txt-child2 flex-r p-t-3">
-									<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-										<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-										<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-									</a>
+
+								<div class="flex-w flex-r-m p-b-10">
+									<div class="size-204 flex-w flex-m respon6-next">
+										<div class="wrap-num-product flex-w m-r-20 m-tb-10">
+											<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+												<i class="fs-16 zmdi zmdi-minus"></i>
+											</div>
+
+											<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
+
+											<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+												<i class="fs-16 zmdi zmdi-plus"></i>
+											</div>
+										</div>
+
+										<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail add-TOcarT-MOdAL" data-modal-id="{{product.id}}">
+											Add to cart
+										</button>
+									</div>
 								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-						<!-- Block2 -->
-						<div class="block2">
-							<div class="block2-pic hov-img0">
-								<img src="{% static 'images/product-06.jpg' %}" alt="IMG-PRODUCT">
-
-								<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-									Quick View
-								</a>
-							</div>
-
-							<div class="block2-txt flex-w flex-t p-t-14">
-								<div class="block2-txt-child1 flex-col-l ">
-									<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-										Vintage Inspired Classic 
-									</a>
-
-									<span class="stext-105 cl3">
-										$93.20
-									</span>
-								</div>
-
-								<div class="block2-txt-child2 flex-r p-t-3">
-									<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-										<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-										<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-									</a>
+								<div class="pro-details-compare-wishlist pro-details-wishlist ">
+									<a href="wishlist.html"><i class="pe-7s-like"></i></a>
 								</div>
 							</div>
-						</div>
-					</div>
-
-					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-						<!-- Block2 -->
-						<div class="block2">
-							<div class="block2-pic hov-img0">
-								<img src="{% static 'images/product-07.jpg' %}" alt="IMG-PRODUCT">
-
-								<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-									Quick View
-								</a>
-							</div>
-
-							<div class="block2-txt flex-w flex-t p-t-14">
-								<div class="block2-txt-child1 flex-col-l ">
-									<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-										Shirt in Stretch Cotton
-									</a>
-
-									<span class="stext-105 cl3">
-										$52.66
-									</span>
-								</div>
-
-								<div class="block2-txt-child2 flex-r p-t-3">
-									<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-										<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-										<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
-						<!-- Block2 -->
-						<div class="block2">
-							<div class="block2-pic hov-img0">
-								<img src="{% static 'images/product-08.jpg' %}" alt="IMG-PRODUCT">
-
-								<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-									Quick View
-								</a>
-							</div>
-
-							<div class="block2-txt flex-w flex-t p-t-14">
-								<div class="block2-txt-child1 flex-col-l ">
-									<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-										Pieces Metallic Printed
-									</a>
-
-									<span class="stext-105 cl3">
-										$18.96
-									</span>
-								</div>
-
-								<div class="block2-txt-child2 flex-r p-t-3">
-									<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-										<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-										<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-									</a>
-								</div>
+							<div class="payment-img">
+								<a href="#"><img src="assets/images/icons/payment.png" alt=""></a>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</section>
-		
+	</div>
+</div>
+{% endfor %}
+
+
 
 {% endblock content %}
 
@@ -635,8 +588,18 @@ $('#Add-To-carT').click(function(){
 	var size=$('#SizE-CH').val();
 	var color=$('#cOLor-CH').val();
 	var qty = $('#QtY-In').val();
+
+	if (color === null || size === null) {
+		var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html(); 
+		swal(nameProduct, "Not added, please select a color and size!", "error"); 
+	}
+	else {
+		
+		var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+		swal(nameProduct, "is added to cart !", "success");
+		
 	
-	
+
 	$.ajax({
 
 		url:'/cart/add_cart/',
@@ -652,11 +615,14 @@ $('#Add-To-carT').click(function(){
 			$('.square-CarT-Pc').text(data['cart_count']); 
 			$('.square-CarT-PhoNE').text(data['cart_count']);
 			$('.Noti-ShopCart-PC').text(data['cart_count']); 
+			$('.Cart-SIde').append(' <div class="header-cart-item-img"> <img src="' + data['product_image'] + '" alt="IMG"> </div> <div class="header-cart-item-txt p-t-8"> <a href="' + data['product_url'] + '" class="header-cart-item-name m-b-18 hov-cl1 trans-04">' + data['product_name'] + '</a> ' + data['color'] + ' ' + data['size'] + '<span class="header-cart-item-info">' + data['quantity'] + ' x $' + data['price'] + '</span> </div> ')
 
 		}
 
 	});
+}
 });
+
 </script>
 
 

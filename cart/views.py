@@ -16,6 +16,7 @@ def _cart_id (request):
 
 def ADD_CART (request,total=0,quantity=0,cart_items=None):
     # glopel variaple
+
     prod_id=request.GET.get('id')
     sizes=request.GET.get('size')
     colors=request.GET.get('color')
@@ -30,40 +31,64 @@ def ADD_CART (request,total=0,quantity=0,cart_items=None):
     except Cart.DoesNotExist:
         cart=Cart.objects.create(cart_id=_cart_id(request))
     cart.save()
-    is_cart_item_exist=CartItem.objects.filter(product=product,cart=cart).exists()
-    
 
-    # check if request came from cart or product detail
-    if 'cart' in request.META.get('HTTP_REFERER'):
-        cart_item=CartItem.objects.get(product=product,cart=cart)
-        cart_item.quantity+=1
-        cart_item.save()
-
-    # check if item herar 
-    else:
-        if is_cart_item_exist:
-            cart_item=CartItem.objects.get(product=product,cart=cart)
-            cart_item.quantity+=int(qty)
+    if request.user.is_authenticated:
+        is_cart_item_exist=CartItem.objects.filter(product=product,user=user,color=colors,size=sizes).exists()
+        # check if request came from cart or product detail
+        if 'cart' in request.META.get('HTTP_REFERER'):
+            color=request.GET.get('color')
+            size=request.GET.get('size')
+            cart_item=CartItem.objects.get(product=product,user=user,color=color,size=size)
+            cart_item.quantity+=1
             cart_item.save()
+        # check if item herar 
         else:
-            cart_item=CartItem.objects.create(
-                product=product,
-                quantity=qty,
-                cart=cart,
-                size=sizes,
-                color=colors,
-                )
-        
+            if is_cart_item_exist :
+                cart_item=CartItem.objects.get(product=product,user=user,color=colors,size=sizes)
+                cart_item.quantity+=int(qty)
+                cart_item.save()
+            else:
+                cart_item=CartItem.objects.create(
+                    product=product,
+                    quantity=qty,
+                    user=user,
+                    size=sizes,
+                    color=colors,
+                    )
+            
+    else:
 
+        is_cart_item_exist=CartItem.objects.filter(product=product,cart=cart,color=colors,size=sizes).exists()
+
+        # check if request came from cart or product detail
+        if 'cart' in request.META.get('HTTP_REFERER'):
+            cart_item=CartItem.objects.get(product=product,cart=cart,color=colors,size=sizes)
+            cart_item.quantity+=1
+            cart_item.save()
+
+        # check if item herar 
+        else:
+            if is_cart_item_exist :
+                cart_item=CartItem.objects.get(product=product,cart=cart,color=colors,size=sizes)
+                cart_item.quantity+=int(qty)
+                cart_item.save()
+            else:
+                cart_item=CartItem.objects.create(
+                    product=product,
+                    quantity=qty,
+                    cart=cart,
+                    size=sizes,
+                    color=colors,
+                    )
     try:
         tax=0
         grand_total=0
-        # if request.user.is_authenticated:
-        #     cart_items=CartItem.objects.filter(user=request.user,in_active=True)
-        # else:
-        cart=Cart.objects.get(cart_id=_cart_id(request))
-        cart_items=CartItem.objects.filter(cart=cart,in_active=True)
-        
+        if request.user.is_authenticated:
+            cart_items=CartItem.objects.filter(user=request.user,in_active=True)
+        else:
+            cart=Cart.objects.get(cart_id=_cart_id(request))
+            cart_items=CartItem.objects.filter(cart=cart,in_active=True)
+            
         
         for cart_item in cart_items:
             total+=(cart_item.product.price * cart_item.quantity)
@@ -73,7 +98,6 @@ def ADD_CART (request,total=0,quantity=0,cart_items=None):
     except ObjectDoesNotExist :
         pass
 
-
     
     # cart count
     cart_count=0
@@ -82,16 +106,17 @@ def ADD_CART (request,total=0,quantity=0,cart_items=None):
     # else :
     try:
         cart=Cart.objects.filter(cart_id=_cart_id(request))
-        # if request.user.is_authenticated:
-        #     cart_items=CartItem.objects.filter(user=request.user)
-        # else:
-        cart_items=CartItem.objects.filter(cart=cart[0:1]) # عناصر العربي اللي ف العربيه الواحده و الاولي
+        if request.user.is_authenticated:
+            cart_items=CartItem.objects.filter(user=request.user)
+        else:
+            cart_items=CartItem.objects.filter(cart=cart[0:1]) # عناصر العربي اللي ف العربيه الواحده و الاولي
         for cart_item in cart_items :
             cart_count+=cart_item.quantity
     except Cart.DoesNotExist :
         cart_count=0
 
-    data={'total':total,'grand_total':grand_total,'tax':tax,'cart_count':cart_count}
+    product_name='mohamed'
+    data={'total':total,'grand_total':grand_total,'tax':tax,'cart_count':cart_count,'product_name':product_name}
     return JsonResponse(data)
 
 
@@ -99,17 +124,19 @@ def ADD_CART (request,total=0,quantity=0,cart_items=None):
 
 
 
-def DECREMENT_CART (request,total=0,quantity=0,cart_items=None):
-    
+def DECREMENT_CART (request,total=0,cart_items=None):
+    color=request.GET.get('color')
+    size=request.GET.get('size')
     prod_id=request.GET.get('id')
-    cart_item_id=request.GET.get('item_id')
+
     product=get_object_or_404(Product,id=prod_id)
     try:
-        # if request.user.is_authenticated:
-        #     cart_item=CartItem.objects.get(product=product,user=request.user,id=cart_item_id)
-        # else:
-        cart=Cart.objects.get(cart_id=_cart_id(request))
-        cart_item=CartItem.objects.get(product=product,cart=cart,id=cart_item_id)
+        if request.user.is_authenticated:
+            cart_item=CartItem.objects.get(product=product,user=request.user,color=color,size=size)
+        else:
+            cart=Cart.objects.get(cart_id=_cart_id(request))
+            cart_item=CartItem.objects.get(product=product,cart=cart,color=color,size=size)
+
         if cart_item.quantity > 1 :
             cart_item.quantity-=1
             cart_item.save()
@@ -117,17 +144,17 @@ def DECREMENT_CART (request,total=0,quantity=0,cart_items=None):
             cart_item.delete()
     except:
         pass
-    co=CartItem.objects.filter(cart=cart).count()
+
     
     try:
         tax=0
         grand_total=0
-        # if request.user.is_authenticated:
-        #     cart_items=CartItem.objects.filter(user=request.user,in_active=True)
-        # else:
-        cart=Cart.objects.get(cart_id=_cart_id(request))
-        cart_items=CartItem.objects.filter(cart=cart,in_active=True)
-        
+        if request.user.is_authenticated:
+            cart_items=CartItem.objects.filter(user=request.user,in_active=True)
+        else:
+            cart=Cart.objects.get(cart_id=_cart_id(request))
+            cart_items=CartItem.objects.filter(cart=cart,in_active=True)
+            
         
         for cart_item in cart_items:
             total+=(cart_item.product.price * cart_item.quantity)
@@ -145,10 +172,10 @@ def DECREMENT_CART (request,total=0,quantity=0,cart_items=None):
     # else :
     try:
         cart=Cart.objects.filter(cart_id=_cart_id(request))
-        # if request.user.is_authenticated:
-        #     cart_items=CartItem.objects.filter(user=request.user)
-        # else:
-        cart_items=CartItem.objects.filter(cart=cart[0:1]) # عناصر العربي اللي ف العربيه الواحده و الاولي
+        if request.user.is_authenticated:
+            cart_items=CartItem.objects.filter(user=request.user)
+        else:
+            cart_items=CartItem.objects.filter(cart=cart[0:1]) # عناصر العربي اللي ف العربيه الواحده و الاولي
         for cart_item in cart_items :
             cart_count+=cart_item.quantity
     except Cart.DoesNotExist :
@@ -160,28 +187,28 @@ def DECREMENT_CART (request,total=0,quantity=0,cart_items=None):
 
 
 
-def REMOVE_ITEM (request,total=0,quantity=0,cart_items=None):
-
+def REMOVE_ITEM (request,total=0,cart_items=None):
+    color=request.GET.get('color')
+    size=request.GET.get('size')
     prod_id=request.GET.get('id')
-    cart_item_id=request.GET.get('item_id')
     product=get_object_or_404(Product,id=prod_id)
-    # if request.user.is_authenticated:
-    #     cart_item=CartItem.objects.get(product=product,user=request.user,id=cart_item_id)
-    # else:
-    cart=Cart.objects.get(cart_id=_cart_id(request))
-    cart_item=CartItem.objects.get(product=product,cart=cart,id=cart_item_id)
+    if request.user.is_authenticated:
+        cart_item=CartItem.objects.get(product=product,user=request.user,color=color,size=size)
+    else:
+        cart=Cart.objects.get(cart_id=_cart_id(request))
+        cart_item=CartItem.objects.get(product=product,cart=cart,color=color,size=size)
     cart_item.delete()
 
 
     try:
         tax=0
         grand_total=0
-        # if request.user.is_authenticated:
-        #     cart_items=CartItem.objects.filter(user=request.user,in_active=True)
-        # else:
-        cart=Cart.objects.get(cart_id=_cart_id(request))
-        cart_items=CartItem.objects.filter(cart=cart,in_active=True)
-        
+        if request.user.is_authenticated:
+            cart_items=CartItem.objects.filter(user=request.user,in_active=True)
+        else:
+            cart=Cart.objects.get(cart_id=_cart_id(request))
+            cart_items=CartItem.objects.filter(cart=cart,in_active=True)
+            
         
         for cart_item in cart_items:
             total+=(cart_item.product.price * cart_item.quantity)
@@ -191,7 +218,22 @@ def REMOVE_ITEM (request,total=0,quantity=0,cart_items=None):
     except ObjectDoesNotExist :
         pass
 
-    data={'total':total,'grand_total':grand_total,'tax':tax}
+    # cart count
+    cart_count=0
+    # if 'admin' in request.path:
+    #     {}
+    # else :
+    try:
+        cart=Cart.objects.filter(cart_id=_cart_id(request))
+        if request.user.is_authenticated:
+            cart_items=CartItem.objects.filter(user=request.user)
+        else:
+            cart_items=CartItem.objects.filter(cart=cart[0:1]) # عناصر العربي اللي ف العربيه الواحده و الاولي
+        for cart_item in cart_items :
+            cart_count+=cart_item.quantity
+    except Cart.DoesNotExist :
+        cart_count=0
+    data={'total':total,'grand_total':grand_total,'tax':tax,'cart_count':cart_count}
     return JsonResponse(data)
 
 
@@ -203,12 +245,12 @@ def CART (request,total=0,quantity=0,cart_items=None):
     try:
         tax=0
         grand_total=0
-        # if request.user.is_authenticated:
-        #     cart_items=CartItem.objects.filter(user=request.user,in_active=True)
-        # else:
-        cart=Cart.objects.get(cart_id=_cart_id(request))
-        cart_items=CartItem.objects.filter(cart=cart,in_active=True)
-        
+        if request.user.is_authenticated:
+            cart_items=CartItem.objects.filter(user=request.user,in_active=True)
+        else:
+            cart=Cart.objects.get(cart_id=_cart_id(request))
+            cart_items=CartItem.objects.filter(cart=cart,in_active=True)
+            
         for cart_item in cart_items:
             total+=(cart_item.product.price * cart_item.quantity)
             # quantity+=cart_item.quantity
@@ -224,3 +266,33 @@ def CART (request,total=0,quantity=0,cart_items=None):
         'grand_total':grand_total,
         }
     return render (request,'cart/cart.html',context)
+
+
+
+@login_required(login_url="login")
+def CHEKOUT (request,total=0,quantity=0,cart_items=None):
+    try:
+        tax=0
+        grand_total=0
+        if request.user.is_authenticated:
+            cart_items=CartItem.objects.filter(user=request.user,in_active=True)
+        else:
+            cart=Cart.objects.get(cart_id=_cart_id(request))
+            cart_items=CartItem.objects.filter(cart=cart,in_active=True)
+        for cart_item in cart_items:
+            total+=(cart_item.product.price * cart_item.quantity)
+            # quantity+=cart_item.quantity
+        tax=(2*total)/100
+        grand_total=total+tax
+    except ObjectDoesNotExist :
+        pass
+    context={
+        'total':total,
+        'quantity':quantity,
+        'total':total,
+        'cart_items':cart_items,
+        'tax':tax,
+        'grand_total':grand_total,
+        }
+
+    return render (request,'cart/chekout.html',context)

@@ -16,7 +16,7 @@ class ProductGalleryInline (admin.TabularInline) :
     extra=1
 
 class ProductAdmin (admin.ModelAdmin):
-    list_display=['product_name','price',]
+    list_display=['product_name','price','stock','category','update_date','is_available']
     inlines=[ProductGalleryInline]
 
 

@@ -15,10 +15,10 @@ def COUNTER_ITEM_CON (request):
     # else :
     try:
         cart=Cart.objects.filter(cart_id=_cart_id(request))
-        # if request.user.is_authenticated:
-        #     cart_items=CartItem.objects.filter(user=request.user)
-        # else:
-        cart_items=CartItem.objects.filter(cart=cart[0:1]) # عناصر العربي اللي ف العربيه الواحده و الاولي
+        if request.user.is_authenticated:
+            cart_items=CartItem.objects.filter(user=request.user)
+        else:
+            cart_items=CartItem.objects.filter(cart=cart[0:1]) # عناصر العربي اللي ف العربيه الواحده و الاولي
         for cart_item in cart_items :
             cart_count+=cart_item.quantity
     except Cart.DoesNotExist :
@@ -30,12 +30,12 @@ def CART_CON (request,total=0,quantity=0,cart_items=None):
     try:
         tax=0
         grand_total=0
-        # if request.user.is_authenticated:
-        #     cart_items=CartItem.objects.filter(user=request.user,in_active=True)
-        # else:
-        cart=Cart.objects.get(cart_id=_cart_id(request))
-        cart_items=CartItem.objects.filter(cart=cart,in_active=True)
-        
+        if request.user.is_authenticated:
+            cart_items=CartItem.objects.filter(user=request.user,in_active=True)
+        else:
+            cart=Cart.objects.get(cart_id=_cart_id(request))
+            cart_items=CartItem.objects.filter(cart=cart,in_active=True)
+            
         for cart_item in cart_items:
             total+=(cart_item.product.price * cart_item.quantity)
             # quantity+=cart_item.quantity
