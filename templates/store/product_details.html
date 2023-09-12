@@ -614,9 +614,8 @@ $('#Add-To-carT').click(function(){
 		success: function(data){
 			$('.square-CarT-Pc').text(data['cart_count']); 
 			$('.square-CarT-PhoNE').text(data['cart_count']);
-			$('.Noti-ShopCart-PC').text(data['cart_count']); 
-			$('.Cart-SIde').append(' <div class="header-cart-item-img"> <img src="' + data['product_image'] + '" alt="IMG"> </div> <div class="header-cart-item-txt p-t-8"> <a href="' + data['product_url'] + '" class="header-cart-item-name m-b-18 hov-cl1 trans-04">' + data['product_name'] + '</a> ' + data['color'] + ' ' + data['size'] + '<span class="header-cart-item-info">' + data['quantity'] + ' x $' + data['price'] + '</span> </div> ')
-
+			$('.Noti-ShopCart-PC').text(data['cart_count']);
+			$('#sidE-Cart').html(data.templ_side_cart);
 		}
 
 	});
@@ -634,9 +633,6 @@ $('#aDdTofavEIn').click(function(){
 
 	var id =$('#prod-id').val();
 	
-	
-
-	
 
 	$.ajax({
 
@@ -647,8 +643,8 @@ $('#aDdTofavEIn').click(function(){
 		},
 		dataType:'json',
 		success: function(data){
-			$('.square-FaVE-Pc').text(Object.values(data)); 
-			$('.square-FaVE-PhoNe').text(Object.values(data));
+			$('.square-FaVE-Pc').text(data.count); 
+			$('.square-FaVE-PhoNe').text(data.count);
 			$('.ImAG-On').replaceWith('.ImagE-Off');
 			
 	

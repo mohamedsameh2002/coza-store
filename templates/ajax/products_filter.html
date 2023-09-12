@@ -1,0 +1,319 @@
+{% load static %}
+
+{% for product in products %}
+<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item {{product.category}} product-box">
+    <!-- Block2 -->
+    <div class="block2">
+        <div class="block2-pic hov-img0 label-new" data-label="{{product.product_name}}">
+            
+            <img src= "{{product.image.url}}" alt="IMG-PRODUCT" class="ImgPROd" >
+            <button class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1 QuicK-ViEw" data-link-action="quickview" title="Quick view" data-bs-toggle="modal" data-bs-target="#exampleModal-{{product.id}}" data-quick-id="{{product.id}}">QuicK ViEw</button>
+        </div>
+        <div class="block2-txt flex-w flex-t p-t-14">
+            <div class="block2-txt-child1 flex-col-l ">
+                <a href="{% url 'product_details' product.id %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6" >
+                    <p class="NeamPROd" data-name="{{product.id}}">{{product.product_name}}</p>
+                </a>
+                <span class="stext-105 cl3">
+                    <p class="PriCEPROd" data-price="{{product.id}}">${{product.price}}</p>
+                </span>
+            </div>
+
+            <input type="hidden" id="prod-id-Ou" value="{{product.id}}">
+
+            <div class="block2-txt-child2 flex-r p-t-3">
+                {% if product.id in id_products_list  %}
+                <button  class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 DisADdfaV"  data-product-id-dis="{{product.id}}" value="on">
+                    <img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
+                    <img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
+                </button>
+                {% else %}
+                <button  class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 aDdTofavEOu"  data-product-id-fav="{{product.id}}" value="off">
+                    <img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
+                    <img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
+                </button>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                    <!-- modal -->
+    
+    <div class="modal modal-2 fade" id="exampleModal-{{product.id}}" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <i class="pe-7s-close"></i></button>
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12 col-xs-12 mb-lm-30px mb-md-30px mb-sm-30px">
+                            <!-- Swiper -->
+                            <div class="swiper-container gallery-top">
+                                <div class="swiper-wrapper">
+                                    
+                                    {% for i in product.productgallery_set.all %}
+                                    <div class="swiper-slide">
+                                        <img class="img-responsive m-auto" src="{{i.img.url}}" alt="">
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="swiper-container gallery-thumbs mt-20px slider-nav-style-1 small-nav">
+                                <div class="swiper-wrapper">
+                                    {% for i in product.productgallery_set.all %}
+                                    <div class="swiper-slide">
+                                        <img class="img-responsive m-auto" src="{{i.img.url}}" alt="">
+                                    </div>
+                                    {% endfor %}
+                                
+                                </div>
+                                <!-- Add Arrows -->
+                                <div class="swiper-buttons">
+                                    <div class="swiper-button-next"></div>
+                                    <div class="swiper-button-prev"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="200">
+                            <div class="product-details-content quickview-content">
+                                <h2>{{product.product_name}}</h2>
+                                <div class="pricing-meta">
+                                    <ul class="d-flex">
+                                        <li class="new-price">$20.90</li>
+                                    </ul>
+                                </div>
+                                <div class="pro-details-rating-wrap">
+                                    <div class="rating-product">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <span class="read-review"><a class="reviews" href="#">( 2 Review )</a></span>
+                                </div>
+                                <p class="mt-30px">{{product.product_name}}</p>
+                                <div class="pro-details-categories-info pro-details-same-style d-flex m-0">
+                                    <span>SKU:</span>
+                                    <ul class="d-flex">
+                                        <li>
+                                            <a href="#">Ch-256xl</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="pro-details-categories-info pro-details-same-style d-flex m-0">
+                                    <span>Categories: </span>
+                                    <ul class="d-flex">
+                                        <li>
+                                            <a href="#">Smart Device, </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">ETC</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="pro-details-categories-info pro-details-same-style d-flex m-0">
+                                    <span>Tags: </span>
+                                    <ul class="d-flex">
+                                        <li>
+                                            <a href="#">Smart Device, </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Phone</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="pro-details-quality">
+                                    <div class="cart-plus-minus">
+                                        <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1" />
+                                    </div>
+
+
+                                    <div class="flex-w flex-r-m p-b-10">
+                                        <div class="size-203 flex-c-m respon6">
+                                            Size
+                                        </div>
+
+                                        <div class="size-204 respon6-next">
+                                            <div class="rs1-select2 bor8 bg0">
+                                                <select class="js-select2" name="time" id="SizE-cHo-mODal" data-size="{{product.id}}">
+                                                    <option>Choose an option</option>
+                                                    <option>Size S</option>
+                                                    <option>Size M</option>
+                                                    <option>Size L</option>
+                                                    <option>Size XL</option>
+                                                </select>
+                                                <div class="dropDownSelect2"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex-w flex-r-m p-b-10">
+                                        <div class="size-203 flex-c-m respon6">
+                                            Color
+                                        </div>
+
+                                        <div class="size-204 respon6-next">
+                                            <div class="rs1-select2 bor8 bg0">
+                                                <select class="js-select2" name="time" id="coLOr-CHo-MOdal" data-color="{{product.id}}">
+                                                    <option>Choose an option</option>
+                                                    <option>Red</option>
+                                                    <option>Blue</option>
+                                                    <option>White</option>
+                                                    <option>Grey</option>
+                                                </select>
+                                                <div class="dropDownSelect2"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="flex-w flex-r-m p-b-10">
+                                        <div class="size-204 flex-w flex-m respon6-next">
+                                            <div class="wrap-num-product flex-w m-r-20 m-tb-10">
+                                                <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                                    <i class="fs-16 zmdi zmdi-minus"></i>
+                                                </div>
+
+                                                <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
+
+                                                <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                                    <i class="fs-16 zmdi zmdi-plus"></i>
+                                                </div>
+                                            </div>
+
+                                            <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail add-TOcarT-MOdAL" data-modal-id="{{product.id}}">
+                                                Add to cart
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="pro-details-compare-wishlist pro-details-wishlist ">
+                                        <a href="wishlist.html"><i class="pe-7s-like"></i></a>
+                                    </div>
+                                </div>
+                                <div class="payment-img">
+                                    <a href="#"><img src="assets/images/icons/payment.png" alt=""></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+
+<script>
+
+	$('.aDdTofavEOu').click(function(){    
+		var id =$(this).data('product-id-fav');
+		var newButton = $('.DisADdfaV').html();
+		
+		$.ajax({
+	
+			url:'/products/add_favorite/',
+			data:{
+				'id':id,
+				
+			},
+			dataType:'json',
+			success: function(data){
+				$('.aDdTofavEOu[data-product-id-fav="' + id + '"]').html(newButton);
+                $('.square-FaVE-PhoNe').text(data.count);
+                $('.square-FaVE-Pc').text(data.count); 
+				
+		
+			}
+	
+		});
+	});
+
+
+	
+	$('.QuicK-ViEw').click(function(){
+		var id =$(this).data('quick-id');
+		var selectElement = $('#coLOr-CHo-MOdal[data-color="' + id + '"]');
+		var elmintsize = $('#SizE-cHo-mODal[data-size="' + id + '"]');
+		
+		$.ajax({
+			url: '/products/quick/',
+			data: {
+				'id': id,
+			},
+			dataType: 'json',
+			success: function(data) {
+				selectElement.empty();   
+				elmintsize.empty(); 
+		
+				selectElement.append($('<option>', {
+					text: 'Select'
+				}));
+				elmintsize.append($('<option>', {
+					text: 'Select'
+				}));
+		
+				$.each(data.colors, function(index, color) {
+					// تحويل الحرف الأول إلى حرف كبير باستخدام toUpperCase()
+					var capitalizedColor = color.charAt(0).toUpperCase() + color.slice(1);
+				
+					selectElement.append($('<option>', {
+						text: capitalizedColor
+					}));
+				});
+				$.each(data.sizes, function(index, size) {
+					elmintsize.append($('<option>', {
+						text: size
+					}));
+				});
+			}
+		});
+		
+	});
+		
+
+
+
+	$('.add-TOcarT-MOdAL').click(function(){
+		var id =$(this).data('modal-id');
+		var color=$('#coLOr-CHo-MOdal[data-color="' + id + '"]').val()
+		var size=$('#SizE-cHo-mODal[data-size="' + id + '"]').val()
+		let qty=1
+		if (color === 'Select' || size === 'Select') {
+			alert('choos color and size')
+
+		}
+		else {
+			
+
+		
+
+		$.ajax({
+
+			url:'/cart/add_cart/',
+			data:{
+				'id':id,
+				'size':size,
+				'color':color,
+				'qty':qty,
+				
+			},
+			dataType:'json',
+			success: function(data){
+				$('.square-CarT-Pc').text(data['cart_count']); 
+				$('.square-CarT-PhoNE').text(data['cart_count']);
+				$('.Noti-ShopCart-PC').text(data['cart_count']);
+                $('#sidE-Cart').html(data.templ_side_cart);
+				alert('the product is adedd')
+	
+			}
+	
+		});
+	}
+	});
+		
+</script>
+
+

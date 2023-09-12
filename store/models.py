@@ -84,7 +84,9 @@ class ProductGallery (models.Model):
 
 class Favorite (models.Model):
     user=models.ForeignKey(Accounts,on_delete=models.CASCADE,null=True)
+    by_session=models.CharField(max_length=250,blank=True,null=True)
     product=models.ForeignKey(Product,on_delete=models.CASCADE)
-    
+    # favorit_at=models.DateTimeField(auto_now_add=True)
+
     def __str__(self) -> str:
         return str (self.product)

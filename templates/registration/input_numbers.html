@@ -64,18 +64,13 @@
 <br>
 <br>
 
-{% include 'includes/masg.html' %}
-<form action="{% url 'login' %}" method="POST">
+
+<form method="POST">
     {% csrf_token %}
-    <h5 class="tex1">email</h5>
-    <input type="email" id="id_email" name='email' {% if email_value %} value="{{email_value}}" {% else %}value=""{% endif %}>
-    <h5 class="tex2">password</h5>
-    <input type="password" id="id_password" name='password'>
-    facebook     gmeil
+    <h5 class="tex1">inter th 8 numbers</h5>
+    <input type="number" id="id_email" name='code_acti'>
     <button class="butonnd" id="butonnd-id">supmmet</button>
 </form>
-
-
 <br>
 <br>
 <br>
@@ -87,35 +82,3 @@
 <br>
 
 {% endblock content %}
-
-
-
-{% block scripts %}	
-<script>
-  $("#id_email").change(function() {
-    var email = $(this).val();
-    var password = $("#id_password").val();
-
-    $.ajax({
-			url:'/accounts/login-function/',
-			data:{
-        'email':email,
-			},
-			dataType:'json',
-      beforeSend:function(){
-				
-			},
-			success: function(data){
-        if  (data.is_exist){
-          console.log('the email is corrict')
-        }
-        else {
-          alert('the email is not corrict')
-        }
-        
-			}
-		});
-  });
-</script>
-
-{% endblock scripts %}

@@ -10,17 +10,41 @@
 		<div class="container">
 			<div class="flex-w flex-sb-m p-b-52">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
-						{% trans "All Products" %}
-					</button>
-                    {% for cat in category %}
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".{{cat.category_name}}">
-						{{cat.category_name|capfirst}}
-					</button>
-					{% endfor %}
 
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1">
+						{% trans "Default" %}
+						<input class="filter-checkbox" data-filter="storby" value="1" type="checkbox"/> 
+					</button>
+
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+						{% trans "A to Z" %}
+						<input class="filter-checkbox" data-filter="storby" value="2" type="checkbox" /> 
+					</button>
+
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+						{% trans "Z to A" %}
+						<input class="filter-checkbox" data-filter="storby" value="3" type="checkbox" /> 
+					</button>
+
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+						{% trans "Highest Rating" %}
+						<input class="filter-checkbox" data-filter="storby" value="4" type="checkbox" /> 
+					</button>
+
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+						{% trans "Newer" %}
+						<input class="filter-checkbox" data-filter="storby" value="5" type="checkbox" /> 
+					</button>
+
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+						{% trans "Price: Low to High" %}
+						<input class="filter-checkbox" data-filter="storby" value="6" type="checkbox" /> 
+					</button>
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+						{% trans "Price: High to Low" %}
+						<input class="filter-checkbox" data-filter="storby" value="7" type="checkbox" /> 
+					</button>
 				</div>
-
 				<div class="flex-w flex-c-m m-tb-10">
 					<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
 						<i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
@@ -50,161 +74,20 @@
 
 				<!-- Filter -->
 				<div class="dis-none panel-filter w-full p-t-10">
-					<div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
-						<div class="filter-col1 p-r-15 p-b-27">
-							<div class="mtext-102 cl2 p-b-15">
-								{% trans "Sort By" %}
-							</div>
-
-							<ul>
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										{% trans "Default" %}
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										{% trans "A to Z" %}
-									</a>
-								</li>
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										{% trans "Z to A" %}
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										{% trans "Highest Rating" %}
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-										{% trans "Newer" %}
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										{% trans "Price: Low to High" %}
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										{% trans "Price: High to Low" %}
-									</a>
-								</li>
-							</ul>
-						</div>
-
-						<div class="filter-col2 p-r-15 p-b-27">
-							<div class="mtext-102 cl2 p-b-15">
-								{% trans "Price" %}
-							</div>
-
-							<ul>
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-										{% trans "All" %}
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$0.00 - $50.00
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$50.00 - $100.00
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$100.00 - $150.00
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$150.00 - $200.00
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href="#" class="filter-link stext-106 trans-04">
-										$200.00+
-									</a>
-								</li>
-							</ul>
-						</div>
-
-						<div class="filter-col3 p-r-15 p-b-27">
-							<div class="mtext-102 cl2 p-b-15">
-								{% trans "Color" %}
-							</div>
-
-							<ul>
-                                {% for color in colors %}
-								<li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: {{color.color_code}};">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a href="#" class="filter-link stext-106 trans-04">
-										{{color.color_name}}
-									</a>
-								</li>
-								{% endfor %}
-
-							</ul>
-						</div>
-
-						<div class="filter-col4 p-b-27">
-							<div class="mtext-102 cl2 p-b-15">
-								{% trans "Sizes" %}
-							</div>
-
-							<div class="flex-w p-t-4 m-r--5">
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Fashion
-								</a>
-
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Lifestyle
-								</a>
-
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Denim
-								</a>
-
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Streetstyle
-								</a>
-
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Crafts
-								</a>
-							</div>
-						</div>
-					</div>
+					{% include 'includes/filter.html' %}
 				</div>
 			</div>
 
-			<div class="row isotope-grid">
+			<p class="ajaxLoader">Loading...</p>
+			<div class="row" id="filterProducts">
                 {% for product in products %}
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item {{product.category}} product-box">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item  product-box">
 					<!-- Block2 -->
 					<div class="block2">
-						<div class="block2-pic hov-img0 " >
+						<div class="block2-pic hov-img0 label-new" data-label="{{product.product_name}}">
 							
 							<img src= "{{product.image.url}}" alt="IMG-PRODUCT" class="ImgPROd" >
-							<button class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1 QuicK-ViEw" data-link-action="quickview" title="Quick view" data-bs-toggle="modal" data-bs-target="#exampleModal-{{forloop.counter}}" data-quick-id="{{product.id}}">QuicK ViEw</button>
+							<button class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1 QuicK-ViEw" data-link-action="quickview" title="Quick view" data-bs-toggle="modal" data-bs-target="#exampleModal-{{product.id}}" data-quick-id="{{product.id}}">QuicK ViEw</button>
 						</div>
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
@@ -235,12 +118,177 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- modal -->
+				<div class="modal modal-2 fade" id="exampleModal-{{product.id}}" tabindex="-1" role="dialog">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-body">
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <i class="pe-7s-close"></i></button>
+								<div class="row">
+									<div class="col-lg-6 col-sm-12 col-xs-12 mb-lm-30px mb-md-30px mb-sm-30px">
+										<!-- Swiper -->
+										<div class="swiper-container gallery-top">
+											<div class="swiper-wrapper">
+												
+												{% for i in product.productgallery_set.all %}
+												<div class="swiper-slide">
+													<img class="img-responsive m-auto" src="{{i.img.url}}" alt="">
+												</div>
+												{% endfor %}
+											</div>
+										</div>
+										<div class="swiper-container gallery-thumbs mt-20px slider-nav-style-1 small-nav">
+											<div class="swiper-wrapper">
+												{% for i in product.productgallery_set.all %}
+												<div class="swiper-slide">
+													<img class="img-responsive m-auto" src="{{i.img.url}}" alt="">
+												</div>
+												{% endfor %}
+											
+											</div>
+											<!-- Add Arrows -->
+											<div class="swiper-buttons">
+												<div class="swiper-button-next"></div>
+												<div class="swiper-button-prev"></div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="200">
+										<div class="product-details-content quickview-content">
+											<h2>{{product.product_name}}</h2>
+											<div class="pricing-meta">
+												<ul class="d-flex">
+													<li class="new-price">$20.90</li>
+												</ul>
+											</div>
+											<div class="pro-details-rating-wrap">
+												<div class="rating-product">
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+												</div>
+												<span class="read-review"><a class="reviews" href="#">( 2 Review )</a></span>
+											</div>
+											<p class="mt-30px">{{product.product_name}}</p>
+											<div class="pro-details-categories-info pro-details-same-style d-flex m-0">
+												<span>SKU:</span>
+												<ul class="d-flex">
+													<li>
+														<a href="#">Ch-256xl</a>
+													</li>
+												</ul>
+											</div>
+											<div class="pro-details-categories-info pro-details-same-style d-flex m-0">
+												<span>Categories: </span>
+												<ul class="d-flex">
+													<li>
+														<a href="#">Smart Device, </a>
+													</li>
+													<li>
+														<a href="#">ETC</a>
+													</li>
+												</ul>
+											</div>
+											<div class="pro-details-categories-info pro-details-same-style d-flex m-0">
+												<span>Tags: </span>
+												<ul class="d-flex">
+													<li>
+														<a href="#">Smart Device, </a>
+													</li>
+													<li>
+														<a href="#">Phone</a>
+													</li>
+												</ul>
+											</div>
+											<div class="pro-details-quality">
+												<div class="cart-plus-minus">
+													<input class="cart-plus-minus-box" type="text" name="qtybutton" value="1" />
+												</div>
+
+
+												<div class="flex-w flex-r-m p-b-10">
+													<div class="size-203 flex-c-m respon6">
+														Size
+													</div>
+
+													<div class="size-204 respon6-next">
+														<div class="rs1-select2 bor8 bg0">
+															<select class="js-select2" name="time" id="SizE-cHo-mODal" data-size="{{product.id}}">
+																<option>Choose an option</option>
+																<option>Size S</option>
+																<option>Size M</option>
+																<option>Size L</option>
+																<option>Size XL</option>
+															</select>
+															<div class="dropDownSelect2"></div>
+														</div>
+													</div>
+												</div>
+
+												<div class="flex-w flex-r-m p-b-10">
+													<div class="size-203 flex-c-m respon6">
+														Color
+													</div>
+
+													<div class="size-204 respon6-next">
+														<div class="rs1-select2 bor8 bg0">
+															<select class="js-select2" name="time" id="coLOr-CHo-MOdal" data-color="{{product.id}}">
+																<option>Choose an option</option>
+																<option>Red</option>
+																<option>Blue</option>
+																<option>White</option>
+																<option>Grey</option>
+															</select>
+															<div class="dropDownSelect2"></div>
+														</div>
+													</div>
+												</div>
+
+
+												<div class="flex-w flex-r-m p-b-10">
+													<div class="size-204 flex-w flex-m respon6-next">
+														<div class="wrap-num-product flex-w m-r-20 m-tb-10">
+															<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+																<i class="fs-16 zmdi zmdi-minus"></i>
+															</div>
+
+															<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
+
+															<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+																<i class="fs-16 zmdi zmdi-plus"></i>
+															</div>
+														</div>
+
+														<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail add-TOcarT-MOdAL" data-modal-id="{{product.id}}">
+															Add to cart
+														</button>
+													</div>
+												</div>
+												<div class="pro-details-compare-wishlist pro-details-wishlist ">
+													<a href="wishlist.html"><i class="pe-7s-like"></i></a>
+												</div>
+											</div>
+											<div class="payment-img">
+												<a href="#"><img src="assets/images/icons/payment.png" alt=""></a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
                 {% endfor %}
+				
 			</div>
 
 			<!-- Load more -->
+			
 			<div class="flex-c-m flex-w w-full p-t-45">
-				<button  class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04" id="loadMore" data-limit="3" data-total="{{count_products}}">
+				<button  class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04" id="loadMore" data-limit="2" data-total="{{count_products}}">
 					{% trans "Load More" %}
 				</button>
 			</div>
@@ -255,173 +303,6 @@
 			<i class="zmdi zmdi-chevron-up"></i>
 		</span>
 	</div>
-
-
-
-<!-- modal -->
-{% for product in products %}
-<div class="modal modal-2 fade" id="exampleModal-{{forloop.counter}}" tabindex="-1" role="dialog">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<div class="modal-body">
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <i class="pe-7s-close"></i></button>
-				<div class="row">
-					<div class="col-lg-6 col-sm-12 col-xs-12 mb-lm-30px mb-md-30px mb-sm-30px">
-						<!-- Swiper -->
-						<div class="swiper-container gallery-top">
-							<div class="swiper-wrapper">
-								
-								{% for i in product.productgallery_set.all %}
-								<div class="swiper-slide">
-									<img class="img-responsive m-auto" src="{{i.img.url}}" alt="">
-								</div>
-								{% endfor %}
-							</div>
-						</div>
-						<div class="swiper-container gallery-thumbs mt-20px slider-nav-style-1 small-nav">
-							<div class="swiper-wrapper">
-								{% for i in product.productgallery_set.all %}
-								<div class="swiper-slide">
-									<img class="img-responsive m-auto" src="{{i.img.url}}" alt="">
-								</div>
-								{% endfor %}
-							
-							</div>
-							<!-- Add Arrows -->
-							<div class="swiper-buttons">
-								<div class="swiper-button-next"></div>
-								<div class="swiper-button-prev"></div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-6 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="200">
-						<div class="product-details-content quickview-content">
-							<h2>{{product.product_name}}</h2>
-							<div class="pricing-meta">
-								<ul class="d-flex">
-									<li class="new-price">$20.90</li>
-								</ul>
-							</div>
-							<div class="pro-details-rating-wrap">
-								<div class="rating-product">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-								</div>
-								<span class="read-review"><a class="reviews" href="#">( 2 Review )</a></span>
-							</div>
-							<p class="mt-30px">{{product.product_name}}</p>
-							<div class="pro-details-categories-info pro-details-same-style d-flex m-0">
-								<span>SKU:</span>
-								<ul class="d-flex">
-									<li>
-										<a href="#">Ch-256xl</a>
-									</li>
-								</ul>
-							</div>
-							<div class="pro-details-categories-info pro-details-same-style d-flex m-0">
-								<span>Categories: </span>
-								<ul class="d-flex">
-									<li>
-										<a href="#">Smart Device, </a>
-									</li>
-									<li>
-										<a href="#">ETC</a>
-									</li>
-								</ul>
-							</div>
-							<div class="pro-details-categories-info pro-details-same-style d-flex m-0">
-								<span>Tags: </span>
-								<ul class="d-flex">
-									<li>
-										<a href="#">Smart Device, </a>
-									</li>
-									<li>
-										<a href="#">Phone</a>
-									</li>
-								</ul>
-							</div>
-							<div class="pro-details-quality">
-								<div class="cart-plus-minus">
-									<input class="cart-plus-minus-box" type="text" name="qtybutton" value="1" />
-								</div>
-
-
-								<div class="flex-w flex-r-m p-b-10">
-									<div class="size-203 flex-c-m respon6">
-										Size
-									</div>
-
-									<div class="size-204 respon6-next">
-										<div class="rs1-select2 bor8 bg0">
-											<select class="js-select2" name="time" id="SizE-cHo-mODal" data-size="{{product.id}}">
-												<option>Choose an option</option>
-												<option>Size S</option>
-												<option>Size M</option>
-												<option>Size L</option>
-												<option>Size XL</option>
-											</select>
-											<div class="dropDownSelect2"></div>
-										</div>
-									</div>
-								</div>
-
-								<div class="flex-w flex-r-m p-b-10">
-									<div class="size-203 flex-c-m respon6">
-										Color
-									</div>
-
-									<div class="size-204 respon6-next">
-										<div class="rs1-select2 bor8 bg0">
-											<select class="js-select2" name="time" id="coLOr-CHo-MOdal" data-color="{{product.id}}">
-												<option>Choose an option</option>
-												<option>Red</option>
-												<option>Blue</option>
-												<option>White</option>
-												<option>Grey</option>
-											</select>
-											<div class="dropDownSelect2"></div>
-										</div>
-									</div>
-								</div>
-
-
-								<div class="flex-w flex-r-m p-b-10">
-									<div class="size-204 flex-w flex-m respon6-next">
-										<div class="wrap-num-product flex-w m-r-20 m-tb-10">
-											<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-												<i class="fs-16 zmdi zmdi-minus"></i>
-											</div>
-
-											<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
-
-											<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-												<i class="fs-16 zmdi zmdi-plus"></i>
-											</div>
-										</div>
-
-										<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail add-TOcarT-MOdAL" data-modal-id="{{product.id}}">
-											Add to cart
-										</button>
-									</div>
-								</div>
-								<div class="pro-details-compare-wishlist pro-details-wishlist ">
-									<a href="wishlist.html"><i class="pe-7s-like"></i></a>
-								</div>
-							</div>
-							<div class="payment-img">
-								<a href="#"><img src="assets/images/icons/payment.png" alt=""></a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-{% endfor %}
 
 
 {% endblock content %}
@@ -448,7 +329,10 @@
 			},
 			dataType:'json',
 			success: function(data){
-				$('.aDdTofavEOu[data-product-id-fav="' + id + '"]').html(newButton);
+				$('.aDdTofavEOu[data-product-id-fav="' + id + '"]').text('newButton');
+                $('.square-FaVE-PhoNe').text(data.count);
+                $('.square-FaVE-Pc').text(data.count); 
+				
 				
 		
 			}
@@ -457,65 +341,6 @@
 	});
 
 
-
-	
-	$('.DisADdfaV').click(function(){
-		var id =$(this).data('product-id-dis');                                                                                          
-		var newButton = $('.aDdTofavEOu').html();
-
-
-		$.ajax({
-	
-			url:'/products/add_favorite/',
-			data:{
-				'id':id,
-				
-			},
-			dataType:'json',
-			success: function(data){
-				$('.DisADdfaV[data-product-id-dis="' + id + '"]').html(newButton);
-				
-		
-			}
-	
-		});
-	});
-
-
-
-	
-	$('#loadMore').click(function(){
-		var _cuttentproducts=$('.product-box').length
-		var _limit =$(this).attr('data-limit')
-		var _total =$(this).attr('data-total')
-
-		$.ajax({
-	
-			url:'/products/load/',
-			data:{
-				'id':id,
-				'limit':_limit,
-				'offist':_cuttentproducts,
-				
-			},
-			dataType:'json',
-			beforeSend: function(){
-				$('#loadMore').attr('disabled',true);
-
-			},
-
-			success: function(data){
-				
-				$('#loadMore').attr('disabled',false);
-				
-		
-			}
-	
-		});
-		
-	});
-
-	
 
 	
 	$('.QuicK-ViEw').click(function(){
@@ -566,8 +391,16 @@
 		var color=$('#coLOr-CHo-MOdal[data-color="' + id + '"]').val()
 		var size=$('#SizE-cHo-mODal[data-size="' + id + '"]').val()
 		let qty=1
+		var toast=$.toast({
+			heading: 'Error',
+			text: 'Report any <a href="https://github.com/kamranahmedse/jquery-toast-plugin/issues">issues</a>',
+			showHideTransition: 'fade',
+			icon: 'error'
+		})
+
+
 		if (color === 'Select' || size === 'Select') {
-			alert('choos color and size')
+			toast
 
 		}
 		else {
@@ -590,6 +423,7 @@
 				$('.square-CarT-Pc').text(data['cart_count']); 
 				$('.square-CarT-PhoNE').text(data['cart_count']);
 				$('.Noti-ShopCart-PC').text(data['cart_count']);
+				$('#sidE-Cart').html(data.templ_side_cart);
 				alert('the product is adedd')
 	
 			}

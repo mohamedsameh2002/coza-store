@@ -1,0 +1,23 @@
+{% load static %}
+
+{% for item in cart_items %}
+    <li class="header-cart-item flex-w flex-t m-b-12">
+        <div class="header-cart-item-img">
+            <img src="{{item.product.image.url}}" alt="IMG">
+        </div>
+
+        <div class="header-cart-item-txt p-t-8">
+            
+            <a href="{% url 'product_details' item.product.id %}" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                {{item.product.product_name}}
+            </a>
+            {{item.color}}
+            {{item.size}}
+            
+
+            <span class="header-cart-item-info">
+                {{item.quantity}} x ${{item.product.price}}
+            </span>
+        </div>
+    </li>
+    {% endfor %}

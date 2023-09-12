@@ -4,6 +4,7 @@ from . import views
 from django.conf.urls.static import static
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
+from django.contrib.auth import views as sdf
 
 
 urlpatterns = [
@@ -15,8 +16,8 @@ urlpatterns += i18n_patterns(
     path('',views.home,name='home'),
     path('products/',include('store.urls')),
     path('cart/',include('cart.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
     path('orders/', include('orders.urls')),
+    path('accounts/', include('accounts.urls')),
 )
 
 

@@ -5,6 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 # Create your views here.
 def _cart_id (request):
@@ -41,6 +42,7 @@ def ADD_CART (request,total=0,quantity=0,cart_items=None):
             cart_item=CartItem.objects.get(product=product,user=user,color=color,size=size)
             cart_item.quantity+=1
             cart_item.save()
+            
         # check if item herar 
         else:
             if is_cart_item_exist :
@@ -89,7 +91,6 @@ def ADD_CART (request,total=0,quantity=0,cart_items=None):
             cart=Cart.objects.get(cart_id=_cart_id(request))
             cart_items=CartItem.objects.filter(cart=cart,in_active=True)
             
-        
         for cart_item in cart_items:
             total+=(cart_item.product.price * cart_item.quantity)
             # quantity+=cart_item.quantity
@@ -114,9 +115,16 @@ def ADD_CART (request,total=0,quantity=0,cart_items=None):
             cart_count+=cart_item.quantity
     except Cart.DoesNotExist :
         cart_count=0
-
-    product_name='mohamed'
-    data={'total':total,'grand_total':grand_total,'tax':tax,'cart_count':cart_count,'product_name':product_name}
+    #========
+    if request.user.is_authenticated:
+        cart_items=CartItem.objects.filter(user=request.user,in_active=True)
+    else:
+        cart=Cart.objects.get(cart_id=_cart_id(request))
+        cart_items=CartItem.objects.filter(cart=cart,in_active=True)
+    templ_side_cart=render_to_string('ajax/sid_cart.html',{'cart_items':cart_items})
+    #==========
+    
+    data={'total':total,'grand_total':grand_total,'tax':tax,'cart_count':cart_count,'templ_side_cart':templ_side_cart}
     return JsonResponse(data)
 
 
@@ -180,8 +188,18 @@ def DECREMENT_CART (request,total=0,cart_items=None):
             cart_count+=cart_item.quantity
     except Cart.DoesNotExist :
         cart_count=0
-
-    data={'total':total,'grand_total':grand_total,'tax':tax,'cart_count':cart_count}
+    
+    #========
+    if request.user.is_authenticated:
+        cart_items=CartItem.objects.filter(user=request.user,in_active=True)
+    else:
+        cart=Cart.objects.get(cart_id=_cart_id(request))
+        cart_items=CartItem.objects.filter(cart=cart,in_active=True)
+    template=render_to_string('ajax/cart_aj.html',{'cart_items':cart_items})
+    template_2=render_to_string('ajax/cart_emty_aj.html')
+    templ_side_cart=render_to_string('ajax/sid_cart.html',{'cart_items':cart_items})
+#========
+    data={'total':total,'grand_total':grand_total,'tax':tax,'cart_count':cart_count,'template':template,'template_2':template_2,'templ_side_cart':templ_side_cart}
     return JsonResponse(data)
 
 
@@ -233,7 +251,21 @@ def REMOVE_ITEM (request,total=0,cart_items=None):
             cart_count+=cart_item.quantity
     except Cart.DoesNotExist :
         cart_count=0
-    data={'total':total,'grand_total':grand_total,'tax':tax,'cart_count':cart_count}
+    
+
+#========
+    if request.user.is_authenticated:
+        cart_items=CartItem.objects.filter(user=request.user,in_active=True)
+    else:
+        cart=Cart.objects.get(cart_id=_cart_id(request))
+        cart_items=CartItem.objects.filter(cart=cart,in_active=True)
+        
+    template=render_to_string('ajax/cart_aj.html',{'cart_items':cart_items})
+    template_2=render_to_string('ajax/cart_emty_aj.html')
+    templ_side_cart=render_to_string('ajax/sid_cart.html',{'cart_items':cart_items})
+
+#========
+    data={'total':total,'grand_total':grand_total,'tax':tax,'cart_count':cart_count,'template':template,'template_2':template_2,'templ_side_cart':templ_side_cart}
     return JsonResponse(data)
 
 

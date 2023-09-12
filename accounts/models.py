@@ -1,4 +1,5 @@
 from django.db import models
+from PIL import Image
 
 # Create your models here.
 from django.db import models
@@ -6,9 +7,9 @@ from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
 # Create your models here.
 
 class MyAccountsManager (BaseUserManager):
-    def create_user (self,first_name,last_name,username,email,password=None):
+    def create_user (self,first_name,last_name,username,email,phone_numper,profile_pictuer,password=None):
         if not email :
-            raise ValueError('User Mast Have A email')
+            raise ValueError('User Mast Have A Email')
         if not username:
             raise ValueError('User Mast Have A Username')
         
@@ -17,6 +18,8 @@ class MyAccountsManager (BaseUserManager):
             username=username,
             first_name=first_name,
             last_name=last_name,
+            phone_numper=phone_numper,
+            profile_pictuer=profile_pictuer,
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -50,13 +53,18 @@ class Accounts(AbstractBaseUser):
     state=models.CharField(max_length=20,blank=True)
     country=models.CharField(max_length=20,blank=True)
 
+    # Confirmation messages
+    session_code=models.CharField(max_length=250,null=True,blank=True)
+    validation_code=models.CharField(max_length=10,null=True,blank=True)
+    sending_count=models.IntegerField(null=True,blank=True,default=5)
+    right_send=models.BooleanField(default=True)
+
     #required
     dete_joined   =models.DateTimeField(auto_now_add=True)
     last_login =models.DateTimeField(auto_now_add=True)
-    is_admin =models.BooleanField(default=False)
-    is_staff =models.BooleanField(default=False)
     is_active=models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
+    is_staff =models.BooleanField(default=False)
+    is_admin =models.BooleanField(default=False)
     is_superadmin=models.BooleanField(default=False)
 
     USERNAME_FIELD='email'
@@ -74,6 +82,12 @@ class Accounts(AbstractBaseUser):
     
     def has_module_perms (self,add_label):
         return True
+    
+    def save (self,*args,**kwargs): 
+        super().save(*args,**kwargs)
+        pict=Image.open(self.profile_pictuer.path)
+        pict=pict.resize((1200,1486))
+        pict.save(self.profile_pictuer.path)
     
 
 

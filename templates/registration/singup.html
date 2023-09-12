@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <style>
-  #id_email {
+  .custom {
     width: 50%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -16,19 +16,6 @@
     left: 450px;
   }
 
-  #id_password {
-    width: 50%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 2px solid #3e3a18;
-    border-radius: 50px;
-    font-size: 16px;
-    position: relative;
-    left: 450px;
-    
-    
-  }
 
   .butonnd{
     background-color: #4CAF50; /* لون الخلفية */
@@ -49,29 +36,70 @@
     position: relative;
     left: 700px;
   }
-  .tex2{
-    position: relative;
-    left: 700px;
-  }
+
 </style>
 
 
 
 <br>
 <br>
+
 <br>
 <br>
 <br>
 <br>
 
 {% include 'includes/masg.html' %}
-<form action="{% url 'login' %}" method="POST">
+<form action="{% url 'singup' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
+    <h5 class="tex1">first name</h5>
+    <input type="text" name='first_name' class="custom" required>
+
+    <h5 class="tex1">last name</h5>
+    <input type="text" class="custom" name='last_name' >
+
+    <h5 class="tex1">phone number</h5>
+    <input type="number" class="custom" name='phone_numper' >
+    
     <h5 class="tex1">email</h5>
-    <input type="email" id="id_email" name='email' {% if email_value %} value="{{email_value}}" {% else %}value=""{% endif %}>
-    <h5 class="tex2">password</h5>
-    <input type="password" id="id_password" name='password'>
-    facebook     gmeil
+    <input type="email" class="custom" name='email' >
+    
+    <h5 class="tex1">username</h5>
+    <input type="text" class="custom" name='username' >
+    
+
+    <h5 class="tex1">picture</h5>
+    <input type="file" class="custom" name='profile_pictuer' >
+
+    <h5 class="tex1">password</h5>
+    <input type="password" class="custom" name='password' >
+
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <button class="butonnd" id="butonnd-id">supmmet</button>
 </form>
 
@@ -87,35 +115,3 @@
 <br>
 
 {% endblock content %}
-
-
-
-{% block scripts %}	
-<script>
-  $("#id_email").change(function() {
-    var email = $(this).val();
-    var password = $("#id_password").val();
-
-    $.ajax({
-			url:'/accounts/login-function/',
-			data:{
-        'email':email,
-			},
-			dataType:'json',
-      beforeSend:function(){
-				
-			},
-			success: function(data){
-        if  (data.is_exist){
-          console.log('the email is corrict')
-        }
-        else {
-          alert('the email is not corrict')
-        }
-        
-			}
-		});
-  });
-</script>
-
-{% endblock scripts %}

@@ -1,0 +1,66 @@
+{% load static %}
+{% load i18n %}
+    <div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
+        <div class="filter-col4 p-b-27">
+            <div class="mtext-102 cl2 p-b-15">
+                {% trans "Categories" %}
+            </div>
+            <div class="flex-w p-t-4 m-r--5">
+                {% for cat in category %}
+                <button  class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+                    {{cat.category_name}}
+                    <input class="filter-checkbox" data-filter="category" value="{{cat.id}}" type="checkbox" /> 
+                </button>
+                {% endfor %}
+                </div>
+            </div>
+        
+        <div class="filter-col2 p-r-15 p-b-27">
+            <div class="mtext-102 cl2 p-b-15">
+                {% trans "Price" %}
+            </div>
+            <li class="list-group-item">
+                <input  type="range" id="rangeInput" min="{{minMaxPrice.price__min}}" max="{{minMaxPrice.price__max}}" oninput="maxPrice.value=this.value" value="{{minMaxPrice.price__max}}" />&nbsp;
+                <p>{{minMaxPrice.price__min}} - {{minMaxPrice.price__max}}</p>
+            </li>
+            <li class="list-group-item">
+                Max : <input  type="nupmer" onkeyup="rangeInput.value=this.value" id="maxPrice" min="{{minMaxPrice.price__min}}" max="{{minMaxPrice.price__max}}" value="{{minMaxPrice.price__max}}"/>&nbsp;
+                    <button id="priceFilterBtn" class="btn btn-info btn-sm mt-1">Filter</button>
+            </li>
+        </div>
+        <div class="filter-col3 p-r-15 p-b-27">
+            <div class="mtext-102 cl2 p-b-15">
+                {% trans "Color" %}
+            </div>
+            
+            <ul>
+                {% for color in colors %} 
+                <li class="p-b-6"> 
+                    <label class="checkbox-container"> 
+                        <span class="fs-15 lh-12 m-r-6" style="color: {{color.color_code}};"> 
+                            <i class="zmdi zmdi-circle"></i> 
+                        </span> 
+                        <span>{{color.color_name}}</span>
+                        <input class="filter-checkbox" data-filter="color" value="{{color.id}}" type="checkbox" /> 
+                        <span class="checkmark"></span>
+                    </label>
+                </li> 
+                {% endfor %}
+
+            </ul>
+        </div>
+
+    <div class="filter-col4 p-b-27">
+        <div class="mtext-102 cl2 p-b-15">
+            {% trans "Sizes" %}
+        </div>
+        <div class="flex-w p-t-4 m-r--5">
+            {% for size in sizes %}
+            <button  class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+                {{size.size_name}}
+                <input class="filter-checkbox" data-filter="size" value="{{size.id}}" type="checkbox" /> 
+            </button>
+            {% endfor %}
+            </div>
+        </div>
+    </div>

@@ -34,15 +34,17 @@
 		</div>
 	</div>
 	
+	
+	
     {% if cart_items %}
 	
 	<!-- Shoping Cart -->
-	<form class="bg0 p-t-75 p-b-85">
+	<form class="bg0 p-t-75 p-b-85" id="conTen-caRT">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
 					<div class="m-l-25 m-r--38 m-lr-0-xl">
-						<div class="wrap-table-shopping-cart">
+						<div class="wrap-table-shopping-cart" id="caRT-tabLe">
 							<table class="table-shopping-cart">
 								<tr class="table_head">
 									<th class="column-1">Product</th>
@@ -91,7 +93,7 @@
 														<i class="fs-16 zmdi zmdi-minus"></i>
 													</button>
 												</div>
-												<input class="mtext-104 cl3 txt-center num-product pRodUct-Qty" type="number" name="num-product1" value="{{item.quantity}}" data-qty="{{item.product.id}}" data-color="{{item.color}}"data-size="{{item.size}}" readonly>
+												<input class="mtext-104 cl3 txt-center num-product pRodUct-Qty" type="number" name="num-product1" value="{{item.quantity}}" data-qty="{{item.product.id}}" data-color="{{item.color}}"data-size="{{item.size}}" readonly lang="en">
 												<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
 													<button class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m BuT-pLUS" type="button" id="button-plus" data-product-id-plus="{{item.product.id}}" data-product-id-color="{{item.color}}"data-product-id-size="{{item.size}}">
 														<i class="fs-16 zmdi zmdi-plus"></i>
@@ -220,10 +222,8 @@
 		var size =$(this).data('product-id-size');
 		var price = $('.Thj-PrICEE[data-pprice="' + id + '"]').val();
 		var qty = parseInt($('.pRodUct-Qty[data-qty="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').val()) + 1;
-		console.log(id)
-		console.log(color)
-		console.log(qty)
 		
+
 
 		$.ajax({
 
@@ -241,17 +241,18 @@
 				$('.Noti-ShopCart-PC').text(data['cart_count']); 
 				$('.SUb-totAl[data-subtotal-id="' + id + '"][data-subtotal-color="' + color + '"][data-subtotal-size="' + size + '"]').text('$ ' + qty*price);   
 				// side bar
-				$('.toTAL-totAL').text('$ ' + data['total'].toFixed(0));
-				$('.Tax-toTal').text('$ ' + data['tax'].toFixed(1));
-				$('.FinaL-ToTal').text('$ ' + data['grand_total'].toFixed(1));
+				$('.toTAL-totAL').text('$ ' + data.total.toFixed(0));
+				$('.Tax-toTal').text('$ ' + data.tax.toFixed(1));
+				$('.FinaL-ToTal').text('$ ' + data.grand_total.toFixed(1));
+				$('#sidE-Cart').html(data.templ_side_cart);
+				
+				
+
 
 			}
 		});
 	});
 </script>
-
-
-
 
 
 <script>
@@ -261,7 +262,7 @@
 		var color =$(this).data('product-id-color');
 		var size =$(this).data('product-id-size');
 		var price = $('.Thj-PrICEE[data-pprice="' + id + '"]').val();
-		var qty = parseInt($('.pRodUct-Qty[data-qty="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').val()) + 1;
+		var qty = parseInt($('.pRodUct-Qty[data-qty="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').val()) - 1;
         
 		
 
@@ -287,15 +288,17 @@
 				$('.toTAL-totAL').text('$ ' + data['total'].toFixed(0));
 				$('.Tax-toTal').text('$ ' + data['tax'].toFixed(1));
 				$('.FinaL-ToTal').text('$ ' + data['grand_total'].toFixed(1));
+				$('#sidE-Cart').html(data.templ_side_cart);
 				if ($('.pRodUct-Qty[data-qty="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').val() < 1) {
-                    $('.ConTent[data-content="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').contents().remove();
-					$('.ConTent[data-content="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').text('removed');
+                    $("#caRT-tabLe").html(data.template);
+				}
+				if (data.total == 0) {
+					$("#conTen-caRT").html(data.template_2);
 				}
 			}
 		});
 	});
 </script>
-
 
 
 
@@ -305,6 +308,18 @@
 		var id =$(this).data('product-id-delete');
 		var color =$(this).data('color');
 		var size =$(this).data('size');
+
+		var mytoast=$.toast({
+			heading: 'Success',
+			text: 'The product has been removed successfully',
+			showHideTransition: 'slide',
+			icon: 'success',
+			position: {
+				top: 60,
+				left: 10,
+			}
+		})
+
 
 		
 		
@@ -330,8 +345,12 @@
 				$('.Tax-toTal').text('$ ' + data['tax'].toFixed(1));
 				$('.FinaL-ToTal').text('$ ' + data['grand_total'].toFixed(1));
                 // remove action
-				$('.ConTent[data-content="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').contents().remove();
-				$('.ConTent[data-content="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').text('removed');
+				$("#caRT-tabLe").html(data.template);
+				$('#sidE-Cart').html(data.templ_side_cart);
+				mytoast;
+				if (data.total == 0) {
+					$("#conTen-caRT").html(data.template_2);
+				}
 				
 				
 				

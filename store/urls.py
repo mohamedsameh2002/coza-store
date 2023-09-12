@@ -9,6 +9,7 @@ urlpatterns = [
     path('favorite/',views.FAVORITE_PAGE,name='favorite'),
     path('quick/',views.QUICK_VIEW,name='quick'),
     path('search/',views.SEARCH,name='search'),
+    path('filter-data/',views.FILTER,name='filter_data'),
     path('load/',views.LOAD_MORE,name='load'),
 
 ]
