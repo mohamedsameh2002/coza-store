@@ -17,12 +17,17 @@ $(document).ready(function(){
             _filterObj[_filterKey]=Array.from(document.querySelectorAll('input[data-filter='+_filterKey+']:checked')).map(function(el){
                 return el.value;
             });
-			
-		});console.log(_filterObj)
+		});
+		var search_kewrd = new URLSearchParams(window.location.search).get('search');
+		
         // ajax
         $.ajax({
 			url:'/products/filter-data/',
-			data:_filterObj,
+			data:{
+				_filterObj:_filterObj,
+				search_kewrd:search_kewrd,
+
+			},
 			dataType:'json',
 			beforeSend:function(){
                 $(".ajaxLoader").show();
@@ -58,13 +63,15 @@ $(document).ready(function(){
                 return el.value;
             });
 		});
+		var search_kewrd = new URLSearchParams(window.location.search).get('search');
 		//ajax
 		$.ajax({
 			url:'/products/load/',
 			data:{
 				_filterObj:_filterObj,
 				limit:_limit,
-				offset:_currentProducts
+				offset:_currentProducts,
+				search_kewrd:search_kewrd,
 			},
 			dataType:'json',
 			beforeSend:function(){

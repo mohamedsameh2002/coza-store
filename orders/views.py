@@ -8,6 +8,8 @@ from store.models import Product
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.http import JsonResponse
+from accounts.models import UserProfile
+from discounts.models import Discount_codes
 
 
 def PAYMENTES (request):
@@ -51,6 +53,15 @@ def PAYMENTES (request):
     # clear the cart
     CartItem.objects.filter(user=request.user).delete()
 
+    #remove discounts codes
+    try:
+        codes=UserProfile.objects.get(user=request.user).discount_cods.values_list('code',flat=True)
+        for code in codes:
+            Discount_codes.objects.get(code=code).delete()
+    except:
+        pass
+    
+
     # send order received email to customer
     mail_supject='thank u for your order!'
     message=render_to_string('orders/order_received_email.html',{
@@ -61,7 +72,6 @@ def PAYMENTES (request):
     send_email=EmailMessage(mail_supject,message,to=[to_email])
     send_email.send()
 
-    # redirect the user to order completed page or not completed
     data={
         'order_number':order.order_numper,
         'transID':payment.payment_id,
@@ -69,10 +79,6 @@ def PAYMENTES (request):
 
     #Look at the javascript code at the end of the payments.html page
     return JsonResponse(data)
-
-
-
-    
 
 
 
@@ -92,6 +98,23 @@ def GO_PYMENT (request,total=0,quantity=0):
         quantity+=cart_item.quantity
         tax=(2*total)/100
         grand_total=total+tax
+
+    #========
+    user_profile=UserProfile.objects.get(user=curent_user)
+    if user_profile.discount_cods.exists():
+        total_discount=0
+        codes=user_profile.discount_cods.values_list('code',flat=True)
+        for code in codes:
+            discount=Discount_codes.objects.get(code=code).discount
+            total_discount+=discount
+        if total < total_discount:
+            total=0
+            grand_total=tax
+        else :
+            total = total - total_discount
+            grand_total=total+tax
+    #========
+
     if request.method == 'POST':
         form=OrderForm(request.POST)
         if form.is_valid():

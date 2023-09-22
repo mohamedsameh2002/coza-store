@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import *
 from django.utils.html import format_html
+
 # Register your models here.
 
 class AccountsAdmin (UserAdmin):
@@ -13,12 +14,10 @@ class AccountsAdmin (UserAdmin):
     list_filter=[]
     fieldsets=[]
 
-# class UserProfileAdmin (admin.ModelAdmin):
-#     def thumbnail (self,object):
-#         return format_html ("<img src='{}' width='30' style='border-radius:50%;'>".format(object.profile_pictuer.url))
-#     thumbnail.short_description = 'Profile Pictuer'
-#     list_display=['thumbnail','user','city','state','country']
+class UserProfileAdmin (admin.ModelAdmin):
+    
+    list_display=['image_tag','user','city','state','country']
 
 
 admin.site.register(Accounts,AccountsAdmin)
-# admin.site.register(UserProfile,UserProfileAdmin)
+admin.site.register(UserProfile,UserProfileAdmin)

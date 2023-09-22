@@ -75,7 +75,8 @@
                 var size =$(this).data('product-id-size');
                 var price = $('.Thj-PrICEE[data-pprice="' + id + '"]').val();
                 var qty = parseInt($('.pRodUct-Qty[data-qty="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').val()) + 1;
-        
+                
+                
         
         
                 $.ajax({
@@ -145,7 +146,7 @@
                         if ($('.pRodUct-Qty[data-qty="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').val() < 1) {
                             $("#caRT-tabLe").html(data.template);
                         }
-                        if (data.total == 0) {
+                        if ($('.ConTent').length == 0) {
                             $("#conTen-caRT").html(data.template_2);
                         }
                     }
@@ -199,7 +200,7 @@
                         $("#caRT-tabLe").html(data.template);
                         $('#sidE-Cart').html(data.templ_side_cart);
                         mytoast;
-                        if (data.total == 0) {
+                        if ($('.ConTent').length == 0) {
                             $("#conTen-caRT").html(data.template_2);
                         }
                         

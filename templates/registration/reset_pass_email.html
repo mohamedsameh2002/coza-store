@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  #id_email {
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #343117;
+    border-radius: 50px;
+    font-size: 16px;
+    min-width: 179px;
+    height: 46px;
+    position: relative;
+    left: 450px;
+  }
+
+  #id_password {
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #3e3a18;
+    border-radius: 50px;
+    font-size: 16px;
+    position: relative;
+    left: 450px;
+    
+    
+  }
+
+  .butonnd{
+    background-color: #4CAF50; /* لون الخلفية */
+  border: none; /* إزالة حدود الزر */
+  color: white; /* لون النص */
+  padding: 15px 32px; /* حجم الزر */
+  text-align: center; /* محاذاة النص في الزر */
+  text-decoration: none; /* إزالة تأثيرات النص */
+  display: inline-block; /* عرض الزر كعنصر مستقل */
+  font-size: 16px; /* حجم الخط */
+  margin: 4px 2px; /* هامش الزر */
+  cursor: pointer; /* تحويل المؤشر إلى يد عند التحريك فوق الزر */
+  border-radius: 10px; /* إضافة زوايا مستديرة للزر */
+  position: relative;
+    left: 450px;
+  }
+  .tex1{
+    position: relative;
+    left: 700px;
+  }
+  .tex2{
+    position: relative;
+    left: 700px;
+  }
+</style>
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+{% include 'includes/masg.html' %}
+<form  method="POST">
+    {% csrf_token %}
+    <h5 class="tex1">email</h5>
+    <input type="email" id="id_email" name='email_reset' >
+    {% comment %} <a href="{% provider_login_url "facebook" %}">Twitter</a> {% endcomment %}
+    <button class="butonnd" id="butonnd-id">supmmet</button>
+
+</form>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+{% endblock content %}

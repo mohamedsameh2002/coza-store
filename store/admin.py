@@ -19,6 +19,9 @@ class ProductAdmin (admin.ModelAdmin):
     list_display=['product_name','price','stock','category','update_date','is_available']
     inlines=[ProductGalleryInline]
 
+class ReviewRatingAdmin (admin.ModelAdmin):
+    list_display=['user','product','rating','status','updated_at']
+
 
 admin.site.register(Product,ProductAdmin)
 admin.site.register(ProductGallery)
@@ -26,3 +29,6 @@ admin.site.register(Color,ColorAdmin)
 admin.site.register(Size,SizeAdmin)
 admin.site.register(Category)
 admin.site.register(Favorite)
+admin.site.register(ReviewRating,ReviewRatingAdmin)
+admin.site.register(Favorite_storeg_id)
+

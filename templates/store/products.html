@@ -4,45 +4,45 @@
 
 
 {% block content %}
+<title>Products</title>
 
 	<!-- Product -->
 	<div class="bg0 m-t-23 p-b-140">
 		<div class="container">
 			<div class="flex-w flex-sb-m p-b-52">
-				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-
+				<div class="flex-w flex-l-m filter-tope-group m-tb-10 conTEnt-storBy">
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1">
 						{% trans "Default" %}
-						<input class="filter-checkbox" data-filter="storby" value="1" type="checkbox"/> 
+						<input class="filter-checkbox" id="stoR-By" data-filter="storby" itemid="1" value="1" type="checkbox"/> 
 					</button>
 
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
 						{% trans "A to Z" %}
-						<input class="filter-checkbox" data-filter="storby" value="2" type="checkbox" /> 
+						<input class="filter-checkbox" id="stoR-By" data-filter="storby" itemid="2" value="2" type="checkbox" /> 
 					</button>
 
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
 						{% trans "Z to A" %}
-						<input class="filter-checkbox" data-filter="storby" value="3" type="checkbox" /> 
+						<input class="filter-checkbox" id="stoR-By" data-filter="storby" itemid="3" value="3" type="checkbox" /> 
 					</button>
 
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
 						{% trans "Highest Rating" %}
-						<input class="filter-checkbox" data-filter="storby" value="4" type="checkbox" /> 
+						<input class="filter-checkbox" id="stoR-By" data-filter="storby" itemid="4" value="4" type="checkbox" /> 
 					</button>
 
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
 						{% trans "Newer" %}
-						<input class="filter-checkbox" data-filter="storby" value="5" type="checkbox" /> 
+						<input class="filter-checkbox" id="stoR-By" data-filter="storby" itemid="5" value="5" type="checkbox" /> 
 					</button>
 
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
 						{% trans "Price: Low to High" %}
-						<input class="filter-checkbox" data-filter="storby" value="6" type="checkbox" /> 
+						<input class="filter-checkbox" id="stoR-By" data-filter="storby" itemid="6" value="6" type="checkbox" /> 
 					</button>
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
 						{% trans "Price: High to Low" %}
-						<input class="filter-checkbox" data-filter="storby" value="7" type="checkbox" /> 
+						<input class="filter-checkbox" id="stoR-By" data-filter="storby" itemid="7" value="7" type="checkbox" /> 
 					</button>
 				</div>
 				<div class="flex-w flex-c-m m-tb-10">
@@ -96,24 +96,24 @@
 								</a>
 								<span class="stext-105 cl3">
 									<p class="PriCEPROd" data-price="{{product.id}}">${{product.price}}</p>
+									<p class="counTfaVE-dis" data-like-text-id="{{product.id}}">{{product.all_likes}}</p>
 								</span>
 							</div>
-
+							
 							<input type="hidden" id="prod-id-Ou" value="{{product.id}}">
-
+							
 							<div class="block2-txt-child2 flex-r p-t-3">
                                 {% if product.id in id_products_list  %}
-								<button  class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 DisADdfaV"  data-product-id-dis="{{product.id}}" value="on">
+								<button  class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 DisADdfaV" data-product-id-dis="{{product.id}}">
 									<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
 									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
 								</button>
 								{% else %}
-								<button  class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 aDdTofavEOu"  data-product-id-fav="{{product.id}}" value="off">
+								<button  class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 aDdTofavEOu" data-product-id-fav="{{product.id}}">
 									<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
 									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
 								</button>
 								{% endif %}
-
 							</div>
 						</div>
 					</div>
@@ -311,13 +311,26 @@
 
 {% block scripts %}
 
-
+<script>
+	$(document).ready(function(){
+		window.close()
+		var chioes = new URLSearchParams(window.location.search).get('czhoqif');
+		var home_chioes = new URLSearchParams(window.location.search).get('hochozq');
+		if (chioes) {
+			$('input[type="checkbox"][id="' + chioes + '"]').click();
+		}
+		if (home_chioes){
+			$('input[type="checkbox"][itemid="' + home_chioes + '"]').click();
+		}
+	});
+</script>
 <script>
 
+	$('.DisADdfaV').click(function(){    
+		var id =$(this).data('product-id-dis');
+		var img_done='<img class="icon-heart1 dis-block trans-04" src="{% static "images/icons/icon-heart-02.png" %}" alt="ICON"><img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static "images/icons/icon-heart-01.png" %}" alt="ICON">'
+		var img_dis='<img class="icon-heart1 dis-block trans-04" src="{% static "images/icons/icon-heart-01.png" %}" alt="ICON"><img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static "images/icons/icon-heart-02.png" %}" alt="ICON">'
 
-	$('.aDdTofavEOu').click(function(){    
-		var id =$(this).data('product-id-fav');
-		var newButton = $('.DisADdfaV').html();
 		
 		
 		$.ajax({
@@ -329,9 +342,46 @@
 			},
 			dataType:'json',
 			success: function(data){
-				$('.aDdTofavEOu[data-product-id-fav="' + id + '"]').text('newButton');
+				if (data.is_prod_exist){
+					$('.DisADdfaV[data-product-id-dis="' + id + '"]').html(img_dis);
+				}
+				else{
+					$('.DisADdfaV[data-product-id-dis="' + id + '"]').html(img_done);
+				}
                 $('.square-FaVE-PhoNe').text(data.count);
                 $('.square-FaVE-Pc').text(data.count); 
+				console.log(data.likes)
+                $('.counTfaVE-dis[data-like-text-id="' + id + '"]').text(data.likes); 
+				
+		
+			}
+	
+		});
+	});
+	$('.aDdTofavEOu').click(function(){    
+		var id =$(this).data('product-id-fav');
+		var img_done='<img class="icon-heart1 dis-block trans-04" src="{% static "images/icons/icon-heart-02.png" %}" alt="ICON"><img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static "images/icons/icon-heart-01.png" %}" alt="ICON">'
+		var img_dis='<img class="icon-heart1 dis-block trans-04" src="{% static "images/icons/icon-heart-01.png" %}" alt="ICON"><img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static "images/icons/icon-heart-02.png" %}" alt="ICON">'
+
+		
+		$.ajax({
+	
+			url:'/products/add_favorite/',
+			data:{
+				'id':id,
+				
+			},
+			dataType:'json',
+			success: function(data){
+				if (data.is_prod_exist){
+					$('.aDdTofavEOu[data-product-id-fav="' + id + '"]').html(img_dis);
+				}
+				else{
+					$('.aDdTofavEOu[data-product-id-fav="' + id + '"]').html(img_done);
+				}
+                $('.square-FaVE-PhoNe').text(data.count);
+                $('.square-FaVE-Pc').text(data.count);
+				$('.counTfaVE-dis[data-like-text-id="' + id + '"]').text(data.likes); 
 				
 				
 		
@@ -339,7 +389,6 @@
 	
 		});
 	});
-
 
 
 	
@@ -368,7 +417,6 @@
 				$.each(data.colors, function(index, color) {
 					// تحويل الحرف الأول إلى حرف كبير باستخدام toUpperCase()
 					var capitalizedColor = color.charAt(0).toUpperCase() + color.slice(1);
-				  
 					selectElement.append($('<option>', {
 						text: capitalizedColor
 					}));
@@ -383,6 +431,7 @@
 		
 	});
 		
+
 
 
 
@@ -432,10 +481,21 @@
 	}
 	});
 		
+	$('input[type="checkbox"][id="stoR-By"]').click(function() {
+        $('input[type="checkbox"]').not(this).prop('checked', false);
+    });
 
+	$('.js-show-filter').click(function() {
+        $('.conTEnt-storBy').hide();
 
-
-
+		$(this).click(function() {
+			$('.conTEnt-storBy').show();
+	
+		});
+    });
+	
+	
 </script>
+
 
 {% endblock scripts %}

@@ -71,9 +71,12 @@
     <input type="email" id="id_email" name='email' {% if email_value %} value="{{email_value}}" {% else %}value=""{% endif %}>
     <h5 class="tex2">password</h5>
     <input type="password" id="id_password" name='password'>
-    facebook     gmeil
+    {% comment %} <a href='{% provider_login_url "facebook" %}'>Twitter</a> {% endcomment %}
     <button class="butonnd" id="butonnd-id">supmmet</button>
-</form>
+    <a href='{% url "input_emali_pass" %}' class="tex1" >forget password?</a>
+  </form>
+  <button  class="butonnd logIN-FAceBO"> Login with Facebook</button>
+  <button  class="butonnd LOgin-GoOGle"> Login with Google</button>
 
 
 <br>
@@ -116,6 +119,46 @@
 			}
 		});
   });
+  
+  $(".logIN-FAceBO").click(function() {
+    
+    $.ajax({
+      url:'/accounts/make_temp/',
+      data:{
+      },
+      dataType:'json',
+      beforeSend:function(){
+        
+      },
+      success: function(data){
+        var url="{% url 'social:begin' 'facebook' %}"
+        window.open(url, "_blank", "width=500,height=500,left=700,top=210");
+        
+        
+      }
+    });
+  });
+  
+  $(".LOgin-GoOGle").click(function() {
+    
+    $.ajax({
+      url:'/accounts/make_temp/',
+      data:{
+      },
+      dataType:'json',
+      beforeSend:function(){
+        
+      },
+      success: function(data){
+        var url = "{% url 'social:begin' 'google-oauth2' %}";
+        window.open(url, "_blank", "width=500,height=500,left=700,top=210");
+      }
+    });
+  });
+  
+
+
+
 </script>
 
 {% endblock scripts %}

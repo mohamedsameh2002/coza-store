@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+  #id_email {
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #343117;
+    border-radius: 50px;
+    font-size: 16px;
+    min-width: 179px;
+    height: 46px;
+    position: relative;
+    left: 450px;
+  }
+
+  #id_password {
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #3e3a18;
+    border-radius: 50px;
+    font-size: 16px;
+    position: relative;
+    left: 450px;
+    
+    
+  }
+
+  .butonnd{
+    background-color: #4CAF50; /* لون الخلفية */
+  border: none; /* إزالة حدود الزر */
+  color: white; /* لون النص */
+  padding: 15px 32px; /* حجم الزر */
+  text-align: center; /* محاذاة النص في الزر */
+  text-decoration: none; /* إزالة تأثيرات النص */
+  display: inline-block; /* عرض الزر كعنصر مستقل */
+  font-size: 16px; /* حجم الخط */
+  margin: 4px 2px; /* هامش الزر */
+  cursor: pointer; /* تحويل المؤشر إلى يد عند التحريك فوق الزر */
+  border-radius: 10px; /* إضافة زوايا مستديرة للزر */
+  position: relative;
+    left: 450px;
+  }
+  .tex1{
+    position: relative;
+    left: 700px;
+  }
+  .tex2{
+    position: relative;
+    left: 700px;
+  }
+</style>
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+<form method="POST">
+  {% csrf_token %}
+  <h5 class="tex1">inter th 8 numbers for reset password</h5>
+  <input type="number" id="id_email" name='code_reset'>
+  <button class="butonnd" id="butonnd-id">supmmet</button>
+</form>
+<button class="butonnd" id="agane-pass-MEssge">agane ded messege</button>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+{% endblock content %}
+
+
+
+
+{% block scripts %}
+<script>
+
+$('#agane-pass-MEssge').click(function(){
+
+  var email = new URLSearchParams(window.location.search).get('email');
+  var fseq = new URLSearchParams(window.location.search).get('fseq');
+  var aw = new URLSearchParams(window.location.search).get('aw');
+
+  
+  $.ajax({
+
+    url:'/accounts/resned_pass/',
+    data:{
+      'email':email,
+      'fseq':fseq,
+      'aw':aw,
+      
+      
+    },
+    beforeSend:function(){
+      $('#agane-pass-MEssge').text('looding...')
+      $("#agane-pass-MEssge").attr('disabled',true);
+    },
+    dataType:'json',
+    success: function(data){
+      $('#agane-pass-MEssge').text('agane send messege')
+      $("#agane-pass-MEssge").attr('disabled',false);
+      
+    },
+  });
+
+
+});
+</script>
+{% endblock scripts %}

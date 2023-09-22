@@ -66,11 +66,12 @@
 
 
 <form method="POST">
-    {% csrf_token %}
-    <h5 class="tex1">inter th 8 numbers</h5>
-    <input type="number" id="id_email" name='code_acti'>
-    <button class="butonnd" id="butonnd-id">supmmet</button>
+  {% csrf_token %}
+  <h5 class="tex1">inter th 8 numbers</h5>
+  <input type="number" id="id_email" name='code_acti'>
+  <button class="butonnd" id="butonnd-id">supmmet</button>
 </form>
+<button class="butonnd" id="agane-active-mEssGge">agane send messege</button>
 <br>
 <br>
 <br>
@@ -82,3 +83,40 @@
 <br>
 
 {% endblock content %}
+
+{% block scripts %}
+<script>
+
+$('#agane-active-mEssGge').click(function(){
+
+  var email = new URLSearchParams(window.location.search).get('email');
+  var pibszzzz = new URLSearchParams(window.location.search).get('pibszzzz');
+  var tivk = new URLSearchParams(window.location.search).get('tivk');
+
+  
+  $.ajax({
+
+    url:'/accounts/resned_activ/',
+    data:{
+      'email':email,
+      'pibszzzz':pibszzzz,
+      'tivk':tivk,
+      
+      
+    },
+    beforeSend:function(){
+      $('#agane-active-mEssGge').text('looding...')
+      $("#agane-active-mEssGge").attr('disabled',true);
+    },
+    dataType:'json',
+    success: function(data){
+      $('#agane-active-mEssGge').text('agane send messege')
+      $("#agane-active-mEssGge").attr('disabled',false);
+      
+    },
+  });
+
+
+});
+</script>
+{% endblock scripts %}

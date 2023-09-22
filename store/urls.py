@@ -11,5 +11,6 @@ urlpatterns = [
     path('search/',views.SEARCH,name='search'),
     path('filter-data/',views.FILTER,name='filter_data'),
     path('load/',views.LOAD_MORE,name='load'),
+    path('satve-review/<uuid:id>/',views.SAVE_REVIEW,name='satve-review'),
 
 ]

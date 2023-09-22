@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-26 05:26+0300\n"
+"POT-Creation-Date: 2023-09-18 19:26+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,71 +19,163 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: .\templates\base.html:56 .\templates\home.html:57 .\templates\home.html:296
+#: .\COZA-temp\contact.html:14 .\templates\store\search.html:15
+msgid "All Products"
+msgstr "كل المنتجات"
+
+#: .\COZA-temp\contact.html:28 .\templates\store\products.html:52
+#: .\templates\store\search.html:29
+msgid "Filter"
+msgstr "فلتر"
+
+#: .\COZA-temp\contact.html:34 .\templates\home.html:625
+#: .\templates\store\products.html:58
+msgid "Search"
+msgstr "بحث"
+
+#: .\COZA-temp\contact.html:54
+msgid "Sort By"
+msgstr "ترتيب حسب"
+
+#: .\COZA-temp\contact.html:60 .\templates\store\products.html:15
+msgid "Default"
+msgstr "افتراضي"
+
+#: .\COZA-temp\contact.html:66 .\templates\store\products.html:20
+msgid "A to Z"
+msgstr "من أ الي ي"
+
+#: .\COZA-temp\contact.html:71 .\templates\store\products.html:25
+msgid "Z to A"
+msgstr "من ي الي أ"
+
+#: .\COZA-temp\contact.html:77 .\templates\store\products.html:30
+msgid "Highest Rating"
+msgstr "الأعلى تقييما"
+
+#: .\COZA-temp\contact.html:83 .\templates\store\products.html:35
+msgid "Newer"
+msgstr "الأحدث"
+
+#: .\COZA-temp\contact.html:89 .\templates\store\products.html:40
+msgid "Price: Low to High"
+msgstr "السعر : من الأقل الي الأعلى"
+
+#: .\COZA-temp\contact.html:95 .\templates\store\products.html:44
+msgid "Price: High to Low"
+msgstr "السعر : من الأعلى الي الأقل"
+
+#: .\COZA-temp\contact.html:103 .\templates\cart\cart.html:54
+#: .\templates\includes\filter.html:20
+msgid "Price"
+msgstr "السعر"
+
+#: .\COZA-temp\contact.html:109
+msgid "All"
+msgstr "الجميع"
+
+#: .\COZA-temp\contact.html:147 .\templates\cart\cart.html:86
+#: .\templates\includes\filter.html:33
+msgid "Color"
+msgstr "اللون"
+
+#: .\COZA-temp\contact.html:168 .\templates\includes\filter.html:55
+msgid "Sizes"
+msgstr "الأحجام"
+
+#: .\COZA-temp\contact.html:242 .\templates\store\products.html:292
+#: .\templates\store\search.html:88
+msgid "Load More"
+msgstr "تحميل المزيد"
+
+#: .\templates\base.html:61 .\templates\base.html:322 .\templates\home.html:57
+#: .\templates\home.html:303
 msgid "Help & FAQs"
 msgstr "المساعدة والأسئلة الشائعة"
 
-#: .\templates\base.html:60 .\templates\home.html:61 .\templates\home.html:300
+#: .\templates\base.html:66 .\templates\base.html:326 .\templates\home.html:62
+#: .\templates\home.html:307
 msgid "My Account"
 msgstr "حسابي"
 
-#: .\templates\base.html:94 .\templates\home.html:95 .\templates\home.html:316
+#: .\templates\base.html:69
+msgid "log out"
+msgstr "تسجيل خروج"
+
+#: .\templates\base.html:74 .\templates\home.html:67
+msgid "Register"
+msgstr "تسجيل"
+
+#: .\templates\base.html:109 .\templates\base.html:351
+#: .\templates\blog\blog-detail.html:11 .\templates\cart\cart.html:29
+#: .\templates\home.html:102 .\templates\home.html:332
+#: .\templates\store\product_details.html:10
 msgid "Home"
 msgstr "الرئيسية"
 
-#: .\templates\base.html:98 .\templates\home.html:99 .\templates\home.html:320
+#: .\templates\base.html:117 .\templates\base.html:355
+#: .\templates\home.html:106 .\templates\home.html:336
 msgid "Shop"
 msgstr "المتجر"
 
-#: .\templates\base.html:102 .\templates\home.html:103
-#: .\templates\home.html:324
+#: .\templates\base.html:125 .\templates\base.html:360
+#: .\templates\cart\cart.html:6 .\templates\home.html:110
+#: .\templates\home.html:341
 msgid "Shopping Cart"
 msgstr "عربة التسوق"
 
-#: .\templates\base.html:106 .\templates\home.html:107
-#: .\templates\home.html:328
+#: .\templates\base.html:133 .\templates\base.html:364
+#: .\templates\blog\blog-detail.html:16 .\templates\blog\blog.html:5
+#: .\templates\blog\blog.html:10 .\templates\home.html:114
+#: .\templates\home.html:345
 msgid "Blog"
 msgstr "المدونه"
 
-#: .\templates\base.html:110 .\templates\home.html:111
-#: .\templates\home.html:332
+#: .\templates\base.html:137 .\templates\base.html:368
+#: .\templates\home.html:118 .\templates\home.html:349
 msgid "About"
 msgstr "عنا"
 
-#: .\templates\base.html:114 .\templates\home.html:115
-#: .\templates\home.html:336
+#: .\templates\base.html:141 .\templates\base.html:372
+#: .\templates\home.html:122 .\templates\home.html:353
 msgid "Contact"
 msgstr "التواصل"
 
-#: .\templates\base.html:427 .\templates\home.html:691
+#: .\templates\base.html:401 .\templates\home.html:382
+msgid "Your Cart"
+msgstr "عربتك"
+
+#: .\templates\base.html:464 .\templates\blog\blog-detail.html:129
+#: .\templates\blog\blog.html:106 .\templates\home.html:708
+#: .\templates\includes\filter.html:6
 msgid "Categories"
 msgstr "الفئات"
 
-#: .\templates\base.html:443 .\templates\home.html:707
+#: .\templates\base.html:482 .\templates\home.html:724
 msgid "Help"
 msgstr "المساعدة"
 
-#: .\templates\base.html:449 .\templates\home.html:713
+#: .\templates\base.html:488 .\templates\home.html:730
 msgid "Track Order"
 msgstr "تتبع طلبك"
 
-#: .\templates\base.html:455 .\templates\home.html:719
+#: .\templates\base.html:494 .\templates\home.html:736
 msgid "Returns"
 msgstr "المرجوعات"
 
-#: .\templates\base.html:461 .\templates\home.html:725
+#: .\templates\base.html:500 .\templates\home.html:742
 msgid "Shipping"
 msgstr "التسوق"
 
-#: .\templates\base.html:467 .\templates\home.html:731
+#: .\templates\base.html:506 .\templates\home.html:748
 msgid "FAQs"
 msgstr "الأسئلة الشائعة"
 
-#: .\templates\base.html:475 .\templates\home.html:739
+#: .\templates\base.html:514 .\templates\home.html:756
 msgid "GET IN TOUCH"
 msgstr "ابقى على تواصل"
 
-#: .\templates\base.html:479 .\templates\home.html:743
+#: .\templates\base.html:518 .\templates\home.html:760
 #, fuzzy
 #| msgid ""
 #| "Any questions? Let us know in store at 8th floor, 379 Hudson St, New York,"
@@ -95,164 +187,241 @@ msgstr ""
 "أي أسئلة؟ أخبرنا بذلك في المتجر الواقع في الطابق الثامن، 379 Hudson St ,"
 "نيويورك,NY 10018 أو اتصل بنا على (+1) 96 716 6879"
 
-#: .\templates\base.html:500 .\templates\home.html:764
+#: .\templates\base.html:539 .\templates\home.html:781
 msgid "Newsletter"
 msgstr "النشرة الإخبارية"
 
-#: .\templates\base.html:512 .\templates\home.html:776
+#: .\templates\base.html:551 .\templates\home.html:793
 msgid "Subscribe"
 msgstr "الاشتراك"
 
-#: .\templates\home.html:304
-msgid "EN"
-msgstr ""
+#: .\templates\blog\blog-detail.html:5
+msgid "Blog Detail"
+msgstr "تفاصيل التدوينة"
 
-#: .\templates\home.html:308
-msgid "USD"
-msgstr "يل"
+#: .\templates\blog\blog-detail.html:51 .\templates\blog\blog.html:53
+msgid "By"
+msgstr "بواسطة"
 
-#: .\templates\home.html:365
-msgid "Your Cart"
-msgstr "عربتك"
+#: .\templates\blog\blog-detail.html:66 .\templates\blog\blog.html:63
+msgid "Comments"
+msgstr "تعليقات"
 
-#: .\templates\home.html:398
+#: .\templates\blog\blog-detail.html:81 .\templates\blog\blog-detail.html:323
+#: .\templates\blog\blog.html:128
+msgid "Tags"
+msgstr "العلامات"
+
+#: .\templates\blog\blog-detail.html:97
+msgid "Leave a Comment"
+msgstr "أترك تعليق"
+
+#: .\templates\blog\blog-detail.html:101
+msgid "Make your comment constructive"
+msgstr "أجعل تعليقك بناء"
+
+#: .\templates\blog\blog-detail.html:106
+msgid "Write..."
+msgstr "أكتب"
+
+#: .\templates\blog\blog-detail.html:110
+msgid "Post"
+msgstr "نشر"
+
+#: .\templates\blog\blog-detail.html:163
+msgid "Products Mentioned"
+msgstr "منتجات تم ذكرها"
+
+#: .\templates\blog\blog-detail.html:219 .\templates\blog\blog.html:143
+msgid "Archive"
+msgstr "الأرشيف"
+
+#: .\templates\blog\blog.html:68
+msgid "Continue Reading"
+msgstr "أكمل القراءة"
+
+#: .\templates\cart\cart.html:34
+msgid "Shoping Cart"
+msgstr "عربة التسوق"
+
+#: .\templates\cart\cart.html:52
+
+msgid "Product"
+msgstr "المنتج"
+
+#: .\templates\cart\cart.html:55
+msgid "Quantity"
+msgstr "الكمية"
+
+#: .\templates\cart\cart.html:56
+msgid "SubTotal"
+msgstr "المجموع الفرعي"
+
+#: .\templates\cart\cart.html:82 .\templates\store\product_details.html:74
+msgid "Size"
+msgstr "الحجم"
+
+#: .\templates\cart\cart.html:117
+msgid "Discount code"
+msgstr "كود الخصم"
+
+#: .\templates\cart\cart.html:120
+msgid "Use the code"
+msgstr "أستخدم الكود"
+
+#: .\templates\cart\cart.html:125
+msgid "Update Cart"
+msgstr "تحديث العربة"
+
+#: .\templates\cart\cart.html:134
+msgid "Cart Totals"
+msgstr "إجماليات عربة التسوق"
+
+#: .\templates\cart\cart.html:140 .\templates\home.html:415
 msgid "Total"
 msgstr "المجموع"
 
-#: .\templates\home.html:404
+#: .\templates\cart\cart.html:155
+msgid "Tax"
+msgstr "التوصيل"
+
+#: .\templates\cart\cart.html:171
+msgid "Final Total"
+msgstr "المجموع النهائي"
+
+#: .\templates\cart\cart.html:183
+msgid "Checkout"
+msgstr "الدفع"
+
+#: .\templates\cart\cart.html:198
+msgid "Your shopping cart is Empty."
+msgstr "عربة التسوق الخاصة بك فارغة"
+
+#: .\templates\cart\cart.html:201
+msgid "GO SHOPING"
+msgstr "تسوق"
+
+#: .\templates\home.html:421
 msgid "View Cart"
 msgstr "عرض العربة"
 
-#: .\templates\home.html:409
+#: .\templates\home.html:426
 msgid "Check Out"
 msgstr "الدفع"
 
-#: .\templates\home.html:428
+#: .\templates\home.html:445
 msgid "Women Collection 2023"
 msgstr "تجميعة نسائية 2023"
 
-#: .\templates\home.html:434
+#: .\templates\home.html:451
 msgid "NEW SEASON"
 msgstr "موسم جديد"
 
-#: .\templates\home.html:441 .\templates\home.html:467
-#: .\templates\home.html:494 .\templates\home.html:528
-#: .\templates\home.html:554 .\templates\home.html:580
+#: .\templates\home.html:458 .\templates\home.html:484
+#: .\templates\home.html:511 .\templates\home.html:545
+#: .\templates\home.html:571 .\templates\home.html:597
 msgid "Shop Now"
 msgstr "تسوق الأن"
 
-#: .\templates\home.html:453
+#: .\templates\home.html:470
 msgid "New Men's Season"
 msgstr "موسم رجالي الجديد"
 
-#: .\templates\home.html:460
+#: .\templates\home.html:477
 msgid "Jackets & Coats"
 msgstr "جاكيتات و معاطف"
 
-#: .\templates\home.html:480
+#: .\templates\home.html:497
 msgid "Shop Now At The Lowest Prices"
 msgstr "تسوق الآن بأقل الأسعار"
 
-#: .\templates\home.html:487
+#: .\templates\home.html:504
 msgid "New Merchandise"
 msgstr "بضائع جديدة"
 
-#: .\templates\home.html:518
+#: .\templates\home.html:535
 msgid "Women"
 msgstr "نسائي"
 
-#: .\templates\home.html:522
+#: .\templates\home.html:539
 msgid "Spring 2023"
 msgstr "ربيع 2023"
 
-#: .\templates\home.html:544
+#: .\templates\home.html:561
 msgid "Men"
 msgstr "رجالي"
 
-#: .\templates\home.html:548
+#: .\templates\home.html:565
 msgid "classic"
 msgstr "كلاسيكي"
 
-#: .\templates\home.html:570
+#: .\templates\home.html:587
 msgid "Accessories"
 msgstr "اكسسوارات"
 
-#: .\templates\home.html:574
+#: .\templates\home.html:591
 msgid "New Trend"
 msgstr "تريند جديد"
 
-#: .\templates\home.html:596
+#: .\templates\home.html:613
 msgid "Products Overview"
 msgstr "نظرة عامة على المنتجات"
 
-#: .\templates\home.html:608 .\templates\store\products.html:34
-msgid "Search"
-msgstr "بحث"
-
-#: .\templates\home.html:678
-msgid "See More"
-msgstr "رؤية المزيد"
-
-#: .\templates\store\products.html:14
-msgid "All Products"
-msgstr "كل المنتجات"
-
-#: .\templates\store\products.html:28
-msgid "Filter"
-msgstr "فلتر"
-
-#: .\templates\store\products.html:54
-msgid "Sort By"
-msgstr "ترتيب حسب"
-
-#: .\templates\store\products.html:60
-msgid "Default"
-msgstr "افتراضي"
-
-#: .\templates\store\products.html:66
-msgid "A to Z"
-msgstr "من أ الي ي"
-
-#: .\templates\store\products.html:71
-msgid "Z to A"
-msgstr "من ي الي أ"
-
-#: .\templates\store\products.html:77
-msgid "Highest Rating"
-msgstr "الأعلى تقييما"
-
-#: .\templates\store\products.html:83
-msgid "Newer"
-msgstr "الأحدث"
-
-#: .\templates\store\products.html:89
-msgid "Price: Low to High"
-msgstr "السعر : من الأقل الي الأعلى"
-
-#: .\templates\store\products.html:95
-msgid "Price: High to Low"
-msgstr "السعر : من الأعلى الي الأقل"
-
-#: .\templates\store\products.html:103
-msgid "Price"
-msgstr "السعر"
-
-#: .\templates\store\products.html:109
-msgid "All"
-msgstr "الجميع"
-
-#: .\templates\store\products.html:147
-msgid "Color"
-msgstr "اللون"
-
-#: .\templates\store\products.html:168
-msgid "Sizes"
-msgstr "الأحجام"
-
-#: .\templates\store\products.html:206
+#: .\templates\home.html:655
 msgid "Quick View"
 msgstr "نظرة سريعة"
 
-#: .\templates\store\products.html:246
-msgid "Load More"
-msgstr "تحميل المزيد"
+#: .\templates\home.html:695
+msgid "See More"
+msgstr "رؤية المزيد"
+
+#: .\templates\store\product_details.html:5
+msgid "Product Detail"
+msgstr "تفاصيل المنتج"
+
+#: .\templates\store\product_details.html:15
+msgid "Products"
+msgstr "المنتجات"
+
+#: .\templates\store\product_details.html:80
+msgid "Choose a size"
+msgstr "أختر الحجم"
+
+#: .\templates\store\product_details.html:98
+msgid "Choose a color"
+msgstr "أختر اللون"
+
+#: .\templates\store\product_details.html:123
+msgid "Add to cart"
+msgstr "إضافة الي عربة التسوق"
+
+#: .\templates\store\product_details.html:169
+msgid "Description"
+msgstr "الوصف"
+
+#: .\templates\store\product_details.html:173
+msgid "Product information"
+msgstr "معلومات عن المنتج"
+
+#: .\templates\store\product_details.html:177
+msgid "Reviews"
+msgstr "المراجعات"
+
+#: .\templates\store\product_details.html:257
+msgid "Add Review"
+msgstr "اضافة مراجعة"
+
+#: .\templates\store\product_details.html:352
+msgid "SKU"
+msgstr "رمز التخزين التعريفي"
+
+#: .\templates\store\product_details.html:356
+msgid "Category"
+msgstr "الفئة"
+
+#: .\templates\store\product_details.html:367
+msgid "Related Products"
+msgstr "منتجات ذات صلة"
+
+#~ msgid "USD"
+#~ msgstr "يل"

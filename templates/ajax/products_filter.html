@@ -16,6 +16,7 @@
                 </a>
                 <span class="stext-105 cl3">
                     <p class="PriCEPROd" data-price="{{product.id}}">${{product.price}}</p>
+                    <p class="counTfaVE-dis" data-like-text-id="{{product.id}}">{{product.all_likes}}</p>
                 </span>
             </div>
 
@@ -23,12 +24,12 @@
 
             <div class="block2-txt-child2 flex-r p-t-3">
                 {% if product.id in id_products_list  %}
-                <button  class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 DisADdfaV"  data-product-id-dis="{{product.id}}" value="on">
+                <button  class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 DisADdfaV" data-product-id-dis="{{product.id}}">
                     <img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
                     <img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
                 </button>
                 {% else %}
-                <button  class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 aDdTofavEOu"  data-product-id-fav="{{product.id}}" value="off">
+                <button  class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 aDdTofavEOu" data-product-id-fav="{{product.id}}">
                     <img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
                     <img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
                 </button>
@@ -208,9 +209,12 @@
 
 <script>
 
-	$('.aDdTofavEOu').click(function(){    
-		var id =$(this).data('product-id-fav');
-		var newButton = $('.DisADdfaV').html();
+	$('.DisADdfaV').click(function(){    
+		var id =$(this).data('product-id-dis');
+		var img_done='<img class="icon-heart1 dis-block trans-04" src="{% static "images/icons/icon-heart-02.png" %}" alt="ICON"><img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static "images/icons/icon-heart-01.png" %}" alt="ICON">'
+		var img_dis='<img class="icon-heart1 dis-block trans-04" src="{% static "images/icons/icon-heart-01.png" %}" alt="ICON"><img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static "images/icons/icon-heart-02.png" %}" alt="ICON">'
+
+		
 		
 		$.ajax({
 	
@@ -221,9 +225,48 @@
 			},
 			dataType:'json',
 			success: function(data){
-				$('.aDdTofavEOu[data-product-id-fav="' + id + '"]').html(newButton);
+				if (data.is_prod_exist){
+					$('.DisADdfaV[data-product-id-dis="' + id + '"]').html(img_dis);
+				}
+				else{
+					$('.DisADdfaV[data-product-id-dis="' + id + '"]').html(img_done);
+				}
                 $('.square-FaVE-PhoNe').text(data.count);
                 $('.square-FaVE-Pc').text(data.count); 
+                $('.counTfaVE-dis[data-like-text-id="' + id + '"]').text(data.likes);
+				
+				
+		
+			}
+	
+		});
+	});
+	$('.aDdTofavEOu').click(function(){    
+		var id =$(this).data('product-id-fav');
+		var img_done='<img class="icon-heart1 dis-block trans-04" src="{% static "images/icons/icon-heart-02.png" %}" alt="ICON"><img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static "images/icons/icon-heart-01.png" %}" alt="ICON">'
+		var img_dis='<img class="icon-heart1 dis-block trans-04" src="{% static "images/icons/icon-heart-01.png" %}" alt="ICON"><img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static "images/icons/icon-heart-02.png" %}" alt="ICON">'
+
+		
+		
+		$.ajax({
+	
+			url:'/products/add_favorite/',
+			data:{
+				'id':id,
+				
+			},
+			dataType:'json',
+			success: function(data){
+				if (data.is_prod_exist){
+					$('.aDdTofavEOu[data-product-id-fav="' + id + '"]').html(img_dis);
+				}
+				else{
+					$('.aDdTofavEOu[data-product-id-fav="' + id + '"]').html(img_done);
+				}
+                $('.square-FaVE-PhoNe').text(data.count);
+                $('.square-FaVE-Pc').text(data.count);
+                $('.counTfaVE-dis[data-like-text-id="' + id + '"]').text(data.likes); 
+				
 				
 		
 			}

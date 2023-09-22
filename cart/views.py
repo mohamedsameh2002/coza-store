@@ -6,6 +6,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from discounts.models import Discount_codes
+from accounts.models import UserProfile
 
 # Create your views here.
 def _cart_id (request):
@@ -26,12 +28,6 @@ def ADD_CART (request,total=0,quantity=0,cart_items=None):
     user=request.user
     product=Product.objects.get(id=prod_id)
     #=========================================
-    # get or creat cart
-    try:
-        cart=Cart.objects.get(cart_id=_cart_id(request))
-    except Cart.DoesNotExist:
-        cart=Cart.objects.create(cart_id=_cart_id(request))
-    cart.save()
 
     if request.user.is_authenticated:
         is_cart_item_exist=CartItem.objects.filter(product=product,user=user,color=colors,size=sizes).exists()
@@ -59,6 +55,12 @@ def ADD_CART (request,total=0,quantity=0,cart_items=None):
                     )
             
     else:
+        # get or creat cart
+        try:
+            cart=Cart.objects.get(cart_id=_cart_id(request))
+        except Cart.DoesNotExist:
+            cart=Cart.objects.create(cart_id=_cart_id(request))
+        cart.save()
 
         is_cart_item_exist=CartItem.objects.filter(product=product,cart=cart,color=colors,size=sizes).exists()
 
@@ -99,6 +101,21 @@ def ADD_CART (request,total=0,quantity=0,cart_items=None):
     except ObjectDoesNotExist :
         pass
 
+    total_discount=0
+    if request.user.is_authenticated:
+        user_profile=UserProfile.objects.get(user=user)
+        if user_profile.discount_cods.exists():
+            # codes=user_profile.discount_cods.all()
+            codes=user_profile.discount_cods.values_list('code',flat=True)
+            for code in codes:
+                discount=Discount_codes.objects.get(code=code).discount
+                total_discount+=discount
+            if total < total_discount:
+                total=0
+                grand_total=tax
+            else :
+                total = total - total_discount
+                grand_total=total+tax
     
     # cart count
     cart_count=0
@@ -172,6 +189,23 @@ def DECREMENT_CART (request,total=0,cart_items=None):
     except ObjectDoesNotExist :
         pass
 
+    total_discount=0
+    if request.user.is_authenticated:
+        user=request.user
+        user_profile=UserProfile.objects.get(user=user)
+        if user_profile.discount_cods.exists():
+            # codes=user_profile.discount_cods.all()
+            codes=user_profile.discount_cods.values_list('code',flat=True)
+            for code in codes:
+                discount=Discount_codes.objects.get(code=code).discount
+                total_discount+=discount
+            if total < total_discount:
+                total=0
+                grand_total=tax
+            else :
+                total = total - total_discount
+                grand_total=total+tax
+
 
     # cart count
     cart_count=0
@@ -236,6 +270,24 @@ def REMOVE_ITEM (request,total=0,cart_items=None):
     except ObjectDoesNotExist :
         pass
 
+
+    total_discount=0
+    if request.user.is_authenticated:
+        user=request.user
+        user_profile=UserProfile.objects.get(user=user)
+        if user_profile.discount_cods.exists():
+            # codes=user_profile.discount_cods.all()
+            codes=user_profile.discount_cods.values_list('code',flat=True)
+            for code in codes:
+                discount=Discount_codes.objects.get(code=code).discount
+                total_discount+=discount
+            if total < total_discount:
+                total=0
+                grand_total=tax
+            else :
+                total = total - total_discount
+                grand_total=total+tax
+
     # cart count
     cart_count=0
     # if 'admin' in request.path:
@@ -274,6 +326,26 @@ def REMOVE_ITEM (request,total=0,cart_items=None):
 
 
 def CART (request,total=0,quantity=0,cart_items=None):
+
+    if request.method == 'POST':
+        code=request.POST.get('coupon')
+        try:
+            user=request.user
+            user_profile=UserProfile.objects.get(user=user)
+            discount_code=Discount_codes.objects.get(code=code)
+            code_valeu=discount_code.discount
+            if discount_code.active == True :
+                user_profile.discount_cods.add(discount_code)
+                discount_code.active=False
+                discount_code.save()
+                messages.success(request,f'You are now using a discount code worth $ {code_valeu},The code will expire upon completion of payment')
+            else:
+                messages.warning(request,'You entered the wrong code or it may have expired')
+        except:
+            if request.user.is_authenticated:
+                messages.warning(request,'You entered the wrong code or it may have expired')
+            else:
+                messages.warning(request,'Please log in first to use the discount code')
     try:
         tax=0
         grand_total=0
@@ -290,12 +362,35 @@ def CART (request,total=0,quantity=0,cart_items=None):
         grand_total=total+tax
     except ObjectDoesNotExist :
         pass
+
+
+    total_discount=0
+    if request.user.is_authenticated:
+        user=request.user
+        user_profile=UserProfile.objects.get(user=user)
+        if user_profile.discount_cods.exists():
+            # codes=user_profile.discount_cods.all()
+            codes=user_profile.discount_cods.values_list('code',flat=True)
+            for code in codes:
+                discount=Discount_codes.objects.get(code=code).discount
+                total_discount+=discount
+            if total < total_discount:
+                total=0
+                grand_total=tax
+            else :
+                total = total - total_discount
+                grand_total=total+tax
+    
+        
+        
     context={
         'quantity':quantity,
         'total':total,
         'cart_items':cart_items,
         'tax':tax,
         'grand_total':grand_total,
+        'total_discount':total_discount,
+        
         }
     return render (request,'cart/cart.html',context)
 
