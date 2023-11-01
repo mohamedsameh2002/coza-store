@@ -5,6 +5,8 @@ from PIL import Image
 import uuid
 from accounts.models import Accounts,UserProfile
 from ckeditor.fields import RichTextField
+from django.db.models import Avg
+
 
 # from specifications.models import Category
 
@@ -18,32 +20,34 @@ class Category (models.Model):
         return self.category_name
 
 
-class Color (models.Model):
-    color_name=models.CharField(max_length=50,unique=True)
-    color_name_ar=models.CharField(max_length=50,unique=True,null=True)
-
-    slug=models.SlugField(max_length=100,unique=True)
-    color_code=models.CharField(max_length=20,blank=True)
+class Customizations (models.Model):
+    product=models.ForeignKey('Product',on_delete=models.CASCADE)
+    sizes=models.ForeignKey('Size_List',on_delete=models.CASCADE)
+    colors=models.ForeignKey('Color_List',on_delete=models.CASCADE)
+    stock=models.IntegerField(max_length=10000)
+    status=models.BooleanField(default=True)
     class Meta:
-        verbose_name_plural='color'
+        verbose_name_plural='Customizations'
+    def __str__(self):
+        return str (self.product)
+    
+    
+
+class Color_List (models.Model):
+    color_name=models.CharField(max_length=50)
+    color_name_ar=models.CharField(max_length=50)
+    color_code=models.CharField(max_length=20)
+    status=models.BooleanField(default=True)
     def __str__(self):
         return self.color_name
-    def get_url (self):
-        return reverse ('product_by_color',args=[self.slug])
-    
-    
-class Size (models.Model):
-    size_name=models.CharField(max_length=50,unique=True)
-    size_name_ar=models.CharField(max_length=50,unique=True,null=True)
-    
-    slug=models.SlugField(max_length=100,unique=True)
-    class Meta:
-        verbose_name_plural='size'
+
+class Size_List (models.Model):
+    size_name=models.CharField(max_length=50)
+    size_name_ar=models.CharField(max_length=50)
+    status=models.BooleanField(default=True)
     def __str__(self):
         return self.size_name
-    
-    def get_url (self):
-        return reverse ('product_by_size',args=[self.slug])
+
     
 
 class Product (models.Model):
@@ -57,11 +61,12 @@ class Product (models.Model):
     information=RichTextField(null=True)
     information_ar=RichTextField(null=True)
 
+    # favorits=models.ManyToManyField(Accounts)#==============================
+
     price = models.IntegerField()
-    sizes=models.ManyToManyField(Size)
-    colors=models.ManyToManyField(Color)
+
     image = models.ImageField(upload_to='products/one')
-    stock = models.IntegerField()
+    avg_rate=models.DecimalField(decimal_places=1,max_digits=2,default=0.0)
     is_available = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add=True)
@@ -79,11 +84,25 @@ class Product (models.Model):
         pict=Image.open(self.image.path)
         pict=pict.resize((1200,1486))
         pict.save(self.image.path)
+
+
+    def averegeReview (self):
+        reviews=ReviewRating.objects.filter(product=self,status=True).aggregate(average=Avg('rating'))
+        avg = 0
+        if reviews['average'] is not None:
+            avg= float(reviews['average'])
+        return avg
+    def get_absolute_url(self):
+        return reverse("product_details", args=[self.id])
     
+        
+
 
 def image_upload (instance,filename):
     random_namper=random.randint(0,10000000)
     return f"products/multi/ {random_namper}.jpg"
+
+
 class ProductGallery (models.Model):
     product=models.ForeignKey(Product,on_delete=models.CASCADE,default=None)
     img=models.ImageField(upload_to=image_upload)
@@ -125,6 +144,7 @@ class ReviewRating (models.Model):
     rating = models.FloatField()
     ip = models.CharField(max_length=20, blank=True)
     status = models.BooleanField(default=True)
+    direction=models.CharField(max_length=5,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

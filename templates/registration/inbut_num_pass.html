@@ -1,126 +1,253 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
+
+
 {% block content %}
+
+{% if LANGUAGE_CODE == 'en' %}
 <style>
-  #id_email {
-    width: 50%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 2px solid #343117;
-    border-radius: 50px;
-    font-size: 16px;
-    min-width: 179px;
-    height: 46px;
-    position: relative;
-    left: 450px;
-  }
-
-  #id_password {
-    width: 50%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 2px solid #3e3a18;
-    border-radius: 50px;
-    font-size: 16px;
-    position: relative;
-    left: 450px;
-    
-    
-  }
-
-  .butonnd{
-    background-color: #4CAF50; /* لون الخلفية */
-  border: none; /* إزالة حدود الزر */
-  color: white; /* لون النص */
-  padding: 15px 32px; /* حجم الزر */
-  text-align: center; /* محاذاة النص في الزر */
-  text-decoration: none; /* إزالة تأثيرات النص */
-  display: inline-block; /* عرض الزر كعنصر مستقل */
-  font-size: 16px; /* حجم الخط */
-  margin: 4px 2px; /* هامش الزر */
-  cursor: pointer; /* تحويل المؤشر إلى يد عند التحريك فوق الزر */
-  border-radius: 10px; /* إضافة زوايا مستديرة للزر */
-  position: relative;
-    left: 450px;
-  }
-  .tex1{
-    position: relative;
-    left: 700px;
-  }
-  .tex2{
-    position: relative;
-    left: 700px;
+  .jq-toast-wrap{
+    direction: ltr;
   }
 </style>
+{% else %}
+<style>
+  .jq-toast-wrap{
+    direction: rtl;
+  }
+</style>
+{% endif %}
 
 
+<title>{% trans "Reset Pssword" %}</title>
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+<div class="singup">
+  <div class="container">
+    <h1>{% trans "Recovery code" %}</h1>
+    <span class="careat-account"></span>
+    {% include 'includes/masg.html' %}
+    <div class="content">
+      <div class="manw-sing code-valdia">
+        <h3>{% trans 'Your Password Reset Code Has Been Sent To Your Email' %}</h3>
+        <h3>"{{email}}"</h3>
+        <form class="code-form">
+          <h3 class="valdition-info"><span class="text">{% trans "You Have" %} <span class="count-sending">{{ sendeng_cocunt }}</span> {% trans "Attempts Left" %}</span></h3>
+          <h4 class="text-center mb-4">{% trans "Enter The Code " %}</h4>
+          <div class="d-flex mb-3">
+              <input name='code' id="one-inp" class='form-control' required/>
+              <input name='code' id="tow-inp" class='form-control' required/>
+              <input name='code' id="three-inp" class='form-control' required/>
+              <input name='code' id="four-inp" class='form-control' required/>
+              <input name='code' id="five-inp" class='form-control' required/>
+              <input name='code' id="six-inp" class='form-control' required/>
+            </div>
+            <span class="loader-validation"></span>
+          </form>
+          <button class="resend-btn hedden-btn" id="agane-pass-MEssge"><span class="text-vaild">{% trans "Send again" %}</span><span class="valid-span-btn "></span></button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-
-<form method="POST">
-  {% csrf_token %}
-  <h5 class="tex1">inter th 8 numbers for reset password</h5>
-  <input type="number" id="id_email" name='code_reset'>
-  <button class="butonnd" id="butonnd-id">supmmet</button>
-</form>
-<button class="butonnd" id="agane-pass-MEssge">agane ded messege</button>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
 {% endblock content %}
-
 
 
 
 {% block scripts %}
 <script>
 
-$('#agane-pass-MEssge').click(function(){
+  $(document).ready(function(){
+    var fseq = new URLSearchParams(window.location.search).get('fseq');
+    $.ajax({
+      url:'/accounts/verification_code/',
+      data:{
+        "theCode":'',
+        "fseq":fseq,
+      },
+      dataType:'json',
+      
+      success: function(data){
+        if (data.sendeng_cocunt < 4){
+          $('.resend-btn').removeClass('hedden-btn')
+        }
 
+        if (data.sendeng_cocunt < 1){
+          $('.resend-btn').addClass('resend-btn-dis')
+          $(".resend-btn").attr('disabled',true);
+          //=====
+          if (data.lang == 'en'){
+            var en_toast=$.toast({
+              heading: 'Error',
+              text: 'You cannot resend.',
+              showHideTransition: 'fade',
+              icon: 'error',
+              position: 'top-left',
+              })
+            }
+            else{
+            var en_toast=$.toast({
+              heading: 'خطأ',
+              text: 'لا يمكنك اعادة الإرسال',
+              showHideTransition: 'fade',
+              icon: 'error',
+              position: 'top-right',
+              })
+          }
+          //=====
+        }
+
+
+        else{
+          $(".resend-btn").attr('disabled',false);
+          $('.resend-btn').removeClass('resend-btn-dis')
+        }
+        
+      }
+    });
+    $('.loader-validation').hide()
+    
+  });
+
+
+
+$('#agane-pass-MEssge').click(function(){
   var email = new URLSearchParams(window.location.search).get('email');
   var fseq = new URLSearchParams(window.location.search).get('fseq');
   var aw = new URLSearchParams(window.location.search).get('aw');
-
   
-  $.ajax({
 
+
+  $.ajax({
     url:'/accounts/resned_pass/',
     data:{
       'email':email,
       'fseq':fseq,
       'aw':aw,
-      
-      
     },
     beforeSend:function(){
-      $('#agane-pass-MEssge').text('looding...')
-      $("#agane-pass-MEssge").attr('disabled',true);
+      $(".resend-btn").attr('disabled',true);
+      $('.text-vaild').text(null)
+      $('.valid-span-btn').addClass('loader-btn-valid')
+      $('.resend-btn').addClass('resend-btn-dis')
     },
     dataType:'json',
     success: function(data){
-      $('#agane-pass-MEssge').text('agane send messege')
-      $("#agane-pass-MEssge").attr('disabled',false);
-      
+      if (data.sendeng_cocunt < 1){
+        $('.resend-btn').addClass('resend-btn-dis')
+        $(".resend-btn").attr('disabled',true);
+      }
+      else{
+        $(".resend-btn").attr('disabled',false);
+        $('.resend-btn').removeClass('resend-btn-dis')
+      }
+      $('.count-sending').text(data.sendeng_cocunt)
+      $('.text-vaild').text('Resend')
+      $('.valid-span-btn').removeClass('loader-btn-valid')
+
+      if (data.lang == 'en'){
+        var en_toast=$.toast({
+          heading: 'Success',
+          text: 'The confirmation message has been resent.',
+          showHideTransition: 'plain',
+          icon: 'success',
+          position: 'top-left',
+          })
+        }
+        else{
+        var en_toast=$.toast({
+          heading: 'نجاح',
+          text: 'تم اعادة ارسال رسالة التأكيد.',
+          showHideTransition: 'plain',
+          icon: 'success',
+          position: 'top-right',
+          })
+      }
+
     },
   });
-
-
 });
+
 </script>
+
+
+
+
+<script>
+  const inputElements = [...document.querySelectorAll('input.form-control')]
+
+inputElements.forEach((ele,index)=>{
+  ele.addEventListener('keydown',(e)=>{
+    
+    if(e.keyCode === 8 && e.target.value==='') inputElements[Math.max(0,index-1)].focus()
+  })
+  ele.addEventListener('input',(e)=>{
+    
+    const [first,...rest] = e.target.value
+    e.target.value = first ?? '' 
+    const lastInputBox = index===inputElements.length-1
+    const didInsertContent = first!==undefined
+    if(didInsertContent && !lastInputBox) {
+      inputElements[index+1].focus()
+      inputElements[index+1].value = rest.join('')
+      inputElements[index+1].dispatchEvent(new Event('input'))
+    }
+  })
+})
+
+
+
+//Six
+var sixField = document.getElementById('six-inp');
+sixField.addEventListener('input', function() {
+  var one=document.getElementById('one-inp').value;
+  var tow=document.getElementById('tow-inp').value;
+  var three=document.getElementById('three-inp').value;
+  var four=document.getElementById('four-inp').value;
+  var five=document.getElementById('five-inp').value;
+  var six = sixField.value;
+
+  if (one != '' && tow != '' && three != '' && four != '' && five != '' && six != '' ){
+    var theCode = one + tow + three + four + five + six;
+    var fseq = new URLSearchParams(window.location.search).get('fseq');
+    $.ajax({
+      url:'/accounts/verification_code/',
+      data:{
+        "theCode":theCode,
+        "fseq":fseq,
+      },
+      dataType:'json',
+      beforeSend:function(){
+        $('.code-form').removeClass('vibration')
+        $('.loader-validation').show()
+      },
+      success: function(data){
+        if (data.verification == true){
+          window.location.href='/accounts/new_password/'
+        }
+        else{
+          $('.resend-btn').removeClass('hedden-btn').hide().fadeIn(500);
+          $('.code-form').addClass('vibration')
+
+          var inputFields = document.querySelectorAll('.form-control');
+          var className = 'err-input';
+          inputFields.forEach(function(input) {
+            input.classList.add(className);
+          });
+        }
+        $('.loader-validation').hide()
+        
+      }
+    });
+    
+  }
+});
+
+</script>
+
+
+
+
 {% endblock scripts %}

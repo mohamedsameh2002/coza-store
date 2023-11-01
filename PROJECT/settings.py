@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'orders',
     'blog',
     'discounts',
-    'bootstrap5',
+    'communication',
     'social_django',
     'ckeditor',
 ]
@@ -74,6 +74,8 @@ TEMPLATES = [
 
                 'social_django.context_processors.backends',  # <-- Here
                 'social_django.context_processors.login_redirect', # <-- Here
+
+                'django.template.context_processors.request',# <-- social shear
             ],
         },
     },
@@ -87,7 +89,7 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = 'store'
+LOGIN_REDIRECT_URL = '/accounts/singup/'
 LOGOUT_REDIRECT_URL = 'login'
 
 
@@ -153,10 +155,9 @@ USE_I18N = True
 USE_TZ = True
 
 LANGUAGES = [    #.
-    ("ar",("Arabic")),
     ("en",("English")),
+    ("ar",("Arabic")),
 ]
-
 LOCALE_PATHS = [os.path.join(BASE_DIR,'locale')]
 
 # Static files (CSS, JavaScript, Images)
@@ -172,12 +173,6 @@ STATICFILES_DIRS = [
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-from django.contrib.messages import constants as messages
-
-MESSAGE_TAGS = {
-    messages.ERROR: "danger",
-
-}
 
 
 

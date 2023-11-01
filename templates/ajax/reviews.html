@@ -1,28 +1,37 @@
 {% load static %}
 
+
 {% for review in reviews %}
-    <div class="flex-w flex-t p-b-68" id="review-LIst">
+    <div class="flex-w flex-t p-b-68" >
         <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
             <img src="{{review.user.profile_pictuer.url}}" alt="AVATAR">
         </div>
 
-        <div class="size-207">
-            <div class="flex-w flex-sb-m p-b-17">
-                <span class="mtext-107 cl2 p-r-20">
-                    {{review.user.user.username}}
+        <div class="size-207 reviw-content">
+            <div style="padding-bottom: 0;" class="flex-w flex-sb-m p-b-17">
+                <span style="font-weight: 600;font-size: 14px;color: black;" class="mtext-107 cl2 p-r-20">
+                    {{review.user.user.full_name}}
                 </span>
-                <div class="rating-star">
-                    <span>
-                    <i class="fa fa-star{% if review.rating == 0.5 %}-half-o{% elif review.rating < 1 %}-o{% endif %}" aria-hidden="true"></i>
-                    <i class="fa fa-star{% if review.rating == 1.5 %}-half-o{% elif review.rating < 2 %}-o{% endif %}" aria-hidden="true"></i>
-                    <i class="fa fa-star{% if review.rating == 2.5 %}-half-o{% elif review.rating < 3 %}-o{% endif %}" aria-hidden="true"></i>
-                    <i class="fa fa-star{% if review.rating == 3.5 %}-half-o{% elif review.rating < 4 %}-o{% endif %}" aria-hidden="true"></i>
-                    <i class="fa fa-star{% if review.rating == 4.5 %}-half-o{% elif review.rating < 5 %}-o{% endif %}" aria-hidden="true"></i>
-                    </span>
+
+            </div>
+            <div id="half-stars-example">
+                <div  style="direction: ltr;" class="rating-group">
+                    <label aria-label="0 stars" class="rating__label" for="rating2-0">&nbsp;</label>
+                    <label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating2-05"><i {% if review.rating < 0.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                    <label aria-label="1 star" class="rating__label" for="rating2-10"><i {% if review.rating < 1 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+                    <label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating2-15"><i {% if review.rating < 1.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                    <label aria-label="2 stars" class="rating__label" for="rating2-20"><i {% if review.rating < 2 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+                    <label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating2-25"><i {% if review.rating < 2.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                    <label aria-label="3 stars" class="rating__label" for="rating2-30"><i {% if review.rating < 3 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+                    <label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating2-35"><i {% if review.rating < 3.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                    <label aria-label="4 stars" class="rating__label" for="rating2-40"><i {% if review.rating < 4 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+                    <label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating2-45"><i {% if review.rating < 4.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                    <label aria-label="5 stars" class="rating__label" for="rating2-50"><i {% if review.rating < 5 %}style="color: #ddd;"{% endif %}  class="rating__icon rating__icon--star fa fa-star"></i></label>
                 </div>
             </div>
+            
 
-            <p class="stext-102 cl6">
+            <p style="font-family: inherit;font-weight: 500;color:#383838;font-size: 14.5px; direction: {{review.direction}};"  class="stext-102 cl6">
                 {{review.review}}
             </p>
         </div>

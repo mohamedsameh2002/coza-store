@@ -28,8 +28,8 @@ def image_upload (instance,filename):
     return f"blog/ {random_namper}.jpg"
 class Blog (models.Model):
     publisher=models.ForeignKey(UserProfile,on_delete=models.CASCADE)
-    slug = models.SlugField(max_length=200, unique=True,null=True,blank=True)
     topic=models.CharField(max_length=300,unique=True)
+    slug = models.SlugField(max_length=200, unique=True,null=True,blank=True)
     topic_ar=models.CharField(max_length=300,unique=True,null=True)
     
     content=models.TextField()

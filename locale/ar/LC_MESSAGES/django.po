@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-18 19:26+0300\n"
+"POT-Creation-Date: 2023-10-15 07:59+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,17 +19,16 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: .\COZA-temp\contact.html:14 .\templates\store\search.html:15
+#: .\COZA-temp\contact.html:14
 msgid "All Products"
 msgstr "كل المنتجات"
 
 #: .\COZA-temp\contact.html:28 .\templates\store\products.html:52
-#: .\templates\store\search.html:29
 msgid "Filter"
 msgstr "فلتر"
 
-#: .\COZA-temp\contact.html:34 .\templates\home.html:625
-#: .\templates\store\products.html:58
+#: .\COZA-temp\contact.html:34 .\templates\blog\blog.html:102
+#: .\templates\home.html:625 .\templates\store\products.html:58
 msgid "Search"
 msgstr "بحث"
 
@@ -38,35 +37,42 @@ msgid "Sort By"
 msgstr "ترتيب حسب"
 
 #: .\COZA-temp\contact.html:60 .\templates\store\products.html:15
+#: .\templates\store\search.html:16
 msgid "Default"
 msgstr "افتراضي"
 
 #: .\COZA-temp\contact.html:66 .\templates\store\products.html:20
+#: .\templates\store\search.html:21
 msgid "A to Z"
 msgstr "من أ الي ي"
 
 #: .\COZA-temp\contact.html:71 .\templates\store\products.html:25
+#: .\templates\store\search.html:26
 msgid "Z to A"
 msgstr "من ي الي أ"
 
 #: .\COZA-temp\contact.html:77 .\templates\store\products.html:30
+#: .\templates\store\search.html:31
 msgid "Highest Rating"
 msgstr "الأعلى تقييما"
 
 #: .\COZA-temp\contact.html:83 .\templates\store\products.html:35
+#: .\templates\store\search.html:36
 msgid "Newer"
 msgstr "الأحدث"
 
 #: .\COZA-temp\contact.html:89 .\templates\store\products.html:40
+#: .\templates\store\search.html:41
 msgid "Price: Low to High"
 msgstr "السعر : من الأقل الي الأعلى"
 
 #: .\COZA-temp\contact.html:95 .\templates\store\products.html:44
+#: .\templates\store\search.html:45
 msgid "Price: High to Low"
 msgstr "السعر : من الأعلى الي الأقل"
 
-#: .\COZA-temp\contact.html:103 .\templates\cart\cart.html:54
-#: .\templates\includes\filter.html:20
+#: .\COZA-temp\contact.html:103 .\templates\cart\cart.html:56
+#: .\templates\includes\filter.html:24
 msgid "Price"
 msgstr "السعر"
 
@@ -74,19 +80,24 @@ msgstr "السعر"
 msgid "All"
 msgstr "الجميع"
 
-#: .\COZA-temp\contact.html:147 .\templates\cart\cart.html:86
-#: .\templates\includes\filter.html:33
+#: .\COZA-temp\contact.html:147 .\templates\cart\cart.html:88
+#: .\templates\includes\filter.html:37
+#: .\templates\store\product_details.html:97
 msgid "Color"
 msgstr "اللون"
 
-#: .\COZA-temp\contact.html:168 .\templates\includes\filter.html:55
+#: .\COZA-temp\contact.html:168 .\templates\includes\filter.html:63
 msgid "Sizes"
 msgstr "الأحجام"
 
-#: .\COZA-temp\contact.html:242 .\templates\store\products.html:292
-#: .\templates\store\search.html:88
+#: .\COZA-temp\contact.html:242 .\templates\store\products.html:291
+#: .\templates\store\search.html:268
 msgid "Load More"
 msgstr "تحميل المزيد"
+
+#: .\templates\base.html:56 .\templates\home.html:52
+msgid "A gift upon delivery for a purchaser of more than $200"
+msgstr "هدية عند التسليم للمشتري بأكثر من 200 دولار"
 
 #: .\templates\base.html:61 .\templates\base.html:322 .\templates\home.html:57
 #: .\templates\home.html:303
@@ -109,7 +120,7 @@ msgstr "تسجيل"
 #: .\templates\base.html:109 .\templates\base.html:351
 #: .\templates\blog\blog-detail.html:11 .\templates\cart\cart.html:29
 #: .\templates\home.html:102 .\templates\home.html:332
-#: .\templates\store\product_details.html:10
+#: .\templates\store\product_details.html:13
 msgid "Home"
 msgstr "الرئيسية"
 
@@ -145,37 +156,37 @@ msgstr "التواصل"
 msgid "Your Cart"
 msgstr "عربتك"
 
-#: .\templates\base.html:464 .\templates\blog\blog-detail.html:129
-#: .\templates\blog\blog.html:106 .\templates\home.html:708
+#: .\templates\base.html:464 .\templates\blog\blog-detail.html:134
+#: .\templates\blog\blog.html:112 .\templates\home.html:708
 #: .\templates\includes\filter.html:6
 msgid "Categories"
 msgstr "الفئات"
 
-#: .\templates\base.html:482 .\templates\home.html:724
+#: .\templates\base.html:486 .\templates\home.html:724
 msgid "Help"
 msgstr "المساعدة"
 
-#: .\templates\base.html:488 .\templates\home.html:730
+#: .\templates\base.html:492 .\templates\home.html:730
 msgid "Track Order"
 msgstr "تتبع طلبك"
 
-#: .\templates\base.html:494 .\templates\home.html:736
+#: .\templates\base.html:498 .\templates\home.html:736
 msgid "Returns"
 msgstr "المرجوعات"
 
-#: .\templates\base.html:500 .\templates\home.html:742
+#: .\templates\base.html:504 .\templates\home.html:742
 msgid "Shipping"
 msgstr "التسوق"
 
-#: .\templates\base.html:506 .\templates\home.html:748
+#: .\templates\base.html:510 .\templates\home.html:748
 msgid "FAQs"
 msgstr "الأسئلة الشائعة"
 
-#: .\templates\base.html:514 .\templates\home.html:756
+#: .\templates\base.html:518 .\templates\home.html:756
 msgid "GET IN TOUCH"
 msgstr "ابقى على تواصل"
 
-#: .\templates\base.html:518 .\templates\home.html:760
+#: .\templates\base.html:522 .\templates\home.html:760
 #, fuzzy
 #| msgid ""
 #| "Any questions? Let us know in store at 8th floor, 379 Hudson St, New York,"
@@ -187,117 +198,113 @@ msgstr ""
 "أي أسئلة؟ أخبرنا بذلك في المتجر الواقع في الطابق الثامن، 379 Hudson St ,"
 "نيويورك,NY 10018 أو اتصل بنا على (+1) 96 716 6879"
 
-#: .\templates\base.html:539 .\templates\home.html:781
+#: .\templates\base.html:543 .\templates\home.html:781
 msgid "Newsletter"
 msgstr "النشرة الإخبارية"
 
-#: .\templates\base.html:551 .\templates\home.html:793
+#: .\templates\base.html:555 .\templates\home.html:793
 msgid "Subscribe"
 msgstr "الاشتراك"
+
+#: .\templates\blog\ajax\blog-ajax.html:50 .\templates\blog\blog-detail.html:67
+#: .\templates\blog\blog.html:69
+msgid "Comments"
+msgstr "تعليقات"
+
+#: .\templates\blog\ajax\blog-ajax.html:55 .\templates\blog\blog.html:74
+msgid "Continue Reading"
+msgstr "أكمل القراءة"
 
 #: .\templates\blog\blog-detail.html:5
 msgid "Blog Detail"
 msgstr "تفاصيل التدوينة"
 
-#: .\templates\blog\blog-detail.html:51 .\templates\blog\blog.html:53
-msgid "By"
-msgstr "بواسطة"
-
-#: .\templates\blog\blog-detail.html:66 .\templates\blog\blog.html:63
-msgid "Comments"
-msgstr "تعليقات"
-
-#: .\templates\blog\blog-detail.html:81 .\templates\blog\blog-detail.html:323
-#: .\templates\blog\blog.html:128
+#: .\templates\blog\blog-detail.html:90 .\templates\blog\blog-detail.html:190
+#: .\templates\blog\blog.html:130
 msgid "Tags"
 msgstr "العلامات"
 
-#: .\templates\blog\blog-detail.html:97
+#: .\templates\blog\blog-detail.html:110
 msgid "Leave a Comment"
 msgstr "أترك تعليق"
 
-#: .\templates\blog\blog-detail.html:101
+#: .\templates\blog\blog-detail.html:114
 msgid "Make your comment constructive"
 msgstr "أجعل تعليقك بناء"
 
-#: .\templates\blog\blog-detail.html:106
+#: .\templates\blog\blog-detail.html:119
 msgid "Write..."
 msgstr "أكتب"
 
-#: .\templates\blog\blog-detail.html:110
+#: .\templates\blog\blog-detail.html:123
 msgid "Post"
 msgstr "نشر"
 
-#: .\templates\blog\blog-detail.html:163
+#: .\templates\blog\blog-detail.html:155
 msgid "Products Mentioned"
 msgstr "منتجات تم ذكرها"
 
-#: .\templates\blog\blog-detail.html:219 .\templates\blog\blog.html:143
+#: .\templates\blog\blog-detail.html:215 .\templates\blog\blog.html:155
 msgid "Archive"
 msgstr "الأرشيف"
-
-#: .\templates\blog\blog.html:68
-msgid "Continue Reading"
-msgstr "أكمل القراءة"
 
 #: .\templates\cart\cart.html:34
 msgid "Shoping Cart"
 msgstr "عربة التسوق"
 
-#: .\templates\cart\cart.html:52
-
+#: .\templates\cart\cart.html:54
 msgid "Product"
 msgstr "المنتج"
 
-#: .\templates\cart\cart.html:55
+#: .\templates\cart\cart.html:57
 msgid "Quantity"
 msgstr "الكمية"
 
-#: .\templates\cart\cart.html:56
+#: .\templates\cart\cart.html:58
 msgid "SubTotal"
 msgstr "المجموع الفرعي"
 
-#: .\templates\cart\cart.html:82 .\templates\store\product_details.html:74
+#: .\templates\cart\cart.html:84 .\templates\store\product_details.html:79
 msgid "Size"
 msgstr "الحجم"
 
-#: .\templates\cart\cart.html:117
+#: .\templates\cart\cart.html:119
 msgid "Discount code"
 msgstr "كود الخصم"
 
-#: .\templates\cart\cart.html:120
+#: .\templates\cart\cart.html:122
 msgid "Use the code"
 msgstr "أستخدم الكود"
 
-#: .\templates\cart\cart.html:125
+#: .\templates\cart\cart.html:127
 msgid "Update Cart"
 msgstr "تحديث العربة"
 
-#: .\templates\cart\cart.html:134
+#: .\templates\cart\cart.html:136
 msgid "Cart Totals"
 msgstr "إجماليات عربة التسوق"
 
-#: .\templates\cart\cart.html:140 .\templates\home.html:415
+#: .\templates\cart\cart.html:145 .\templates\home.html:415
 msgid "Total"
 msgstr "المجموع"
 
-#: .\templates\cart\cart.html:155
+#: .\templates\cart\cart.html:160
 msgid "Tax"
 msgstr "التوصيل"
 
-#: .\templates\cart\cart.html:171
+#: .\templates\cart\cart.html:176
 msgid "Final Total"
 msgstr "المجموع النهائي"
 
-#: .\templates\cart\cart.html:183
+#: .\templates\cart\cart.html:188
 msgid "Checkout"
 msgstr "الدفع"
 
-#: .\templates\cart\cart.html:198
+#: .\templates\cart\cart.html:203
 msgid "Your shopping cart is Empty."
 msgstr "عربة التسوق الخاصة بك فارغة"
 
-#: .\templates\cart\cart.html:201
+#: .\templates\cart\cart.html:206
 msgid "GO SHOPING"
 msgstr "تسوق"
 
@@ -375,53 +382,245 @@ msgstr "نظرة سريعة"
 msgid "See More"
 msgstr "رؤية المزيد"
 
-#: .\templates\store\product_details.html:5
+#: .\templates\registration\inbut_num_pass.html:23
+#: .\templates\registration\new_password.html:8
+#: .\templates\registration\reset_pass_email.html:5
+msgid "Reset Pssword"
+msgstr "إعادة تعيين كلمة المرور"
+
+#: .\templates\registration\inbut_num_pass.html:27
+msgid "Recovery code"
+msgstr "رمز الإسترداد"
+
+#: .\templates\registration\inbut_num_pass.html:32
+#: .\templates\registration\input_numbers.html:33
+msgid "Your Password Reset Code Has Been Sent To Your Email"
+msgstr "تم إرسال رمز إعادة تعيين كلمة المرور الخاصة بك إلى بريدك الإلكتروني"
+
+#: .\templates\registration\inbut_num_pass.html:35
+#: .\templates\registration\input_numbers.html:37
+msgid "You Have"
+msgstr "لديك"
+
+#: .\templates\registration\inbut_num_pass.html:35
+#: .\templates\registration\input_numbers.html:37
+msgid "Attempts Left"
+msgstr "محاولات باقية"
+
+#: .\templates\registration\inbut_num_pass.html:36
+msgid "Enter The Code "
+msgstr "ادخل الرمز"
+
+#: .\templates\registration\inbut_num_pass.html:47
+#: .\templates\registration\input_numbers.html:49
+msgid "Send again"
+msgstr "أعد الإرسال"
+
+#: .\templates\registration\input_numbers.html:25
+msgid "Activate"
+msgstr "تفعيل"
+
+#: .\templates\registration\input_numbers.html:29
+msgid "Activation code"
+msgstr "رمز التفعيل"
+
+#: .\templates\registration\input_numbers.html:38
+msgid "Enter The Code"
+msgstr "ادخل الروز"
+
+#: .\templates\registration\login.html:5
+msgid "LogIn"
+msgstr "تسجيل دخول"
+
+#: .\templates\registration\login.html:8 .\templates\registration\login.html:40
+msgid "log in"
+msgstr "تسجيل دخول"
+
+#: .\templates\registration\login.html:12
+msgid "LOG IN WITH EMAIL ADDRESS"
+msgstr "تسجيل دخول بالبريدالإلكتروني"
+
+#: .\templates\registration\login.html:17
+#: .\templates\registration\login.html:21
+#: .\templates\registration\reset_pass_email.html:19
+#: .\templates\registration\reset_pass_email.html:23
+#: .\templates\registration\singup.html:34
+#: .\templates\registration\singup.html:38
+msgid "E-mail"
+msgstr "البريدالإلكتروني"
+
+#: .\templates\registration\login.html:34
+#: .\templates\registration\login.html:37
+#: .\templates\registration\singup.html:60
+#: .\templates\registration\singup.html:64
+msgid "Password"
+msgstr "كلمة السر"
+
+#: .\templates\registration\login.html:41
+msgid "Forgot Password ?"
+msgstr "هل نسيت كلمة السر ؟"
+
+#: .\templates\registration\login.html:46
+msgid "LOG IN WITH SOCIAL MEDIA"
+msgstr "سجل دخول عن طريق برامج التواصل الاجتماعي"
+
+#: .\templates\registration\login.html:48
+msgid "log in with facebook"
+msgstr "تسجيل دخول بالفيسبوك"
+
+#: .\templates\registration\login.html:50
+msgid "log in with Google"
+msgstr "تسجيل دخول بحساب جوجل"
+
+#: .\templates\registration\login.html:52
+msgid "DON'T HAVE AN ACCOUNT YET?"
+msgstr "ليس لديك حساب بعد؟"
+
+#: .\templates\registration\login.html:53
+msgid "singup here "
+msgstr "سجل من هنا"
+
+#: .\templates\registration\new_password.html:12
+msgid "New password"
+msgstr "كلمة السر الجديدة"
+
+#: .\templates\registration\new_password.html:16
+msgid "Enter The New Password, It Must Be At Least 6 Characters"
+msgstr "ادخل كلمة السر الجديدة , يجب ان تكون 6 احرف علي الأقل"
+
+#: .\templates\registration\new_password.html:21
+#: .\templates\registration\new_password.html:24
+msgid "New Password"
+msgstr "كلمة السر الجديدة"
+
+#: .\templates\registration\new_password.html:30
+#: .\templates\registration\new_password.html:33
+msgid "Confirm Password"
+msgstr "تأكيد كلمة السر"
+
+#: .\templates\registration\new_password.html:38
+msgid "Change"
+msgstr "تغيير"
+
+#: .\templates\registration\reset_pass_email.html:9
+msgid "Find Your Account"
+msgstr "ابحث عن حسابك"
+
+#: .\templates\registration\reset_pass_email.html:13
+msgid "ENTER YOUR ACCOUNT EMAIL"
+msgstr "أدخل البريد الإلكتروني الخاص بحسابك"
+
+#: .\templates\registration\reset_pass_email.html:35
+
+msgid "search"
+msgstr "بحث"
+
+#: .\templates\registration\singup.html:5
+msgid "SingUp"
+msgstr "تسجيل"
+
+#: .\templates\registration\singup.html:8
+msgid "Create An Account"
+msgstr "انشئ حساب"
+
+#: .\templates\registration\singup.html:12
+msgid "SIGN UP WITH EMAIL ADDRESS"
+msgstr "سجل بالبريد الإلكتروني"
+
+#: .\templates\registration\singup.html:17
+#: .\templates\registration\singup.html:20
+msgid "First name"
+msgstr "الاسم الأول"
+
+#: .\templates\registration\singup.html:25
+#: .\templates\registration\singup.html:28
+msgid "Last name"
+msgstr "الاسم الثاني"
+
+#: .\templates\registration\singup.html:52
+#: .\templates\registration\singup.html:55
+msgid "Username"
+msgstr "اسم المستخدم"
+
+#: .\templates\registration\singup.html:77
+msgid "create an account"
+msgstr "انشئ حساب"
+
+#: .\templates\registration\singup.html:82
+msgid "SIGN UP WITH SOCIAL MEDIA"
+msgstr "سجل عن طريق برامج التواصل الاجتماعي"
+
+#: .\templates\registration\singup.html:84
+msgid "singup with facebook"
+msgstr "سجل بالفيسبوك"
+
+#: .\templates\registration\singup.html:86
+msgid "singup with Google"
+msgstr "سجل بحساب جوجل"
+
+#: .\templates\registration\singup.html:88
+msgid "ALREADY HAVE AN ACCOUNT?"
+msgstr "هل لديك حساب بالفعل ؟"
+
+#: .\templates\registration\singup.html:89
+msgid "login here"
+msgstr "سجل دخول"
+
+#: .\templates\store\product_details.html:8
 msgid "Product Detail"
 msgstr "تفاصيل المنتج"
 
-#: .\templates\store\product_details.html:15
+#: .\templates\store\product_details.html:18
 msgid "Products"
 msgstr "المنتجات"
 
-#: .\templates\store\product_details.html:80
+#: .\templates\store\product_details.html:85
 msgid "Choose a size"
 msgstr "أختر الحجم"
 
-#: .\templates\store\product_details.html:98
+#: .\templates\store\product_details.html:103
 msgid "Choose a color"
 msgstr "أختر اللون"
 
-#: .\templates\store\product_details.html:123
+#: .\templates\store\product_details.html:128
 msgid "Add to cart"
 msgstr "إضافة الي عربة التسوق"
 
-#: .\templates\store\product_details.html:169
+#: .\templates\store\product_details.html:166
 msgid "Description"
 msgstr "الوصف"
 
-#: .\templates\store\product_details.html:173
+#: .\templates\store\product_details.html:170
 msgid "Product information"
 msgstr "معلومات عن المنتج"
 
-#: .\templates\store\product_details.html:177
+#: .\templates\store\product_details.html:174
 msgid "Reviews"
 msgstr "المراجعات"
 
-#: .\templates\store\product_details.html:257
+#: .\templates\store\product_details.html:208
 msgid "Add Review"
 msgstr "اضافة مراجعة"
 
-#: .\templates\store\product_details.html:352
-msgid "SKU"
-msgstr "رمز التخزين التعريفي"
-
-#: .\templates\store\product_details.html:356
+#: .\templates\store\product_details.html:307
 msgid "Category"
 msgstr "الفئة"
 
-#: .\templates\store\product_details.html:367
+#: .\templates\store\product_details.html:318
 msgid "Related Products"
 msgstr "منتجات ذات صلة"
+
+#: .\templates\store\search.html:7
+#, fuzzy
+#| msgid "Search"
+msgid "Search Result"
+msgstr "بحث"
+
+#~ msgid "By"
+#~ msgstr "بواسطة"
+
+#~ msgid "SKU"
+#~ msgstr "رمز التخزين التعريفي"
 
 #~ msgid "USD"
 #~ msgstr "يل"

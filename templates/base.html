@@ -5,10 +5,13 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
 	<!--===============================================================================================-->
 	<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}" />
 	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
 	<!--===============================================================================================-->
@@ -35,13 +38,15 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'jquery.toast.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/edit.css' %}">
+	{% if LANGUAGE_CODE == 'ar' %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/rtl.css' %}">
+	{% endif %}
     
-
-	
-    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
 	<!--===============================================================================================-->
 </head>
+
+
 
 <body class="animsition">
     	
@@ -53,7 +58,7 @@
 			<div class="top-bar">
 				<div class="content-topbar flex-sb-m h-full container">
 					<div class="left-top-bar">
-						Free shipping for standard order over $100
+						{% trans "A gift upon delivery for a purchaser of more than $200" %}
 					</div>
 
 					<div class="right-top-bar flex-w h-full">
@@ -99,7 +104,7 @@
 
 					<!-- Logo desktop -->
 					<a href="#" class="logo">
-						<img src="{% static 'images/icons/sahar1.png' %}" alt="IMG-LOGO">
+						<img {% if LANGUAGE_CODE == 'en' %} src="{% static 'images/icons/sahar1.png' %}" {% else %} src="{% static 'images/icons/sahar1 - ar.png' %}" {% endif %}alt="IMG-LOGO">
 					</a>
 
 					<!-- Menu desktop -->
@@ -134,11 +139,15 @@
 							</li>
 
 							<li>
-								<a href="">{% trans 'About' %}</a>
-							</li>
-
-							<li>
 								<a href="">{% trans 'Contact' %}</a>
+							</li>
+							
+							{% if '/about/' in request.path %}
+								<li class="active-menu">
+								{% else %}
+								<li class="menu">
+								{% endif %}
+								<a href="{% url "about" %}">{% trans 'About' %}</a>
 							</li>
 						</ul>
 					</div>
@@ -234,7 +243,7 @@
 		<div class="wrap-header-mobile">
 			<!-- Logo moblie -->		
 			<div class="logo-mobile">
-				<img src="{% static 'images/icons/sahar1.png' %}" alt="IMG-LOGO">
+				<img {% if LANGUAGE_CODE == 'en' %} src="{% static 'images/icons/sahar1.png' %}" {% else %} src="{% static 'images/icons/sahar1 - ar.png' %}" {% endif %}alt="IMG-LOGO">
 			</div>
 
 			<!-- Icon header -->
@@ -365,11 +374,11 @@
 				</li>
 
 				<li>
-					<a href="about.html">{% trans "About" %}</a>
-				</li>
-
-				<li>
 					<a href="contact.html">{% trans "Contact" %}</a>
+				</li>
+				
+				<li>
+					<a href="{% url "about" %}">{% trans "About" %}</a>
 				</li>
 			</ul>
 		</div>
@@ -391,8 +400,29 @@
 		</div>
 	</header>
 
+
 	<!-- Cart -->
-	<div class="wrap-header-cart js-panel-cart">
+	{% if LANGUAGE_CODE == 'en' %}
+<style>
+	.header-cart {
+		right: -400px;
+	}
+	.show-header-cart .header-cart {
+		right: 0;
+	}
+</style>
+
+	{% else %}
+<style>
+	.header-cart {
+		left: -400px;
+	}
+	.show-header-cart .header-cart {
+		left: 0;
+	}
+</style>
+	{% endif %}
+	<div  class="wrap-header-cart js-panel-cart">
 		<div class="s-full js-hide-cart"></div>
 
 		<div class="header-cart flex-col-l p-l-65 p-r-25">
@@ -606,7 +636,53 @@
 	<!--===============================================================================================-->
 	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
 	<script>
-		$(".js-select2").each(function () {
+		$(".js-select2-size").each(function () {
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			}).on('change', function() {
+				$('.color-selction').removeClass('disp-none')
+				var select_val=$(this).val()
+				var id =$(this).data('id');
+				var elmincolor = $('#cOLor-CH');
+				var elmincolor_modal = $('#coLOr-CHo-MOdal');
+				$.ajax({
+					url:'/products/order_selection_filter/',
+					data:{
+						'id':id,
+						'select_val':select_val,
+					},
+					beforeSend:function(){
+						$('.color-text').addClass('disp-none')
+						$('.color-loader').removeClass('hidden')
+					},
+					dataType:'json',
+					success: function(data){
+						elmincolor.empty();
+						elmincolor_modal.empty();
+						$.each(data.edit_action, function(index, color) {
+							var capitalizedColor = color.charAt(0).toUpperCase() + color.slice(1);
+							elmincolor.append($('<option>', {
+								text: capitalizedColor
+							}));
+						});
+						$.each(data.edit_action, function(index, color) {
+							var capitalizedColor = color.charAt(0).toUpperCase() + color.slice(1);
+							elmincolor_modal.append($('<option>', {
+								text: capitalizedColor
+							}));
+						});
+
+						$('.color-text').removeClass('disp-none')
+						$('.color-loader').addClass('hidden')
+					}
+				});
+			});
+		});
+
+		
+
+		$(".js-select2-color").each(function () {
 			$(this).select2({
 				minimumResultsForSearch: 20,
 				dropdownParent: $(this).next('.dropDownSelect2')
@@ -638,6 +714,28 @@
 				mainClass: 'mfp-fade'
 			});
 		});
+	</script>
+
+	<script>
+		/*==================================================================
+    [ Cart ]*/
+    $('.js-show-cart').on('click',function(){
+        $('.js-panel-cart').addClass('show-header-cart');
+    });
+
+    $('.js-hide-cart').on('click',function(){
+        $('.js-panel-cart').removeClass('show-header-cart');
+    });
+
+    /*==================================================================
+    [ Cart ]*/
+    $('.js-show-sidebar').on('click',function(){
+        $('.js-sidebar').addClass('show-sidebar');
+    });
+
+    $('.js-hide-sidebar').on('click',function(){
+        $('.js-sidebar').removeClass('show-sidebar');
+    });
 	</script>
 	<!--===============================================================================================-->
 	<script src="{% static 'vendor/isotope/isotope.pkgd.min.js' %}"></script>
@@ -693,21 +791,135 @@
 
 
 			
-		/*==================================================================
-    [ Show modal1 ]
-    $('.js-show-modal1').on('click',function(e){
-        e.preventDefault();
-        $('.js-modal1').addClass('show-modal1');
-    });
-
-    $('.js-hide-modal1').on('click',function(){
-        $('.js-modal1').removeClass('show-modal1');
-    });*/
+	
+		$('.hamburger--squeeze').on('click', function(e) {
+			if ($('.conTEnt-storBy .text').hasClass('hidden')) {
+				setTimeout(function() {
+					$('.conTEnt-storBy .text').removeClass('hidden');
+				}, 470);
+			} else {
+				$('.conTEnt-storBy .text').addClass('hidden');
+			}
+		});
 
 		
+
+
+		$(document).ready(function(){
+			$.ajax({
+				url:'/products/check_lang/',
+				data:{},
+				dataType:'json',
+				success: function(data){
+					if (data.url){
+						window.location.href=data.url
+					}
+				}
+			});
+		});
+
+
 	</script>
+	{% if LANGUAGE_CODE == 'en' %}
+	<script>
+
+		$('.wrap-slick2').each(function(){
+			$(this).find('.slick2').slick({
+				slidesToShow: 4,
+				slidesToScroll: 4,
+				infinite: false,
+				autoplay: false,
+				autoplaySpeed: 6000,
+				arrows: true,
+				appendArrows: $(this),
+				prevArrow:'<button class="arrow-slick2 prev-slick2"><i class="fa fa-angle-left" aria-hidden="true"></i></button>',
+				nextArrow:'<button class="arrow-slick2 next-slick2"><i class="fa fa-angle-right" aria-hidden="true"></i></button>',  
+				responsive: [
+					{
+					breakpoint: 1200,
+					settings: {
+						slidesToShow: 4,
+						slidesToScroll: 4
+					}
+					},
+					{
+					breakpoint: 992,
+					settings: {
+						slidesToShow: 3,
+						slidesToScroll: 3
+					}
+					},
+					{
+					breakpoint: 768,
+					settings: {
+						slidesToShow: 2,
+						slidesToScroll: 2
+					}
+					},
+					{
+					breakpoint: 576,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1
+					}
+					}
+				]    
+				});
+			});
+	</script>
+	{% else %}
+	<script>
+
+		$('.wrap-slick2').each(function(){
+			$(this).find('.slick2').slick({
+				slidesToShow: 4,
+				slidesToScroll: 4,
+				infinite: false,
+				autoplay: false,
+				autoplaySpeed: 6000,
+				arrows: true,
+				rtl: true, // إضافة هذه الخاصية
+				appendArrows: $(this),
+				prevArrow:'<button class="arrow-slick2 next-slick2"><i class="fa fa-angle-right" aria-hidden="true"></i></button>', 
+				nextArrow:'<button class="arrow-slick2 prev-slick2"><i class="fa fa-angle-left" aria-hidden="true"></i></button>',  
+				responsive: [
+					{
+					breakpoint: 1200,
+					settings: {
+						slidesToShow: 4,
+						slidesToScroll: 4
+					}
+					},
+					{
+					breakpoint: 992,
+					settings: {
+						slidesToShow: 3,
+						slidesToScroll: 3
+					}
+					},
+					{
+					breakpoint: 768,
+					settings: {
+						slidesToShow: 2,
+						slidesToScroll: 2
+					}
+					},
+					{
+					breakpoint: 576,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1
+					}
+					}
+				]    
+				});
+			});
+	</script>
+	
+	{% endif %}
 	<script src="https://www.paypal.com/sdk/js?client-id=AeH_YgTQzhm0M0dKUwxWOxJ0QidAbQiCflAETTINU5gSdwO5mdFZcSvk-LGmWXtiQqrd-UvLTHllJ5vn&currency=USD"></script>
 	<script type="text/javascript" src="{% static 'ajax-work.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/Emoji.js' %}"></script>
 
 
 	<!--===============================================================================================-->

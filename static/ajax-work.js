@@ -4,6 +4,7 @@ $(document).ready(function(){
 	var _totalShowing=$(".product-box").length;
 	if(_totalShowing==_total){$("#loadMore").hide();}
     $(".ajaxLoader").hide();
+    $(".loadmore-loder").hide();
     $(".filter-checkbox,#priceFilterBtn").on('click',function(){
 		var _total=$('#loadMore').attr('data-total');
         var _filterObj={};
@@ -76,6 +77,8 @@ $(document).ready(function(){
 			dataType:'json',
 			beforeSend:function(){
 				$("#loadMore").attr('disabled',true);
+				$(".loadmore-loder").show();
+				$(".loadmor-text").hide();
 			},
 			success:function(res){
 				$("#loadMore").attr('disabled',false);
@@ -84,6 +87,8 @@ $(document).ready(function(){
 				if(_totalShowing==_total){$("#loadMore").hide();}
 				if(_totalShowing==res.count){$("#loadMore").hide();}
 				else {$("#loadMore").show();}
+				$(".loadmore-loder").hide();
+				$(".loadmor-text").show();
 				
 				
 			}

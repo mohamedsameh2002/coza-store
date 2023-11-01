@@ -77,15 +77,27 @@
 										<td class="column-2">
 											<div>
 												<a class="stext-110 cl2" href="{% url 'product_details' item.product.id %}">
+													{% if LANGUAGE_CODE == 'en' %}
 													{{item.product.product_name}}
+													{% else %}
+													{{item.product.product_name_ar}}
+													{% endif %}
 												</a>
 												<br>
 												<span>
-													{% trans "Size" %} : {{item.size}}
+													{% if LANGUAGE_CODE == 'en' %}
+													{% trans "Size" %} : {{item.size.size_name}}
+													{% else %}
+													{% trans "Size" %} : {{item.size.size_name_ar}}
+													{% endif %}
 												</span>
 												<br>
 												<span>
-													{% trans "Color" %} : {{item.color}}
+													{% if LANGUAGE_CODE == 'en' %}
+													{% trans "Color" %} : {{item.color.color_name|capfirst}}
+													{% else %}
+													{% trans "Color" %} : {{item.color.color_name_ar}}
+													{% endif %}
 												</span>
 											</div>
 										</td>
@@ -254,8 +266,6 @@
 				$('#sidE-Cart').html(data.templ_side_cart);
 				
 				
-
-
 			}
 		});
 	});

@@ -179,7 +179,6 @@ paypal.Buttons({
 
 
     createOrder: function(data, actions) {
-        console.log(amount)
         return actions.order.create({
             purchase_units: [{
                 amount: {
@@ -192,7 +191,6 @@ paypal.Buttons({
     
     onApprove: function(data, actions) {
         return actions.order.capture().then(function(details){
-            console.log(details);
             sendData();
             function sendData() {
                 fetch(url,{

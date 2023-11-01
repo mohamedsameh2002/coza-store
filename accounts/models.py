@@ -80,9 +80,9 @@ class Accounts(AbstractBaseUser):
     
 
     # Confirmation messages
-    session_code=models.CharField(max_length=250,null=True,blank=True)
     validation_code=models.CharField(max_length=10,null=True,blank=True)
     sending_count=models.IntegerField(null=True,blank=True,default=5)
+    is_manual=models.BooleanField(default=False)
     right_send=models.BooleanField(default=False)
 
     #required
@@ -101,6 +101,9 @@ class Accounts(AbstractBaseUser):
     def __str__(self):
         return self.email
     
+    def full_name (self):
+        return f'{self.first_name} {self.last_name}'
+    
     def has_perm (self,perm,obj=None):
         return self.is_admin
     
@@ -110,6 +113,8 @@ class Accounts(AbstractBaseUser):
     
     def get_all_permissions(self, obj=None):
         return _user_get_permissions(self, obj, "all")
+    
+
 
 
 def image_upload (instance,filename):

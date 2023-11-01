@@ -1,0 +1,213 @@
+body{
+    direction: rtl;
+}
+
+/* Start Nave Bar  */
+
+.logo{
+    margin-right: 0;
+    margin-left: 55px;
+}
+
+.logo-mobile{
+    transform: scaleX(-1);
+}
+
+.logo-mobile img{
+    transform: scaleX(-1)
+    
+}
+
+
+.zmdi{
+    transform: scaleX(-1);
+    
+}
+
+.zmdi-favorite-outline{
+    margin-left: 11px;
+}
+
+
+.zmdi-shopping-cart{
+    margin-left: -7px;
+    margin-right: 7px;
+}
+
+
+
+
+
+.Noti-ShopCart-PC{
+    left: 240px !important;
+}
+
+
+.square-CarT-PhoNE{
+    left: -13px !important;
+}
+
+
+.square-FaVE-Pc{
+    left: -43px !important;
+    top: -26px !important;
+}
+
+.square-CarT-Pc {
+    left: -6px!important;
+}
+
+
+.square-FaVE-PhoNe{
+    left: -45px!important;
+    top: -26px!important;
+}
+
+.bor4{
+    margin-left: 10px;
+}
+
+.label1.rs1::after{
+    left: -20%;
+}
+
+@media (max-width:991px) {
+}
+/* End Nave Bar  */
+
+/* Start dirction regester pages  */
+.singup .container .content .manw-sing form a{
+    left: -280px !important;
+}
+
+.singup .container .content .social-sing button:first-of-type img{
+    left: 45px !important;
+}
+.singup .container .content .social-sing button:first-of-type{
+    padding: 9px 58px 9px 14px !important;
+}
+
+.singup .container .content .social-sing button:last-of-type img{
+    left: 45px !important;
+}
+
+
+.singup .container .content .social-sing button:last-of-type{
+    padding: 9px 58px 9px 14px !important;
+}
+
+.singup .container .content .social-sing a{
+    margin: 29px -5px !important;
+}
+
+
+
+.field__label{
+    width: 50%;
+    left: 48% !important;
+}
+
+
+.loader{
+    left: -95% !important;
+}
+
+.loader-password{
+    left: -95% !important;
+}
+
+.singup .container .content .manw-sing form .error-text{
+    left: -18px !important;
+}
+
+.singup .container .content .manw-sing form .error-text-password{
+    left: -18px !important;
+}
+
+
+.d-flex.mb-3{
+    direction: ltr;
+}
+
+.singup .container .content .code-valdia .loader-validation{
+    left: -47% !important;
+
+}
+
+
+.singup .container .content .manw-sing form .close-eye img{
+    left: 7px !important;
+}
+
+@media (max-width:991px) {
+    .singup .container .content{
+    flex-direction: column;
+    align-items: center;
+}
+.content .break{
+    display: none;
+}
+.singup .container .content .manw-sing {
+    width: 90%;
+    margin: 0 auto 20px;
+    
+}
+.singup .container .content .social-sing{
+    width: 100%;
+    align-items: center;
+    margin: 70px auto;
+    
+}
+.singup .container .content .social-sing h5{
+    margin-top: -90px;
+}
+
+.singup .container .content .manw-sing form button{
+    justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.singup .container .content .social-sing a{
+    margin-bottom: -60px;
+}
+.loader{
+    left: -285px !important;
+}
+.loader-password{
+    left: -285px !important;
+}
+.singup .container .content .manw-sing form a{
+    left: -83px !important;
+    top: 0;
+}
+
+} 
+/* End dirction regester pages  */
+
+
+
+/* Start Popup */
+[type="checkbox"]:checked,
+[type="checkbox"]:not(:checked){
+    position: absolute;
+    left: 9999px;
+}
+
+/* End Popup */
+
+/* stars  */
+.rating-group{
+    left: -90px !important;
+}
+/* stars  */
+
+/* Start sidbar cart  */
+
+
+
+/* End sidbar cart  */
+
+/* start product ditail  */
+.rating__input {right: -600px !important;}
+/* end product ditail  */

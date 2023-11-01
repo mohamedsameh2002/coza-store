@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 
     <table class="table-shopping-cart">
         <tr class="table_head">
@@ -28,15 +29,27 @@
                 <td class="column-2">
                     <div>
                         <a class="stext-110 cl2" href="{% url 'product_details' item.product.id %}">
+                            {% if lang == 'en' %}
                             {{item.product.product_name}}
+                            {% else %}
+                            {{item.product.product_name_ar}}
+                            {% endif %}
                         </a>
                         <br>
                         <span>
-                            Size : {{item.size}}
+                            {% if lang == 'en' %}
+                            {% trans "Size" %} : {{item.size.size_name}}
+                            {% else %}
+                            {% trans "Size" %} : {{item.size.size_name_ar}}
+                            {% endif %}
                         </span>
                         <br>
                         <span>
-                            Color : {{item.color}}
+                            {% if lang == 'en' %}
+                            {% trans "Color" %} : {{item.color.color_name|capfirst}}
+                            {% else %}
+                            {% trans "Color" %} : {{item.color.color_name_ar}}
+                            {% endif %}
                         </span>
                     </div>
                 </td>

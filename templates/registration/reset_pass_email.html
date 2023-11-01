@@ -1,89 +1,111 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load i18n %}
 {% block content %}
-<style>
-  #id_email {
-    width: 50%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 2px solid #343117;
-    border-radius: 50px;
-    font-size: 16px;
-    min-width: 179px;
-    height: 46px;
-    position: relative;
-    left: 450px;
-  }
+<title>{% trans "Reset Pssword" %}</title>
 
-  #id_password {
-    width: 50%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 2px solid #3e3a18;
-    border-radius: 50px;
-    font-size: 16px;
-    position: relative;
-    left: 450px;
+<div class="singup">
+  <div class="container">
+    <h1>{% trans "Find Your Account" %}</h1>
+    <span class="careat-account"></span>
+    <div class="content">
+      <div class="manw-sing">
+        <h3>{% trans "ENTER YOUR ACCOUNT EMAIL" %}</h3>
+        <span class="includ-msg">{% include 'includes/masg.html' %}</span>
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="field field_v3" email-feld>
+              <label for="email" class="ha-screen-reader">{% trans "E-mail" %}</label>
+              <input type="email" name="email" id="email-inp" class="field__input inp-email" placeholder="">
+              <span class="field__label-wrap " aria-hidden="true">
+                <span class="loader"></span>
+                <span class="field__label">{% trans "E-mail" %}</span>
+              </span>
+            </div>
+          
+
+            <div class="error-text">
+              {% if LANGUAGE_CODE == 'en' %}
+              <h6>This email address is not yet linked to an account</h6>
+              {% else %}
+              <h6>هذا البريد الإلكتروني لم يتم ربطه بحساب بعد</h6>
+              {% endif %}
+            </div>
+            <button class="login-btn dis-button" id="butonnd-id">{% trans "search" %}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  {% endblock content %}
+  
+
+
+
+
+{% block scripts %}	
+
+
+
+
+<script>
+
+  $(document).ready(function(){
+
+    $('.error-text').hide()
+    $('.loader').hide()
     
-    
-  }
-
-  .butonnd{
-    background-color: #4CAF50; /* لون الخلفية */
-  border: none; /* إزالة حدود الزر */
-  color: white; /* لون النص */
-  padding: 15px 32px; /* حجم الزر */
-  text-align: center; /* محاذاة النص في الزر */
-  text-decoration: none; /* إزالة تأثيرات النص */
-  display: inline-block; /* عرض الزر كعنصر مستقل */
-  font-size: 16px; /* حجم الخط */
-  margin: 4px 2px; /* هامش الزر */
-  cursor: pointer; /* تحويل المؤشر إلى يد عند التحريك فوق الزر */
-  border-radius: 10px; /* إضافة زوايا مستديرة للزر */
-  position: relative;
-    left: 450px;
-  }
-  .tex1{
-    position: relative;
-    left: 700px;
-  }
-  .tex2{
-    position: relative;
-    left: 700px;
-  }
-</style>
+	});
 
 
+//Email
+  var emailField = document.getElementById('email-inp');
+  emailField.addEventListener('input', function() {
+    var email = emailField.value;
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+    $.ajax({
+      url:'/accounts/login-function/',
+      data:{
+        "email":email
+      },
+      dataType:'json',
+      beforeSend:function(){
+        $('.loader').show()
+      },
+      success: function(data){
+        if (!data.is_exist){
+          $('.error-text').show()
+          $('.inp-email').addClass('wrong-input')
+          $('.field__label-wrap').addClass('red-effect')
+        }
+        else {
+          $('.error-text').hide()
+          $('.inp-email').removeClass('wrong-input')
+          $('.field__label-wrap').removeClass('red-effect')
+          
+        }
+        if ( !$('.inp-email').hasClass('wrong-input') ){
+          $('.login-btn').removeClass('dis-button')
+          $('.login-btn').attr('disabled',false);
+        }
+        else{
+          $('.login-btn').addClass('dis-button')
+          $('.login-btn').attr('disabled',true);
+          
+        }
+        $('.loader').hide()
+      }
+    });
+  });
 
-{% include 'includes/masg.html' %}
-<form  method="POST">
-    {% csrf_token %}
-    <h5 class="tex1">email</h5>
-    <input type="email" id="id_email" name='email_reset' >
-    {% comment %} <a href="{% provider_login_url "facebook" %}">Twitter</a> {% endcomment %}
-    <button class="butonnd" id="butonnd-id">supmmet</button>
-
-</form>
 
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
-{% endblock content %}
+</script>
+
+{% endblock scripts %}
+
+
+

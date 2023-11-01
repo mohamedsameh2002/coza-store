@@ -4,7 +4,7 @@ from.forms import OrderForm
 from orders.models import Order,Payment,OrderProduct
 import datetime
 import json
-from store.models import Product
+from store.models import Product,Customizations
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.http import JsonResponse
@@ -46,9 +46,11 @@ def PAYMENTES (request):
         
 
     # reduce the quantity of the sold products (decriment th stock)
-        product=Product.objects.get(id=item.product_id)
-        product.stock-=item.quantity
-        product.save()
+    costimiz=Customizations.objects.get(product=item.product,colors=item.color,sizes=item.size)
+    costimiz.stock-=item.quantity
+    costimiz.save()
+    if costimiz.stock <= 0:
+        costimiz.delete()
 
     # clear the cart
     CartItem.objects.filter(user=request.user).delete()

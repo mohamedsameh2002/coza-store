@@ -27,11 +27,11 @@
 
                                     <div class="flex-col-c-m size-123 bg9 how-pos5">
                                         <span class="ltext-107 cl2 txt-center">
-                                            {{blog.updated_at|date:"d"}}
+                                            {{blog.published_at|date:"d"}}
                                         </span>
 
                                         <span class="stext-109 cl3 txt-center">
-                                            {{blog.updated_at|date:"M"}} {{blog.updated_at|date:"Y"}}
+                                            {{blog.published_at|date:"M"}} {{blog.published_at|date:"Y"}}
                                         </span>
                                     </div>
                                 </a>
@@ -39,23 +39,29 @@
                                 <div class="p-t-32">
                                     <h4 class="p-b-15">
                                         <a href="{% url "blog_detail" blog.slug blog.id %}" class="ltext-108 cl2 hov-cl1 trans-04">
-                                            {{blog.topic}}
+                                            {% if LANGUAGE_CODE == 'en' %}{{blog.topic}}{% else %}{{blog.topic_ar}}{% endif %}
                                         </a>
                                     </h4>
-
+                                    
                                     <p class="stext-117 cl6">
-                                        {{blog.content|truncatechars:250}}
+                                        {% if LANGUAGE_CODE == 'en' %}{{blog.content|truncatechars:250}}{% else %}{{blog.content_ar|truncatechars:250}}{% endif %}
+                                        
                                     </p>
 
                                     <div class="flex-w flex-sb-m p-t-18">
                                         <span class="flex-w flex-m stext-111 cl2 p-r-30 m-tb-10">
                                             <span>
-                                                <span class="cl4">{% trans "By" %}</span> {{blog.publisher.user.username}}  
+                                                {% if LANGUAGE_CODE == 'en' %}
+                                                <span class="cl4">By : </span> {{blog.publisher.user.username}}
+                                                {% else %}
+                                                {{blog.publisher.user.username}}<span class="cl4"> : بواسطة</span> 
+                                                {% endif %}
+
                                                 <span class="cl12 m-l-4 m-r-6">|</span>
                                             </span>
 
                                             <span>
-                                                {% for i in blog.tags_set.all %}  {{i.tag|capfirst}}  {% endfor %}  
+                                                {% for i in blog.tags_set.all %} {% if LANGUAGE_CODE == 'en' %}  {{i.tag|capfirst}} {% else %} {{i.tag_ar}} {% endif %} {% endfor %}  
                                                 <span class="cl12 m-l-4 m-r-6">|</span>
                                             </span>
 
@@ -76,14 +82,14 @@
                         </div>
 
 						<!-- Pagination -->
-						<div class="flex-l-m flex-w w-full p-t-10 m-lr--7">
-							<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
-								1
-							</a>
+						<div class="flex-l-m flex-w w-full p-t-10 m-lr--7 paginaTOr">
 
-							<a href="#" class="flex-c-m how-pagination1 trans-04 m-all-7">
-								2
+							{% for i in blogs.paginator.page_range %}
+							<a href="?page={{i}}" class="flex-c-m how-pagination1 trans-04 m-all-7">
+								{{i}}
 							</a>
+							{% endfor %}
+
 						</div>
 					</div>
 				</div>
@@ -109,15 +115,11 @@
 							<ul>
                                 {% for cat in categoriys %}
 								<li class="bor18">
-									<button class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4 caTEgor-idE" value="category" itemid="{{cat.category}}">
-										{{cat.category|capfirst}}
+									<button class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4 caTEgor-idE" value="category" itemid="{{cat.category}}" id="ctog-{{cat.id}}-bo">
+										{% if LANGUAGE_CODE == 'en' %}{{cat.category|capfirst}}{% else %}{{cat.category_ar}}{% endif %}
                                     </button>
 								</li>
                                 {% endfor %}
-
-								
-								
-								
 
 								
 							</ul>
@@ -129,11 +131,21 @@
                             </h4>
 
                             <div class="flex-w m-r--5">
+                                {% if LANGUAGE_CODE == 'en' %}
                                 {% for tag in tags %}
-                                <button class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5 TAgs-ident" value="tags" itemid="{{tag.tag}}">
-                                    {{tag.tag|capfirst}}
+                                <button class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5 TAgs-ident" value="tags" itemid="{{tag}}" id="tgsen-{{tag}}-fe">
+                                    {{tag|capfirst}}
                                 </button>
                                 {% endfor %}
+
+                                {% else %}
+
+                                {% for tag in tags_ar %}
+                                <button class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5 TAgs-ident" value="tags" itemid="{{tag}}" id="tgsar-{{tag}}-fe">
+                                    {{tag}}
+                                </button>
+                                {% endfor %}
+                                {% endif %}
 
                             </div>
                         </div>
@@ -144,101 +156,31 @@
 							</h4>
 
 							<ul>
-								<li class="p-b-7">
-									<a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											July 2018
-										</span>
 
-										<span>
-											(9)
+							{% for ar in archive %}
+								<li class="p-b-7">
+									<button class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2 ArChiVe" value="archive" >
+										<span itemid="{{ar.year}}" id="artv-{{ar.year}}-xh">
+											{{ar.year}}
 										</span>
-									</a>
+									</button>
+								</li>
+								{% endfor %}
+								<li class="p-b-7">
+									<button class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2 ArChiVe" value="archive" >
+										<span itemid="2022" id="artv-2022-xh">
+											2022
+										</span>
+									</button>
+								</li>
+								<li class="p-b-7">
+									<button class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2 ArChiVe" value="archive" >
+										<span itemid="2021" id="artv-2021-xh">
+											2021
+										</span>
+									</button>
 								</li>
 
-								<li class="p-b-7">
-									<a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											June 2018
-										</span>
-
-										<span>
-											(39)
-										</span>
-									</a>
-								</li>
-
-								<li class="p-b-7">
-									<a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											May 2018
-										</span>
-
-										<span>
-											(29)
-										</span>
-									</a>
-								</li>
-
-								<li class="p-b-7">
-									<a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											April  2018
-										</span>
-
-										<span>
-											(35)
-										</span>
-									</a>
-								</li>
-
-								<li class="p-b-7">
-									<a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											March 2018
-										</span>
-
-										<span>
-											(22)
-										</span>
-									</a>
-								</li>
-
-								<li class="p-b-7">
-									<a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											February 2018
-										</span>
-
-										<span>
-											(32)
-										</span>
-									</a>
-								</li>
-
-								<li class="p-b-7">
-									<a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											January 2018
-										</span>
-
-										<span>
-											(21)
-										</span>
-									</a>
-								</li>
-
-								<li class="p-b-7">
-									<a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											December 2017
-										</span>
-
-										<span>
-											(26)
-										</span>
-									</a>
-								</li>
 							</ul>
 						</div>
 
@@ -254,8 +196,15 @@
 {% block scripts %}
 
 <script>
-$(document).ready(function(){
-    $('#lOdinG').hide()
+    $(document).ready(function(){
+        $('#lOdinG').hide()
+        var ident = new URLSearchParams(window.location.search).get('ident');
+        if (ident){
+            console.log(ident)
+            window.onload=function(){
+                document.getElementById(ident).click();
+                };
+    }
 
 $("#seARch-Blog").submit(function(e){
     var search_qury=$("#seaRCh-query").val()
@@ -275,6 +224,7 @@ $("#seARch-Blog").submit(function(e){
         success:function(data){
             $('#lOdinG').hide()
             $('#conteNT-BloG').html(data.blog_search)
+            $('.paginaTOr').hide()
             //
         }
     });
@@ -285,7 +235,7 @@ $("#seARch-Blog").submit(function(e){
 
 
 
-$(".TAgs-ident,.caTEgor-idE").click(function(){
+$(".TAgs-ident,.caTEgor-idE,.ArChiVe").click(function(){
     var button=$(this).val()
     var text = event.target.getAttribute('itemid'); 
     
@@ -304,6 +254,7 @@ $(".TAgs-ident,.caTEgor-idE").click(function(){
         success:function(data){
             $('#lOdinG').hide()
             $('#conteNT-BloG').html(data.blog_otheid)
+            $('.paginaTOr').hide()
         }
     });
 });

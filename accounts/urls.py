@@ -6,10 +6,15 @@ urlpatterns = [
     path('login-function/',views.login_fuction,name='login-function'),
 
     path('singup/',views.SINGUP,name='singup'),
+    path('singup_function/',views.singup_function,name='singup_function'),
+    
     path('active/',views.activation_account,name='active'),
 
     path('input_emali_pass/',views.INPUT_EMAIL_PASS,name='input_emali_pass'),
     path('reset_password/',views.reset_passowrd,name='reset_password'),
+
+    path('verif_code_activ/',views.verif_code_activ,name='verif_code_activ'),
+    path('verification_code/',views.verification_code,name='verification_code'),
 
     path('new_password/',views.new_password,name='new_password'),
 
@@ -21,5 +26,9 @@ urlpatterns = [
 
 
     path('make_temp/',views.make_tep_session,name='make_temp'),
+
+    path('on_popup/',views.on_popup,name='on_popup'),
+    path('is_popup/',views.is_popup,name='is_popup'),
+
 
 ]

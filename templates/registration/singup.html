@@ -1,112 +1,362 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 {% block content %}
-<style>
-  .custom {
-    width: 50%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 2px solid #343117;
-    border-radius: 50px;
-    font-size: 16px;
-    min-width: 179px;
-    height: 46px;
-    position: relative;
-    left: 450px;
+<title>{% trans "SingUp" %}</title>
+<div class="singup">
+  <div class="container">
+    <h1>{% trans "Create An Account" %}</h1>
+    <span class="careat-account"></span>
+    <div class="content">
+      <div class="manw-sing">
+        <h3>{% trans "SIGN UP WITH EMAIL ADDRESS" %}</h3>
+        <span class="includ-msg">{% include 'includes/masg.html' %}</span>
+        <form action="{% url 'singup' %}" method="POST">
+            {% csrf_token %}
+            <div class="field field_v1">
+              <label for="first-name" class="ha-screen-reader" >{% trans "First name" %}</label>
+              <input name='first_name' id="first-inp"   class="field__input" placeholder="" required>
+              <span class="field__label-wrap" aria-hidden="true">
+                <span class="field__label">{% trans "First name" %}</span>
+              </span>
+            </div>
+
+            <div class="field field_v1">
+              <label for="first-name" class="ha-screen-reader">{% trans "Last name" %}</label>
+              <input name='last_name' id="last-inp"  class="field__input" placeholder="" required> 
+              <span class="field__label-wrap" aria-hidden="true">
+                <span class="field__label">{% trans "Last name" %}</span>
+              </span>
+            </div>
+
+            
+            <div class="field field_v1 email-feld">
+              <label for="first-name" class="ha-screen-reader">{% trans "E-mail" %}</label>
+              <input type="email" name='email' id="email-inp" class="field__input inp-email " placeholder="" required>
+              <span class="field__label-wrap" aria-hidden="true">
+                <span class="loader"></span>
+                <span class="field__label">{% trans "E-mail" %}</span>
+              </span>
+            </div>
+
+            <div class="error-text">
+              {% if LANGUAGE_CODE == 'en' %}
+              <h6>Email is invalid</h6>
+              
+              {% else %}
+              <h6>البريد الإلكتروني غير صالح</h6>
+              {% endif %}
+            </div>
+
+            <div class="field field_v1">
+              <label for="first-name" class="ha-screen-reader">{% trans "Username" %}</label>
+              <input name='username' id="username-inp"  class="field__input" placeholder="" required>
+              <span class="field__label-wrap" aria-hidden="true">
+                <span class="field__label">{% trans "Username" %}</span>
+              </span>
+            </div>
+
+            <div class="field field_v1 passw-feld">
+              <label for="first-name" class="ha-screen-reader">{% trans "Password" %}</label>
+              <input type="password"  name='password' id="passw-inp" class="field__input inp-passw " placeholder="" required>
+              <span class="field__label-wrap" aria-hidden="true">
+                <span class="loader-password"></span>
+                <span class="field__label">{% trans "Password" %}</span>
+              </span>
+            </div>
+            
+            <div class="error-text-password">
+              {% if LANGUAGE_CODE == 'en' %}
+              <h6>The password is weak, please enter at least 6 characters</h6>
+              
+              {% else %}
+              <h6>كلمة السر ضعيفة ، يرجي ادخال ٦ احرف علي الاقل</h6>
+              {% endif %}
+            </div>
+
+            <button class="creat-btn dis-button" id="butonnd-id">{% trans "create an account" %}</button>
+        </form>
+      </div>
+      <span class="break"></span>
+      <div class="social-sing">
+        <h3>{% trans "SIGN UP WITH SOCIAL MEDIA" %}</h3>
+        
+        <button class="sinGup-FAceBO">{% trans "singup with facebook" %}<img src="{% static 'images/icons/485746.png' %}" alt=""></button>
+
+        <button class="sinGup-GoOGle">{% trans "singup with Google" %} <img src="{% static 'images/icons/846412.png' %}" alt=""></button>
+
+        <h5>{% trans "ALREADY HAVE AN ACCOUNT?" %}</h5>
+        <a href="{% url "login" %}">{% trans "login here" %} <span>
+          <img src="{% static 'images/icons/465468.png' %}" alt="">
+        </span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  {% endblock content %}
+  
+
+
+
+
+{% block scripts %}	
+
+
+
+
+<script>
+
+  $(document).ready(function(){
+    $.ajax({
+      url:'/accounts/on_popup/',
+      data:{
+      },
+      dataType:'json',
+      success: function(data){
+        if (data.on_ == true){
+          window.close()
+
+        }
+      }
+    });
+
+    $('.error-text').hide()
+    $('.error-text-password').hide()
+    $('.loader').hide()
+    $('.loader-password').hide()
+    
+	});
+
+  
+  $(".sinGup-FAceBO").click(function() {
+    
+    $.ajax({
+      url:'/accounts/make_temp/',
+      data:{
+      },
+      dataType:'json',
+      beforeSend:function(){
+        
+      },
+      success: function(data){
+        var url="{% url 'social:begin' 'facebook' %}"
+        window.open(url, "_blank", "width=500,height=600,left=700,top=210");
+        
+        var interval = setInterval(function() {
+          $.ajax({
+            url:'/accounts/is_popup/',
+            data:{
+            },
+            dataType:'json',
+            success: function(data){
+              if (data.popup === true){
+                  window.location.href='/'
+              }
+            }
+          });
+        }, 3500);
+      }
+    });
+  });
+  
+  $(".sinGup-GoOGle").click(function() {
+    
+    
+    $.ajax({
+      url:'/accounts/make_temp/',
+      data:{
+      },
+      dataType:'json',
+      beforeSend:function(){
+        
+      },
+      success: function(data){
+        //window.location.href="{% url 'social:begin' 'google-oauth2' %}"
+        var url = "{% url 'social:begin' 'google-oauth2' %}";
+        var myWindow=window.open(url, "0", "width=500,height=600,left=700,top=210");
+
+        var interval = setInterval(function() {
+          $.ajax({
+            url:'/accounts/is_popup/',
+            data:{
+            },
+            dataType:'json',
+            success: function(data){
+              if (data.popup === true){
+                  window.location.href='/'
+              }
+            }
+          });
+        }, 3500);
+      }
+    });
+  });
+
+
+
+//Fisrt Name
+var firstField = document.getElementById('first-inp');
+firstField.addEventListener('input', function() {
+  var first = firstField.value;
+
+  //====
+  var las = document.getElementById('last-inp').value;
+  var use = document.getElementById('username-inp').value;
+  var pas = document.getElementById('passw-inp').value;
+  //====
+  if (first != '' && las != '' && use != '' && pas.length >= 6 && !$('.inp-email').hasClass('wrong-input') ){
+    $('.creat-btn').removeClass('dis-button')
+    $('.creat-btn').attr('disabled',false);
   }
-
-
-  .butonnd{
-    background-color: #4CAF50; /* لون الخلفية */
-  border: none; /* إزالة حدود الزر */
-  color: white; /* لون النص */
-  padding: 15px 32px; /* حجم الزر */
-  text-align: center; /* محاذاة النص في الزر */
-  text-decoration: none; /* إزالة تأثيرات النص */
-  display: inline-block; /* عرض الزر كعنصر مستقل */
-  font-size: 16px; /* حجم الخط */
-  margin: 4px 2px; /* هامش الزر */
-  cursor: pointer; /* تحويل المؤشر إلى يد عند التحريك فوق الزر */
-  border-radius: 10px; /* إضافة زوايا مستديرة للزر */
-  position: relative;
-    left: 450px;
+  else{
+    $('.creat-btn').addClass('dis-button')
+    $('.creat-btn').attr('disabled',true);
   }
-  .tex1{
-    position: relative;
-    left: 700px;
+});
+
+// Last Name
+var lastField = document.getElementById('last-inp');
+lastField.addEventListener('input', function() {
+  var last = lastField.value;
+    //====
+    var fir = document.getElementById('first-inp').value;
+    var use = document.getElementById('username-inp').value;
+    var pas = document.getElementById('passw-inp').value;
+    //====
+  if (fir != '' && last != '' && use != '' && pas.length >= 6 && !$('.inp-email').hasClass('wrong-input') ){
+    $('.creat-btn').removeClass('dis-button')
+    $('.creat-btn').attr('disabled',false);
   }
-
-</style>
-
-
-
-<br>
-<br>
-
-<br>
-<br>
-<br>
-<br>
-
-{% include 'includes/masg.html' %}
-<form action="{% url 'singup' %}" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    <h5 class="tex1">first name</h5>
-    <input type="text" name='first_name' class="custom" required>
-
-    <h5 class="tex1">last name</h5>
-    <input type="text" class="custom" name='last_name' >
-
+  else{
+    $('.creat-btn').addClass('dis-button')
+    $('.creat-btn').attr('disabled',true);
     
+  }
+});
+
+
+//Email
+  var emailField = document.getElementById('email-inp');
+  emailField.addEventListener('input', function() {
+    var email = emailField.value;
+
+    //====
+    var fir = document.getElementById('first-inp').value;
+    var las = document.getElementById('last-inp').value;
+    var use = document.getElementById('username-inp').value;
+    var pas = document.getElementById('passw-inp').value;
+    //====
+
+    $.ajax({
+      url:'/accounts/singup_function/',
+      data:{
+        "email":email
+      },
+      dataType:'json',
+      beforeSend:function(){
+        $('.loader').show()
+      },
+      success: function(data){
+        if (data.is_exist){
+          $('.error-text').show()
+          $('.inp-email').addClass('wrong-input')
+        }
+        else {
+          $('.error-text').hide()
+          $('.inp-email').removeClass('wrong-input')
+          
+        }
+        if (fir != '' && las != '' && use != '' && pas.length >= 6 && !$('.inp-email').hasClass('wrong-input') ){
+          $('.creat-btn').removeClass('dis-button')
+          $('.creat-btn').attr('disabled',false);
+        }
+        else{
+          $('.creat-btn').addClass('dis-button')
+          $('.creat-btn').attr('disabled',true);
+          
+        }
+        $('.loader').hide()
+      }
+    });
+  });
+
+
+//usrname
+var usernameField = document.getElementById('username-inp');
+usernameField.addEventListener('input', function() {
+  var username = usernameField.value;
+
+
+  //====
+    var fir = document.getElementById('first-inp').value;
+    var las = document.getElementById('last-inp').value;
+    var pas = document.getElementById('passw-inp').value;
+    //====
+  if (fir != '' && las != '' && username != '' && pas.length >= 6 && !$('.inp-email').hasClass('wrong-input') ){
+    $('.creat-btn').removeClass('dis-button')
+    $('.creat-btn').attr('disabled',false);
+  }
+  else{
+    $('.creat-btn').addClass('dis-button')
+    $('.creat-btn').attr('disabled',true);
     
-    <h5 class="tex1">email</h5>
-    <input type="email" class="custom" name='email' >
-    
-    <h5 class="tex1">username</h5>
-    <input type="text" class="custom" name='username' >
-    
-    <h5 class="tex1">password</h5>
-    <input type="password" class="custom" name='password' >
+  }
+});
 
-    
+//Password
+  var PassowrdField = document.getElementById('passw-inp');
+  PassowrdField.addEventListener('input', function() {
+    var password = PassowrdField.value;
 
-    
-
-
-
-
-
-
-
-
-
-
-
-
+      //====
+      var fir = document.getElementById('first-inp').value;
+      var las = document.getElementById('last-inp').value;
+      var use = document.getElementById('username-inp').value;
+      //====
+    if (fir != '' && las != '' && use != '' && password.length >= 6 && !$('.inp-email').hasClass('wrong-input') ){
+      $('.creat-btn').removeClass('dis-button')
+      $('.creat-btn').attr('disabled',false);
+    }
+    else{
+      $('.creat-btn').addClass('dis-button')
+      $('.creat-btn').attr('disabled',true);
+      
+    }
 
 
+    $.ajax({
+      url:'/accounts/singup_function/',
+      data:{
+        "password":password
+      },
+      dataType:'json',
+      beforeSend:function(){
+        $('.loader-password').show()
+      },
+      success: function(data){
+        if (data.is_good){
+          $('.error-text-password').hide()
+          $('.inp-passw').removeClass('wrong-input')
+          //$('.creat-btn').attr('disabled',false);
+        }
+        else {
+          $('.error-text-password').show()
+          $('.inp-passw').addClass('wrong-input')
+          //$('.creat-btn').attr('disabled',true);
+        }
+        $('.loader-password').hide()
+      }
+    });
+  });
+
+
+//button
+
+
+</script>
+
+{% endblock scripts %}
 
 
 
-
-
-
-
-
-
-    <button class="butonnd" id="butonnd-id">supmmet</button>
-</form>
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-{% endblock content %}

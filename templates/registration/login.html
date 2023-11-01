@@ -1,126 +1,85 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 {% block content %}
-<style>
-  #id_email {
-    width: 50%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 2px solid #343117;
-    border-radius: 50px;
-    font-size: 16px;
-    min-width: 179px;
-    height: 46px;
-    position: relative;
-    left: 450px;
-  }
+<title>{% trans "LogIn" %}</title>
+<div class="singup">
+  <div class="container">
+    <h1>{% trans "log in" %}</h1>
+    <span class="careat-account"></span>
+    <div class="content">
+      <div class="manw-sing">
+        <h3>{% trans "LOG IN WITH EMAIL ADDRESS" %}</h3>
+        <span class="includ-msg">{% include 'includes/masg.html' %}</span>
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            <div class="field field_v1 email-feld">
+              <label for="email" class="ha-screen-reader">{% trans "E-mail" %}</label>
+              <input type="email" name='email' id="email-inp" class="field__input inp-email " placeholder="" {% if email_value %} value="{{email_value}}" {% else %}value=""{% endif %} required>
+              <span class="field__label-wrap" aria-hidden="true">
+                <span class="loader"></span>
+                <span class="field__label">{% trans "E-mail" %}</span>
+              </span>
+            </div>
+            <div class="error-text">
+              {% if LANGUAGE_CODE == 'en' %}
+              <h6>This email is not yet linked to an account</h6>
+              
+              {% else %}
+              <h6>هذ البريد الإلكتروني لم يتم ربطه بحساب بعد</h6>
+              {% endif %}
+            </div>
 
-  #id_password {
-    width: 50%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 2px solid #3e3a18;
-    border-radius: 50px;
-    font-size: 16px;
-    position: relative;
-    left: 450px;
-    
-    
-  }
+            <div class="field field_v1 passw-feld">
+              <label for="password" class="ha-screen-reader">{% trans "Password" %}</label>
+              <input type="password"  name='password' id="passw-inp" class="field__input inp-passw " placeholder="" required>
+              <span class="field__label-wrap" aria-hidden="true">
+                <span class="field__label">{% trans "Password" %}</span>
+              </span>
+            </div>
+            <button class="login-btn dis-button" id="butonnd-id">{% trans "log in" %}</button>
+            <a href="{% url "input_emali_pass" %}">{% trans "Forgot Password ?" %}</a>
+        </form>
+      </div>
+      <span class="break"></span>
+      <div class="social-sing">
+        <h3>{% trans "LOG IN WITH SOCIAL MEDIA" %}</h3>
+        
+        <button class="sinGup-FAceBO">{% trans "log in with facebook" %}<img src="{% static 'images/icons/485746.png' %}" alt=""></button>
 
-  .butonnd{
-    background-color: #4CAF50; /* لون الخلفية */
-  border: none; /* إزالة حدود الزر */
-  color: white; /* لون النص */
-  padding: 15px 32px; /* حجم الزر */
-  text-align: center; /* محاذاة النص في الزر */
-  text-decoration: none; /* إزالة تأثيرات النص */
-  display: inline-block; /* عرض الزر كعنصر مستقل */
-  font-size: 16px; /* حجم الخط */
-  margin: 4px 2px; /* هامش الزر */
-  cursor: pointer; /* تحويل المؤشر إلى يد عند التحريك فوق الزر */
-  border-radius: 10px; /* إضافة زوايا مستديرة للزر */
-  position: relative;
-    left: 450px;
-  }
-  .tex1{
-    position: relative;
-    left: 700px;
-  }
-  .tex2{
-    position: relative;
-    left: 700px;
-  }
-</style>
+        <button class="sinGup-GoOGle">{% trans "log in with Google" %} <img src="{% static 'images/icons/846412.png' %}" alt=""></button>
 
+        <h5>{% trans "DON'T HAVE AN ACCOUNT YET?" %}</h5>
+        <a href="{% url "singup" %}">{% trans "singup here " %}<span>
+          <img src="{% static 'images/icons/465468.png' %}" alt="">
+        </span></a>
+      </div>
+    </div>
+  </div>
+</div>
 
+  {% endblock content %}
+  
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-{% include 'includes/masg.html' %}
-<form action="{% url 'login' %}" method="POST">
-    {% csrf_token %}
-    <h5 class="tex1">email</h5>
-    <input type="email" id="id_email" name='email' {% if email_value %} value="{{email_value}}" {% else %}value=""{% endif %}>
-    <h5 class="tex2">password</h5>
-    <input type="password" id="id_password" name='password'>
-    {% comment %} <a href='{% provider_login_url "facebook" %}'>Twitter</a> {% endcomment %}
-    <button class="butonnd" id="butonnd-id">supmmet</button>
-    <a href='{% url "input_emali_pass" %}' class="tex1" >forget password?</a>
-  </form>
-  <button  class="butonnd logIN-FAceBO"> Login with Facebook</button>
-  <button  class="butonnd LOgin-GoOGle"> Login with Google</button>
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-{% endblock content %}
 
 
 
 {% block scripts %}	
-<script>
-  $("#id_email").change(function() {
-    var email = $(this).val();
-    var password = $("#id_password").val();
 
-    $.ajax({
-			url:'/accounts/login-function/',
-			data:{
-        'email':email,
-			},
-			dataType:'json',
-      beforeSend:function(){
-				
-			},
-			success: function(data){
-        if  (data.is_exist){
-          console.log('the email is corrict')
-        }
-        else {
-          alert('the email is not corrict')
-        }
-        
-			}
-		});
-  });
+
+
+
+<script>
+
+  $(document).ready(function(){
+
+    $('.error-text').hide()
+    $('.loader').hide()
+    
+	});
+
   
-  $(".logIN-FAceBO").click(function() {
+  $(".sinGup-FAceBO").click(function() {
     
     $.ajax({
       url:'/accounts/make_temp/',
@@ -132,14 +91,27 @@
       },
       success: function(data){
         var url="{% url 'social:begin' 'facebook' %}"
-        window.open(url, "_blank", "width=500,height=500,left=700,top=210");
+        window.open(url, "_blank", "width=500,height=600,left=700,top=210");
         
-        
+        var interval = setInterval(function() {
+          $.ajax({
+            url:'/accounts/is_popup/',
+            data:{
+            },
+            dataType:'json',
+            success: function(data){
+              if (data.popup === true){
+                  window.location.href='/'
+              }
+            }
+          });
+        }, 3500);
       }
     });
   });
   
-  $(".LOgin-GoOGle").click(function() {
+  $(".sinGup-GoOGle").click(function() {
+    
     
     $.ajax({
       url:'/accounts/make_temp/',
@@ -150,15 +122,93 @@
         
       },
       success: function(data){
+        //window.location.href="{% url 'social:begin' 'google-oauth2' %}"
         var url = "{% url 'social:begin' 'google-oauth2' %}";
-        window.open(url, "_blank", "width=500,height=500,left=700,top=210");
+        var myWindow=window.open(url, "0", "width=500,height=600,left=700,top=210");
+
+        var interval = setInterval(function() {
+          $.ajax({
+            url:'/accounts/is_popup/',
+            data:{
+            },
+            dataType:'json',
+            success: function(data){
+              if (data.popup === true){
+                  window.location.href='/'
+              }
+            }
+          });
+        }, 3500);
       }
     });
   });
-  
+
+
+
+//Email
+  var emailField = document.getElementById('email-inp');
+  emailField.addEventListener('input', function() {
+    var email = emailField.value;
+    var pas = document.getElementById('passw-inp').value;
+
+    $.ajax({
+      url:'/accounts/login-function/',
+      data:{
+        "email":email
+      },
+      dataType:'json',
+      beforeSend:function(){
+        $('.loader').show()
+      },
+      success: function(data){
+        if (!data.is_exist){
+          $('.error-text').show()
+          $('.inp-email').addClass('wrong-input')
+        }
+        else {
+          $('.error-text').hide()
+          $('.inp-email').removeClass('wrong-input')
+          
+        }
+        if ( pas.length >= 6 && !$('.inp-email').hasClass('wrong-input')  ){
+          $('.login-btn').removeClass('dis-button')
+          $('.login-btn').attr('disabled',false);
+        }
+        else{
+          $('.login-btn').addClass('dis-button')
+          $('.login-btn').attr('disabled',true);
+          
+        }
+        $('.loader').hide()
+      }
+    });
+  });
+
+
+
+
+//Password
+var PassowrdField = document.getElementById('passw-inp');
+PassowrdField.addEventListener('input', function() {
+  var email = document.getElementById('email-inp').value;
+  var password = PassowrdField.value;
+
+  if ( password.length >= 6 && !$('.inp-email').hasClass('wrong-input') && email != '' ){
+    $('.login-btn').removeClass('dis-button')
+    $('.login-btn').attr('disabled',false);
+  }
+  else{
+    $('.login-btn').addClass('dis-button')
+    $('.login-btn').attr('disabled',true);
+    
+  }
+});
 
 
 
 </script>
 
 {% endblock scripts %}
+
+
+

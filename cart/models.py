@@ -1,6 +1,6 @@
 
 from django.db import models
-from store.models import Product
+from store.models import Product,Color_List,Size_List
 from accounts.models import Accounts
 
 
@@ -29,8 +29,8 @@ class Temporary_cart(models.Model):
 class CartItem (models.Model):
     user=models.ForeignKey(Accounts,on_delete=models.CASCADE,null=True)
     product=models.ForeignKey(Product,on_delete=models.CASCADE)
-    color=models.CharField(max_length=20)
-    size=models.CharField(max_length=20)
+    color=models.ForeignKey(Color_List,on_delete=models.CASCADE)
+    size=models.ForeignKey(Size_List,on_delete=models.CASCADE)
     cart=models.ForeignKey(Cart,on_delete=models.CASCADE,null=True,blank=True)
     quantity=models.IntegerField()
     #discount_code=models.ForeignKey(Discount_codes,on_delete=models.PROTECT,null=True,blank=True)

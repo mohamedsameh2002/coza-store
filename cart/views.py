@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from store.models import Product
+from store.models import Product,Color_List,Size_List
 from .models import Cart,CartItem
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from discounts.models import Discount_codes
 from accounts.models import UserProfile
+from django.db.models import Q
 
 # Create your views here.
 def _cart_id (request):
@@ -21,21 +22,22 @@ def ADD_CART (request,total=0,quantity=0,cart_items=None):
     # glopel variaple
 
     prod_id=request.GET.get('id')
-    sizes=request.GET.get('size')
-    colors=request.GET.get('color')
+    sizes_select=request.GET.get('size')
+    colors_select=request.GET.get('color')
     qty=request.GET.get('qty')
     url=request.META.get('HTTP_REFERER')
     user=request.user
     product=Product.objects.get(id=prod_id)
+    colors=Color_List.objects.get(Q(color_name__iexact=colors_select) | Q(color_name_ar=colors_select))
+    sizes=Size_List.objects.get(Q(size_name=sizes_select) | Q(size_name_ar=sizes_select))
+
     #=========================================
 
     if request.user.is_authenticated:
         is_cart_item_exist=CartItem.objects.filter(product=product,user=user,color=colors,size=sizes).exists()
         # check if request came from cart or product detail
         if 'cart' in request.META.get('HTTP_REFERER'):
-            color=request.GET.get('color')
-            size=request.GET.get('size')
-            cart_item=CartItem.objects.get(product=product,user=user,color=color,size=size)
+            cart_item=CartItem.objects.get(product=product,user=user,color=colors,size=sizes)
             cart_item.quantity+=1
             cart_item.save()
             
@@ -150,9 +152,11 @@ def ADD_CART (request,total=0,quantity=0,cart_items=None):
 
 
 def DECREMENT_CART (request,total=0,cart_items=None):
-    color=request.GET.get('color')
-    size=request.GET.get('size')
+    color_incart=request.GET.get('color')
+    size_incart=request.GET.get('size')
     prod_id=request.GET.get('id')
+    color=Color_List.objects.get(Q(color_name__iexact=color_incart) | Q(color_name_ar=color_incart))
+    size=Size_List.objects.get(Q(size_name=size_incart) | Q(size_name_ar=size_incart))
 
     product=get_object_or_404(Product,id=prod_id)
     try:
@@ -229,7 +233,11 @@ def DECREMENT_CART (request,total=0,cart_items=None):
     else:
         cart=Cart.objects.get(cart_id=_cart_id(request))
         cart_items=CartItem.objects.filter(cart=cart,in_active=True)
-    template=render_to_string('ajax/cart_aj.html',{'cart_items':cart_items})
+    if '/en/' in request.path:
+        lang='en'
+    else:
+        lang='ar'
+    template=render_to_string('ajax/cart_aj.html',{'cart_items':cart_items,'lang':lang})
     template_2=render_to_string('ajax/cart_emty_aj.html')
     templ_side_cart=render_to_string('ajax/sid_cart.html',{'cart_items':cart_items})
 #========
@@ -240,8 +248,10 @@ def DECREMENT_CART (request,total=0,cart_items=None):
 
 
 def REMOVE_ITEM (request,total=0,cart_items=None):
-    color=request.GET.get('color')
-    size=request.GET.get('size')
+    color_incart=request.GET.get('color')
+    size_incart=request.GET.get('size')
+    color=Color_List.objects.get(Q(color_name__iexact=color_incart) | Q(color_name_ar=color_incart))
+    size=Size_List.objects.get(Q(size_name=size_incart) | Q(size_name_ar=size_incart))
     prod_id=request.GET.get('id')
     product=get_object_or_404(Product,id=prod_id)
     if request.user.is_authenticated:
@@ -311,8 +321,11 @@ def REMOVE_ITEM (request,total=0,cart_items=None):
     else:
         cart=Cart.objects.get(cart_id=_cart_id(request))
         cart_items=CartItem.objects.filter(cart=cart,in_active=True)
-        
-    template=render_to_string('ajax/cart_aj.html',{'cart_items':cart_items})
+    if '/en/' in request.path:
+        lang='en'
+    else:
+        lang='ar'
+    template=render_to_string('ajax/cart_aj.html',{'cart_items':cart_items,'lang':lang})
     template_2=render_to_string('ajax/cart_emty_aj.html')
     templ_side_cart=render_to_string('ajax/sid_cart.html',{'cart_items':cart_items})
 
@@ -326,7 +339,6 @@ def REMOVE_ITEM (request,total=0,cart_items=None):
 
 
 def CART (request,total=0,quantity=0,cart_items=None):
-
     if request.method == 'POST':
         code=request.POST.get('coupon')
         try:

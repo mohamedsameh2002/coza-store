@@ -19,6 +19,7 @@ urlpatterns += i18n_patterns(
     path('orders/', include('orders.urls')),
     path('accounts/', include('accounts.urls')),
     path('blog/', include('blog.urls')),
+    path('communication/', include('communication.urls')),
 
     path('oauth/', include('social_django.urls', namespace='social')),
 

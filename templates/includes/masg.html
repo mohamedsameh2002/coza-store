@@ -1,12 +1,22 @@
+{% load static %}
+{% load i18n %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/edit.css' %}">
 {% if messages %}
+
 <div id="message" class="container">
     {% for message in messages %}
-    <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">
-        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
-        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error: {% endif %}
-        {{ message }}
+    <div {% if message.tags %} class="mesg-custome-{{message.tags}}" {% if LANGUAGE_CODE == 'en' %} style="direction: ltr; text-align: center; padding-right: 33px;" {% else %} style="direction: rtl; text-align: center; padding-left: 33px;" {% endif %} {% endif %} role="alert">
+        <span class="text">{{ message }}</span>
     </div>
 </div>
 {% endfor %}
 {% endif %}
 
+
+<script>
+    //setTimeout(function(){
+        //$('#message').fadeOut('slow')
+    //},4000)
+
+</script>
