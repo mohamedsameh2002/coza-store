@@ -1,17 +1,13 @@
-from django.shortcuts import render,redirect
-from .models import Product,ProductGallery,Favorite,Category,Customizations,ReviewRating,Favorite_storeg_id,Size_List,Color_List
+from django.shortcuts import render
+from .models import Product,ProductGallery,Category,Customizations,ReviewRating,Size_List,Color_List
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.db.models import Q
 import secrets
 from accounts.models import UserProfile
+from django.views.generic.list import ListView
 # Create your views here.
 
-def _favorit_id (request):
-    favorit=request.session.session_key
-    if not favorit :
-        favorit=request.session.create()
-    return favorit
 
 def PRODUCTS (request):
     if '/en/' in request.path:lang='en'
@@ -22,32 +18,16 @@ def PRODUCTS (request):
     sizes=Customizations.objects.filter(status=True).values('sizes__size_name','sizes__size_name_ar','sizes__id').distinct()
     colors=Customizations.objects.filter(status=True).values('colors__color_name','colors__color_code','colors__id').distinct()
     count_products=Product.objects.count()
-    if request.user.is_authenticated:
-        is_fav=Favorite.objects.filter(user=request.user)
-        id_products_list=[]
-        for i in is_fav:
-            get_id=i.product_id
-            id_products_list.append(get_id)
-    else:
-        try:
-            fave_storeg=Favorite_storeg_id.objects.get(favorite_id=_favorit_id(request))
-        except Favorite_storeg_id.DoesNotExist:
-            fave_storeg=Favorite_storeg_id.objects.create(favorite_id=_favorit_id(request))
-            fave_storeg.save()
-        is_fav=Favorite.objects.filter(by_session=fave_storeg)
-        id_products_list=[]
-        for i in is_fav:
-            get_id=i.product_id
-            id_products_list.append(get_id)
+    all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
 
     context={
         'products':products,
-        'id_products_list':id_products_list,
         'category':category,
         'colors':colors,
         'sizes':sizes,
         'count_products':count_products,
         'lang':lang,
+        'all_favorit':all_favorit,
     }
     return render(request,'store/products.html',context)
 
@@ -190,28 +170,11 @@ def LOAD_MORE(request):
 
 
 
-
+    all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
 #==============================================================
-    if request.user.is_authenticated:
-        is_fav=Favorite.objects.filter(user=request.user)
-        id_products_list=[]
-        for i in is_fav:
-            get_id=i.product_id
-            id_products_list.append(get_id)
-    else:
-        try:
-            fave_storeg=Favorite_storeg_id.objects.get(favorite_id=_favorit_id(request))
-        except Favorite_storeg_id.DoesNotExist:
-            fave_storeg=Favorite_storeg_id.objects.create(favorite_id=_favorit_id(request))
-        fave_storeg.save()
-        is_fav=Favorite.objects.filter(by_session=fave_storeg)
-        id_products_list=[]
-        for i in is_fav:
-            get_id=i.product_id
-            id_products_list.append(get_id)
+    
     context={
         'products':products,
-        'id_products_list':id_products_list,
         'random_1_fvort':random_1_fvort,
         'random_2_qick':random_2_qick,
         'random_3_addmodal':random_3_addmodal,
@@ -220,6 +183,7 @@ def LOAD_MORE(request):
         'random_6_js_color':random_6_js_color,
         'random_7_wrap_slik':random_7_wrap_slik,
         'lang':lang,
+        'all_favorit':all_favorit,
     }
     t=render_to_string('ajax/products_loadmore.html',context)
     return JsonResponse({'data':t,'count':count})
@@ -236,7 +200,8 @@ def PRODUCT_DETAILS (request,id):
     colors=Customizations.objects.filter(status=True,product=product).values('colors__color_name','colors__color_name_ar').distinct()
     
 
-    reviews=ReviewRating.objects.filter(status=True,product=product).order_by('-created_at')
+    reviews=ReviewRating.objects.filter(status=True,product=product).order_by('-created_at')[:1]
+    count_reviews=ReviewRating.objects.filter(status=True,product=product).order_by('-created_at').count()
     try:
         user=request.user
         profile_user=UserProfile.objects.get(user=user)
@@ -247,36 +212,10 @@ def PRODUCT_DETAILS (request,id):
         rating=None
     
 
-    if request.user.is_authenticated:
-        is_fav=Favorite.objects.filter(user=request.user,product_id=id).exists()
-    else:
-        
-        try:
-            fave_storeg=Favorite_storeg_id.objects.get(favorite_id=_favorit_id(request))
-        except Favorite_storeg_id.DoesNotExist:
-            fave_storeg=Favorite_storeg_id.objects.create(favorite_id=_favorit_id(request))
-            fave_storeg.save()
-
-        is_fav=Favorite.objects.filter(by_session=fave_storeg,product_id=id)
+    
 
     #==========
-    if request.user.is_authenticated:
-        is_fav_2=Favorite.objects.filter(user=request.user)
-        id_products_list=[]
-        for i in is_fav_2:
-            get_id=i.product_id
-            id_products_list.append(get_id)
-    else:
-        try:
-            fave_storeg=Favorite_storeg_id.objects.get(favorite_id=_favorit_id(request))
-        except Favorite_storeg_id.DoesNotExist:
-            fave_storeg=Favorite_storeg_id.objects.create(favorite_id=_favorit_id(request))
-        fave_storeg.save()
-        is_fav_2=Favorite.objects.filter(by_session=fave_storeg)
-        id_products_list=[]
-        for i in is_fav_2:
-            get_id=i.product_id
-            id_products_list.append(get_id)
+    
     lang=None
     if '/en/' in request.path:
         lang='en'
@@ -287,14 +226,13 @@ def PRODUCT_DETAILS (request,id):
     context={
         'product':product,
         'product_gallery':product_gallery,
-        'is_fav':is_fav,
         'sizes':sizes,
         'colors':colors,
         'products':products,
         'reviews':reviews,
+        'count_reviews':count_reviews,
         'valeue':valeue,
         'rating':rating,
-        'id_products_list':id_products_list,
         'lang':lang,
     }
     return render(request,'store/product_details.html',context)
@@ -331,61 +269,53 @@ def order_selection_filter(request):
 
 
 def ADD_FAVORITE (request):
-    if request.user.is_authenticated:
-        prod_id=request.GET.get('id')
-        # url=request.META.get('HTTP_REFERER')
-        is_prod_exist=Favorite.objects.filter(user=request.user,product_id=prod_id).exists()
-        if is_prod_exist:
-            favorite=Favorite.objects.get(user=request.user,product_id=prod_id).delete()
-        else:
-            favorite=Favorite.objects.create(user=request.user,product_id=prod_id)
-        
-        count=Favorite.objects.filter(user=request.user).count()
-        favorite=Favorite.objects.filter(user=request.user)
-        likes=Favorite.objects.filter(product__id=prod_id).exclude(user=None).count()
+    if '/en/' in request.path:
+        lang='en'
     else:
-        try:
-            fave_storeg=Favorite_storeg_id.objects.get(favorite_id=_favorit_id(request))
-        except Favorite_storeg_id.DoesNotExist:
-            fave_storeg=Favorite_storeg_id.objects.create(favorite_id=_favorit_id(request))
-        fave_storeg.save()
-        prod_id=request.GET.get('id')
-        is_prod_exist=Favorite.objects.filter(by_session=fave_storeg,product_id=prod_id).exists()
-        if is_prod_exist:
-            favorite=Favorite.objects.get(by_session=fave_storeg,product_id=prod_id)
-            favorite.delete()
+        lang='ar'
+    id=request.GET.get('id')
+    if request.user.is_authenticated:
+        product=Product.objects.get(id=id)
+        is_user_favorit=product.favorits.filter(email__iexact=request.user.email).exists()
+        if is_user_favorit:
+            product.favorits.remove(request.user)
         else:
-            favorite=Favorite.objects.create(by_session=fave_storeg,product_id=prod_id)
-        count=Favorite.objects.filter(by_session=fave_storeg).count()
-        favorite=Favorite.objects.filter(by_session=fave_storeg)
-        likes=Favorite.objects.filter(product__id=prod_id).exclude(user=None).count()
-
-
-    template=render_to_string('ajax/favorit_aj.html',{'favorite':favorite})
+            product.favorits.add(request.user)
+    else:
+        pass
+    likes=product.favorits.count()
+    count=Product.objects.filter(favorits__email__iexact=request.user.email).count()
+    favorite=Product.objects.filter(favorits__email__iexact=request.user.email)
+    template=render_to_string('ajax/favorit_aj.html',{'products':favorite,'lang':lang})
     template_2=render_to_string('ajax/favorit_imty_aj.html')
     data={
-        'count':count,
         'template':template,
         'template_2':template_2,
-        'is_prod_exist':is_prod_exist,
         'likes':likes,
+        'count':count,
     }
     return JsonResponse(data)
 
 
 
-def FAVORITE_PAGE (request):
-    if request.user.is_authenticated:
-        favorite=Favorite.objects.filter(user=request.user)
-    else:
-        try:
-            fave_storeg=Favorite_storeg_id.objects.get(favorite_id=_favorit_id(request))
-        except Favorite_storeg_id.DoesNotExist:
-            fave_storeg=Favorite_storeg_id.objects.create(favorite_id=_favorit_id(request))
-        fave_storeg.save()
-        favorite=Favorite.objects.filter(by_session=fave_storeg)
+# def FAVORITE_PAGE (request):
+#     products=Product.objects.filter(favorits__email__iexact=request.user.email)
+#     return render (request,'store/favorite.html',{'products':products})
 
-    return render (request,'store/favorite.html',{'favorite':favorite})
+
+
+
+
+
+class Favorite_Scroll(ListView):
+    model=Product
+    paginate_by=4
+    template_name='store/favorite.html'
+    ordering='created_date'
+
+
+
+
 
 
 
@@ -398,22 +328,10 @@ def SEARCH (request):
             else:
                 products=Product.objects.filter(Q(description_ar__icontains=search) | Q(product_name_ar__icontains=search)).order_by('-update_date')[:1]
             count_products=Product.objects.count()
-            if request.user.is_authenticated:
-                is_fav=Favorite.objects.filter(user=request.user)
-                id_products_list=[]
-                for i in is_fav:
-                    get_id=i.product_id
-                    id_products_list.append(get_id)
-            else:
-                is_fav=Favorite.objects.filter(by_session=_favorit_id(request))
-                id_products_list=[]
-                for i in is_fav:
-                    get_id=i.product_id
-                    id_products_list.append(get_id)
+            
 
     context={
         'products':products,
-        'id_products_list':id_products_list,
         'count_products':count_products,
     }
     return render (request,'store/search.html',context)
@@ -513,33 +431,14 @@ def FILTER(request):
                 products=products.filter(is_available=True).order_by('-price').distinct()[:1]
         else:
             products=products.filter(is_available=True).order_by('-update_date').distinct()[:1]
-
-
-
-
+    all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
 #=============================================
-    if request.user.is_authenticated:
-        is_fav=Favorite.objects.filter(user=request.user)
-        id_products_list=[]
-        for i in is_fav:
-            get_id=i.product_id
-            id_products_list.append(get_id)
-    else:
-        try:
-            fave_storeg=Favorite_storeg_id.objects.get(favorite_id=_favorit_id(request))
-        except Favorite_storeg_id.DoesNotExist:
-            fave_storeg=Favorite_storeg_id.objects.create(favorite_id=_favorit_id(request))
-        fave_storeg.save()
-        is_fav=Favorite.objects.filter(by_session=fave_storeg)
-        id_products_list=[]
-        for i in is_fav:
-            get_id=i.product_id
-            id_products_list.append(get_id)
+    
 
     context={
         'products':products,
-        'id_products_list':id_products_list,
         'lang':lang,
+        'all_favorit':all_favorit,
     }
     template=render_to_string('ajax/products_filter.html',context)
     return JsonResponse({'data':template,'count':count})
@@ -577,8 +476,8 @@ def SAVE_REVIEW (request,id):
         product.avg_rate=product.averegeReview()
         product.save()
 
-    reviews=ReviewRating.objects.filter(status=True,product=product).order_by('-created_at')
-    count=reviews.count()
+    reviews=ReviewRating.objects.filter(status=True,product=product).order_by('-created_at')[:1]
+    count=ReviewRating.objects.filter(status=True,product=product).order_by('-created_at').count()
     template_rev=render_to_string('ajax/reviews.html',{'reviews':reviews})
     is_rev_exi=ReviewRating.objects.filter(user=user_profile,product=product).exists()
     data={
@@ -590,18 +489,29 @@ def SAVE_REVIEW (request,id):
         }
     return JsonResponse(data)
 
+
+def LOAD_REVIEW(request):
+    id=request.GET.get('id')
+    reviw_showed=int (request.GET.get('reviw_showed'))
+    limit= int (request.GET.get('limit'))
+    reviews=ReviewRating.objects.filter(status=True,product__id=id).order_by('-created_at')[reviw_showed:reviw_showed+limit]
+    template=render_to_string('ajax/reviews_load.html',{'reviews':reviews})
+    data={'template':template}
+    return JsonResponse(data)
+
+
+
+
+
+
 def check_lang(request):
     url=None
-
     if '/en/' in request.path:
         if '/en/' in request.path and '/en/' not in  request.META.get('HTTP_REFERER'):
             url=request.META.get('HTTP_REFERER').replace("/ar/", "/")
-
     elif '/ar/' in request.path:
         if '/ar/' in request.path and '/ar/' not in  request.META.get('HTTP_REFERER'):
             url=request.META.get('HTTP_REFERER').replace("/en/", "/")
-
-
     data={'url':url}
     return JsonResponse(data)
 

@@ -1,30 +1,37 @@
 from django.db import models
 from accounts.models import Accounts
-from store.models import Product
+from store.models import Product,Color_List,Size_List
 
 
 # Create your models here.
 
 class Payment (models.Model):
     user=models.ForeignKey(Accounts, on_delete=models.CASCADE)
-    payment_id=models.CharField(max_length=100)
-    payment_method=models.CharField(max_length=100)
-    amount_paid=models.CharField(max_length=100)
+    payer_id=models.CharField(max_length=100)
+    method=models.CharField(max_length=20)
+    invoice_id=models.CharField(max_length=200,null=True)
+    amount=models.CharField(max_length=100)
+    receiver_id=models.CharField(max_length=200,null=True)
+    transaction_id=models.CharField(max_length=200,null=True)
     status=models.CharField(max_length=100)
     created_at=models.DateTimeField(auto_now_add=True)
     def __str__(self) -> str:
-        return self.payment_id
-
+        return str (self.transaction_id)
 
 
 class Order (models.Model):
+    PAYMENT_METHODS=[
+        ('When Recieving','When Recieving'),
+        ('Paypal','Paypal'),
+        ('Stripe','Stripe'),
+        ('None','None'),
+    ]
     STATUS=[
-        ('New','New'),
-        ('Accepted','Accepted'),
-        ('Completed','Completed'),
-        ('Cancelled','Cancelled'),
+        ('Delivered','Delivered'),
+        ('Delivery is in progress','Delivery is in progress'),
     ]
     user=models.ForeignKey(Accounts, on_delete=models.SET_NULL,null=True)
+    payment_method=models.CharField(max_length=15,choices=PAYMENT_METHODS,default='None')
     payment=models.ForeignKey(Payment, on_delete=models.SET_NULL,null=True,blank=True)
     order_numper=models.CharField(max_length=20)
     first_name=models.CharField(max_length=50)
@@ -37,11 +44,12 @@ class Order (models.Model):
     state=models.CharField(max_length=50)
     city=models.CharField(max_length=50)
     order_note=models.CharField(max_length=100,blank=True)
-    order_total=models.FloatField()
     tax=models.FloatField()
-    status=models.CharField(max_length=10,choices=STATUS,default='New')
+    order_total=models.FloatField()
+    final_total=models.FloatField()
     ip=models.CharField(max_length=20,blank=True)
     is_order=models.BooleanField(default=False)
+    status=models.CharField(choices=STATUS,max_length=100,default='Delivery is in progress')
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
 
@@ -58,16 +66,14 @@ class Order (models.Model):
 class OrderProduct(models.Model):
     user=models.ForeignKey(Accounts, on_delete=models.CASCADE)
     order=models.ForeignKey(Order, on_delete=models.CASCADE)
-    payment=models.ForeignKey(Payment, on_delete=models.SET_NULL,null=True,blank=True)
     product=models.ForeignKey(Product, on_delete=models.CASCADE)
-    size=models.CharField(max_length=20)
-    color=models.CharField(max_length=20)
+    color=models.ForeignKey(Color_List,on_delete=models.CASCADE,null=True)
+    size=models.ForeignKey(Size_List,on_delete=models.CASCADE,null=True)
     quantity=models.IntegerField()
     product_price=models.FloatField()
-    ordered=models.BooleanField(default=False)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
-    status=models.CharField(max_length=100)
-    created_at=models.DateTimeField(auto_now_add=True)
     def __str__(self) -> str:
         return self.product.product_name
+    def sub_total(self):
+        return self.product.price * self.quantity

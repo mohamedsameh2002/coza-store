@@ -25,8 +25,6 @@ urlpatterns = [
     path('resned_pass/',views.resend_msg_password,name='resned_pass'),
 
 
-    path('make_temp/',views.make_tep_session,name='make_temp'),
-
     path('on_popup/',views.on_popup,name='on_popup'),
     path('is_popup/',views.is_popup,name='is_popup'),
 

@@ -16,7 +16,7 @@ SECRET_KEY = 'django-insecure-o4xq8g!ipn=yfp^ebyu9l8*!f2&m*jbv!qqc-#0dz)+tvvm_m2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'communication',
     'social_django',
     'ckeditor',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -196,6 +197,10 @@ EMAIL_PORT=587
 # EMAIL_HOST_USER= 'sistar32.m@gmail.com'
 # EMAIL_HOST_PASSWORD= 'bhwhqqenuzlyispb'
 
+
+
+PAYPAL_RECEIVER_EMAIL = 'barbar22.m@gmail.com'
+PAYPAL_TEST = True
 
 
 

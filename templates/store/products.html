@@ -8,6 +8,7 @@
 
 
 <style>
+	body{direction: ltr;}
 	.rating-group {position: relative;top: -28px;left: 90px;}
 	.stext-105.cl3 .rating__label{cursor: initial !important;font-size: 17px;}
 </style>
@@ -15,12 +16,17 @@
 
 {% if LANGUAGE_CODE == 'en' %}
 <style>
+	
 	.checkmark{position: relative;left: -7px;top: -4px;}
-
 </style>
 {% else %}
 <style>
+	.jq-toast-wrap{direction: rtl;}
+	.checkmark{position: relative;left: 7px;top: -4px;}
 	.block2-txt-child1.flex-col-l a p{font: menu;font-size: 18px;font-weight: 500;}
+	#filterProducts{direction: rtl;}
+	.dis-none.panel-filter{direction: rtl;}
+	.flex-w.flex-sb-m.p-b-52{direction: rtl;}
 </style>
 {% endif %}
 	<!-- Product -->
@@ -131,12 +137,12 @@
 				</div>
 
 				<!-- Filter -->
-				<div  class="dis-none panel-filter w-full p-t-10">
+				<div class="dis-none panel-filter w-full p-t-10">
 					{% include 'includes/filter.html' %}
 				</div>
 			</div>
 			<span class="ajaxLoader"></span>
-			<div  class="row" id="filterProducts">
+			<div class="row" id="filterProducts">
                 {% for product in products %}
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item  product-box">
 					<!-- Block2 -->
@@ -293,17 +299,17 @@
 
 														<div class="breck-popup-active"></div>
 						
-														<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+														<button id="facebook-socila-share" data-porduct="{{product.id}}" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
 															<i class="fa fa-facebook"></i>
-														</a>
-						
-														<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
-															<i class="fa fa-twitter"></i>
-														</a>
-						
-														<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
-															<i class="fa fa-google-plus"></i>
-														</a>
+														</button>
+							
+														<button id="twitter-socila-share" data-porduct="{{product.id}}" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="X-Twitter">
+															<i class="fa-brands fa-x-twitter"></i>
+														</button>
+							
+														<button id="whatsapp-socila-share" data-porduct="{{product.id}}" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Whatsapp">
+															<i class="fa-brands fa-whatsapp fa-lg"></i>
+														</button>
 													</div>
 												</div>
 											</div>
@@ -316,7 +322,7 @@
 							<div class="block2-txt-child2 flex-r p-t-3">
 								<h2 class="counTfaVE-dis" data-like-text-id="{{product.id}}">{{product.all_likes}}</h2>
 								<label class="hartcont">
-									<input class="aDdTofavEOu" data-product-id-fav="{{product.id}}"  type="checkbox" {% if product.id in id_products_list  %} checked="checked" {% endif %}>
+									<input class="aDdTofavEOu" data-product-id-fav="{{product.id}}"  type="checkbox" {% if product in all_favorit  %} checked="checked" {% endif %}>
 									<div class="checkmark">
 										<svg viewBox="0 0 256 256">
 										<rect fill="none" height="256" width="256"></rect>
@@ -383,7 +389,7 @@
 			},
 			dataType:'json',
 			success: function(data){
-                $('.square-FaVE-PhoNe').text(data.count);
+				$('.square-FaVE-PhoNe').text(data.count);
                 $('.square-FaVE-Pc').text(data.count);
 				$('.counTfaVE-dis[data-like-text-id="' + id + '"]').text(data.likes); 
 			}
@@ -557,6 +563,31 @@
 			$('.conTEnt-storBy .text h2:nth-child(2)').text('default')
 		}
 	});
+
+
+
+
+	$('#facebook-socila-share,#whatsapp-socila-share,#twitter-socila-share').click(function(){
+		var id =$(this).data('porduct')
+		var link= encodeURI(window.location.href + id)
+		var type=$(this).data('tooltip')
+		
+		const msg=encodeURIComponent(',worled')
+		const title=encodeURIComponent(document.querySelector('title').textContent)
+		if (type == 'Facebook'){
+			window.open(`https://www.facebook.com/share.php?u=${link}`, '_blank');
+		}
+		else if (type == 'X-Twitter'){
+			window.open(`http://twitter.com/share?url=${link}`, '_blank');
+		}
+
+		else{
+			window.open(`https://api.whatsapp.com/send?text=${link}`, '_blank');
+		}
+		
+
+	});
+
 
 	
 </script>

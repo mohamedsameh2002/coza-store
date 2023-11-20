@@ -130,68 +130,41 @@
 
   
   $(".sinGup-FAceBO").click(function() {
-    
-    $.ajax({
-      url:'/accounts/make_temp/',
-      data:{
-      },
-      dataType:'json',
-      beforeSend:function(){
-        
-      },
-      success: function(data){
-        var url="{% url 'social:begin' 'facebook' %}"
-        window.open(url, "_blank", "width=500,height=600,left=700,top=210");
-        
-        var interval = setInterval(function() {
-          $.ajax({
-            url:'/accounts/is_popup/',
-            data:{
-            },
-            dataType:'json',
-            success: function(data){
-              if (data.popup === true){
-                  window.location.href='/'
-              }
-            }
-          });
-        }, 3500);
-      }
-    });
-  });
-  
-  $(".sinGup-GoOGle").click(function() {
-    
-    
-    $.ajax({
-      url:'/accounts/make_temp/',
-      data:{
-      },
-      dataType:'json',
-      beforeSend:function(){
-        
-      },
-      success: function(data){
-        //window.location.href="{% url 'social:begin' 'google-oauth2' %}"
-        var url = "{% url 'social:begin' 'google-oauth2' %}";
-        var myWindow=window.open(url, "0", "width=500,height=600,left=700,top=210");
+    var url="{% url 'social:begin' 'facebook' %}"
+    window.open(url, "_blank", "width=500,height=600,left=700,top=210");
+    var interval = setInterval(function() {
+      $.ajax({
+        url:'/accounts/is_popup/',
+        data:{
+        },
+        dataType:'json',
+        success: function(data){
+          if (data.popup === true){
+              window.location.href='/'
+          }
+        }
+      });
+    }, 3500);
+});
 
-        var interval = setInterval(function() {
-          $.ajax({
-            url:'/accounts/is_popup/',
-            data:{
-            },
-            dataType:'json',
-            success: function(data){
-              if (data.popup === true){
-                  window.location.href='/'
-              }
-            }
-          });
-        }, 3500);
-      }
-    });
-  });
+$(".sinGup-GoOGle").click(function() {
+    var url = "{% url 'social:begin' 'google-oauth2' %}";
+    window.open(url, "0", "width=500,height=600,left=700,top=210");
+    var interval = setInterval(function() {
+      $.ajax({
+        url:'/accounts/is_popup/',
+        data:{
+        },
+        dataType:'json',
+        success: function(data){
+          if (data.popup === true){
+              window.location.href='/'
+          }
+        }
+      });
+    }, 3500)
+});
+
 
 
 

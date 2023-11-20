@@ -18,13 +18,7 @@ class Cart (models.Model):
         return self.cart_id
     
 
-class Temporary_cart(models.Model):
-    temporary_id=models.CharField(max_length=250,blank=True)
-    date_added=models.DateTimeField(auto_now_add=True)
 
-    def __str__(self) -> str:
-        return self.temporary_id
-    
 
 class CartItem (models.Model):
     user=models.ForeignKey(Accounts,on_delete=models.CASCADE,null=True)

@@ -10,6 +10,8 @@ from discounts.models import Discount_codes
 from accounts.models import UserProfile
 from django.db.models import Q
 
+
+
 # Create your views here.
 def _cart_id (request):
     cart=request.session.session_key
@@ -410,6 +412,10 @@ def CART (request,total=0,quantity=0,cart_items=None):
 
 @login_required(login_url="login")
 def CHEKOUT (request,total=0,quantity=0,cart_items=None):
+    if '/en/' in request.path:
+        messages.info(request,'Please ensure that you enter the information through which you will be contacted, and we are not responsible for any error')
+    else:
+        messages.warning(request,'يرجي التأكد من بياناتك المدخله التي سوف يتم التواصل معك من خلالها، ونحن غير مسؤولين عن اي خطأ')
     try:
         tax=0
         grand_total=0
@@ -425,6 +431,24 @@ def CHEKOUT (request,total=0,quantity=0,cart_items=None):
         grand_total=total+tax
     except ObjectDoesNotExist :
         pass
+    total_discount=0
+    new_price=0
+    if request.user.is_authenticated:
+        user_profile=UserProfile.objects.get(user=request.user)
+        if user_profile.discount_cods.exists():
+            # codes=user_profile.discount_cods.all()
+            codes=user_profile.discount_cods.values_list('code',flat=True)
+            for code in codes:
+                discount=Discount_codes.objects.get(code=code).discount
+                total_discount+=discount
+            if total < total_discount:
+                new_price=0
+                grand_total=tax
+            else :
+                new_price = total - total_discount
+                grand_total=new_price+tax
+            
+    
     context={
         'total':total,
         'quantity':quantity,
@@ -432,6 +456,8 @@ def CHEKOUT (request,total=0,quantity=0,cart_items=None):
         'cart_items':cart_items,
         'tax':tax,
         'grand_total':grand_total,
+        'total_discount':total_discount,
+        'new_price':new_price,
         }
 
     return render (request,'cart/chekout.html',context)

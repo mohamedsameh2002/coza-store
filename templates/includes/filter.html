@@ -37,6 +37,9 @@
 <style>
     .filter-col2{margin-left: -2px !important;margin-right: 34px;}
     .price-flter-btn{margin-right: 56px;}
+    @media (max-width:991px) {
+        .price-flter-btn{margin-right: 250px;}
+    }
 </style>
 {% endif %}
 
@@ -67,7 +70,7 @@
         <ul class="ks-cboxtags flter-mobile">
             <div style="margin: 0 23px;" class="color-filter">
                 {% for color in colors %} 
-                        <li ><input type="checkbox" style="position: absolute;left: -9999px;"  class="filter-checkbox" id="{{color.colors__color_name}}" data-filter="color" value="{{color.colors__id}}"><label class="color-filter" style="background-color: {{color.colors__color_code}};" for="{{color.colors__color_name}}"></label></li>
+                        <li ><input type="checkbox"   class="filter-checkbox" id="{{color.colors__color_name}}" data-filter="color" value="{{color.colors__id}}"><label class="color-filter" style="background-color: {{color.colors__color_code}};" for="{{color.colors__color_name}}"></label></li>
                 {% endfor %}
             </div>
         </ul>

@@ -1,197 +1,192 @@
 {% load static %}
+{% load i18n %}
 
-
-
-{% for fav in favorite %}
-<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item cont-Fave" data-id-fave="{{fav.product.id}}">
+{% for product in products %}
+<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item  product-box">
     <!-- Block2 -->
     <div class="block2">
-        <div class="block2-pic hov-img0">
-            <img src="{{fav.product.image.url}}" alt="IMG-PRODUCT">
-
-            <button class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1 QuicK-ViEw" data-link-action="quickview" title="Quick view" data-bs-toggle="modal" data-bs-target="#exampleModal-{{fav.product.id}}" data-quick-id="{{fav.product.id}}">QuicK ViEw</button>
-
+        <div class="block2-pic hov-img0 label-new" data-label="{{product.product_name}}">
+            
+            <img src= "{{product.image.url}}" alt="IMG-PRODUCT" class="ImgPROd" >
+            <button class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1 QuicK-ViEw" data-link-action="quickview" title="Quick view" data-quick-id="{{product.id}}">{% trans "QuicK ViEw" %}</button>
         </div>
 
         <div class="block2-txt flex-w flex-t p-t-14">
             <div class="block2-txt-child1 flex-col-l ">
-                <a href="{% url 'product_details' fav.product.id %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                    {{fav.product.product_name}}
+                
+                <a href="{{product.get_absolute_url}}" class="mtext-102 cl2  p-b-14" >
+                    <p>{% if lang == 'en' %}{{product.product_name}} {% else %} {{product.product_name_ar}} {% endif %}</p>
                 </a>
-
+                
                 <span class="stext-105 cl3">
-                    ${{fav.product.price}}
+                    <p class="mtext-104 cl2" data-price="{{product.id}}">${{product.price}}</p>
+                    <div id="half-stars-example">
+                        <div  style="direction: ltr;" class="rating-group">
+                            <label aria-label="0 stars" class="rating__label" for="rating2-0">&nbsp;</label>
+                            <label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating2-05"><i {% if product.avg_rate < 0.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                            <label aria-label="1 star" class="rating__label" for="rating2-10"><i {% if product.avg_rate < 1 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+                            <label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating2-15"><i {% if product.avg_rate < 1.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                            <label aria-label="2 stars" class="rating__label" for="rating2-20"><i {% if product.avg_rate < 2 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+                            <label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating2-25"><i {% if product.avg_rate < 2.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                            <label aria-label="3 stars" class="rating__label" for="rating2-30"><i {% if product.avg_rate < 3 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+                            <label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating2-35"><i {% if product.avg_rate < 3.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                            <label aria-label="4 stars" class="rating__label" for="rating2-40"><i {% if product.avg_rate < 4 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+                            <label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating2-45"><i {% if product.avg_rate < 4.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+                            <label aria-label="5 stars" class="rating__label" for="rating2-50"><i {% if product.avg_rate < 5 %}style="color: #ddd;"{% endif %}  class="rating__icon rating__icon--star fa fa-star"></i></label>
+                        </div>
+                    </div>
                 </span>
             </div>
 
-            <div class="block2-txt-child2 flex-r p-t-3 ">
-                <button class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 DisFAveINbaGE" data-produ-id-favepage="{{fav.product.id}}">
-                    <img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-                    <img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- modal -->
-<div class="modal modal-2 fade" id="exampleModal-{{fav.product.id}}" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <i class="pe-7s-close"></i></button>
-                <div class="row">
-                    <div class="col-lg-6 col-sm-12 col-xs-12 mb-lm-30px mb-md-30px mb-sm-30px">
-                        <!-- Swiper -->
-                        <div class="swiper-container gallery-top">
-                            <div class="swiper-wrapper">
-                                
-                                {% for i in fav.product.productgallery_set.all %}
-                                <div class="swiper-slide">
-                                    <img class="img-responsive m-auto" src="{{i.img.url}}" alt="">
+            <!-- Start Popup -->
+            <input class="modal-btn" type="checkbox" id="modal-btn-{{product.id}}" name="modal-btn"/>
+            <label id="lbl-popup" data-popup="{{product.id}}" for="modal-btn-{{product.id}}"></label> 		
+            <div style="direction: ltr;" class="modal">		
+                <div class="container">
+                    <div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-7 p-b-30">
+                                <div class="p-l-25 p-r-30 p-lr-0-lg">
+                                    <div class="wrap-slick3 flex-sb flex-w">
+                                        <div class="wrap-slick3-dots"></div>
+                                        <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+                                        <div class="slick3 gallery-lb">
+                                            {% for i in product.productgallery_set.all %}
+                                            <div class="item-slick3" data-thumb="{{i.img.url}}">
+                                                <div class="wrap-pic-w pos-relative">
+                                                    <img src="{{i.img.url}}" alt="IMG-PRODUCT">
+                                                    <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="{{i.img.url}}">
+                                                        <i class="fa fa-expand"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
                                 </div>
-                                {% endfor %}
                             </div>
-                        </div>
-                        <div class="swiper-container gallery-thumbs mt-20px slider-nav-style-1 small-nav">
-                            <div class="swiper-wrapper">
-                                {% for i in fav.product.productgallery_set.all %}
-                                <div class="swiper-slide">
-                                    <img class="img-responsive m-auto" src="{{i.img.url}}" alt="">
-                                </div>
-                                {% endfor %}
                             
-                            </div>
-                            <!-- Add Arrows -->
-                            <div class="swiper-buttons">
-                                <div class="swiper-button-next"></div>
-                                <div class="swiper-button-prev"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="200">
-                        <div class="product-details-content quickview-content">
-                            <h2>{{fav.product.product_name}}</h2>
-                            <div class="pricing-meta">
-                                <ul class="d-flex">
-                                    <li class="new-price">$20.90</li>
-                                </ul>
-                            </div>
-                            <div class="pro-details-rating-wrap">
-                                <div class="rating-product">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <span class="read-review"><a class="reviews" href="#">( 2 Review )</a></span>
-                            </div>
-                            <p class="mt-30px">{{fav.product.product_name}}</p>
-                            <div class="pro-details-categories-info pro-details-same-style d-flex m-0">
-                                <span>SKU:</span>
-                                <ul class="d-flex">
-                                    <li>
-                                        <a href="#">Ch-256xl</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="pro-details-categories-info pro-details-same-style d-flex m-0">
-                                <span>Categories: </span>
-                                <ul class="d-flex">
-                                    <li>
-                                        <a href="#">Smart Device, </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">ETC</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="pro-details-categories-info pro-details-same-style d-flex m-0">
-                                <span>Tags: </span>
-                                <ul class="d-flex">
-                                    <li>
-                                        <a href="#">Smart Device, </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Phone</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="pro-details-quality">
-                                <div class="cart-plus-minus">
-                                    <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1" />
-                                </div>
-
-
-                                <div class="flex-w flex-r-m p-b-10">
-                                    <div class="size-203 flex-c-m respon6">
-                                        Size
-                                    </div>
-
-                                    <div class="size-204 respon6-next">
-                                        <div class="rs1-select2 bor8 bg0">
-                                            <select class="js-select2" name="time" id="SizE-cHo-mODal" data-size="{{fav.product.id}}">
-                                                <option>Choose an option</option>
-                                                <option>Size S</option>
-                                                <option>Size M</option>
-                                                <option>Size L</option>
-                                                <option>Size XL</option>
-                                            </select>
-                                            <div class="dropDownSelect2"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="flex-w flex-r-m p-b-10">
-                                    <div class="size-203 flex-c-m respon6">
-                                        Color
-                                    </div>
-
-                                    <div class="size-204 respon6-next">
-                                        <div class="rs1-select2 bor8 bg0">
-                                            <select class="js-select2" name="time" id="coLOr-CHo-MOdal" data-color="{{fav.product.id}}">
-                                                <option>Choose an option</option>
-                                                <option>Red</option>
-                                                <option>Blue</option>
-                                                <option>White</option>
-                                                <option>Grey</option>
-                                            </select>
-                                            <div class="dropDownSelect2"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="flex-w flex-r-m p-b-10">
-                                    <div class="size-204 flex-w flex-m respon6-next">
-                                        <div class="wrap-num-product flex-w m-r-20 m-tb-10">
-                                            <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                                                <i class="fs-16 zmdi zmdi-minus"></i>
+                            <div class="col-md-6 col-lg-5 p-b-30">
+                                <div {% if lang == 'ar' %} style="direction: rtl;" {% endif %} class="p-r-50 p-t-5 p-lr-0-lg">
+                                    <h4 class="mtext-105 cl2 js-name-detail p-b-14">
+                                        {% if lang == 'en' %}{{product.product_name}} {% else %} {{product.product_name_ar}} {% endif %}
+                                    </h4>
+                                    
+                                    <span class="mtext-106 cl2">
+                                        $ {{product.price}}
+                                    </span>
+        
+                                    <p class="stext-102 cl3 p-t-23">
+                                        {% if lang == 'en' %}{{product.description|safe|truncatechars:140}} {% else %} {{product.description_ar|safe|truncatechars:140}} {% endif %}
+                                    </p>
+                                    
+                                    <!--  -->
+                                    <div class="p-t-33">
+                                        <div class="flex-w flex-r-m p-b-10">
+                                            <div class="size-203 flex-c-m respon6">
+                                                {% trans "Size" %}
                                             </div>
-
-                                            <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
-
-                                            <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                                                <i class="fs-16 zmdi zmdi-plus"></i>
+        
+                                            <div class="size-204 respon6-next">
+                                                <div class="rs1-select2 bor8 bg0">
+                                                    <select data-id="{{product.id}}" class="js-select2-size" name="time" id="SizE-cHo-mODal" data-size="{{product.id}}">
+                                                        <option>Choose an option</option>
+                                                        <option>Size S</option>
+                                                        <option>Size M</option>
+                                                        <option>Size L</option>
+                                                        <option>Size XL</option>
+                                                    </select>
+                                                    <div class="dropDownSelect2"></div>
+                                                </div>
                                             </div>
                                         </div>
+        
+                                        <div class="flex-w flex-r-m p-b-10 color-selction disp-none">
+                                            <div class="size-203 flex-c-m respon6">
+                                                <span class="color-loader hidden"></span>
+                                                <span class="color-text">{% trans "Color" %}</span>
+                                            </div>
+                                            <div class="size-204 respon6-next">
+                                                <div class="rs1-select2 bor8 bg0">
+                                                    <select class="js-select2-color" name="time" id="coLOr-CHo-MOdal" data-color="{{product.id}}">
+                                                        <option>Choose an option</option>
+                                                        <option>Red</option>
+                                                        <option>Blue</option>
+                                                        <option>White</option>
+                                                        <option>Grey</option>
+                                                    </select>
+                                                    <div class="dropDownSelect2"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+        
+                                        <div class="flex-w flex-r-m p-b-10">
+                                            <div  class="size-204 flex-w flex-m respon6-next">
+                                                <div style="direction: ltr;" class="wrap-num-product flex-w m-r-20 m-tb-10">
+                                                    <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                                        <i class="fs-16 zmdi zmdi-minus"></i>
+                                                    </div>
+        
+                                                    <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" id="modal-Qty" data-p-qty="{{product.id}}" value="1" readonly>
+        
+                                                    <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                                        <i class="fs-16 zmdi zmdi-plus"></i>
+                                                    </div>
+                                                </div>
+        
+                                                <button {% if lang == 'ar' %} style="margin-right: 15px" {% endif %} class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail add-TOcarT-MOdAL" data-modal-id="{{product.id}}">
+                                                    {% trans "Add to cart" %}
+                                                </button>
+                                            </div>
+                                        </div>	
+                                    </div>
+        
+                                    <!--  -->
+                                    <div style="justify-content: center;" class="flex-w flex-m p-l-100 p-t-40 respon7">
 
-                                        <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail add-TOcarT-MOdAL" data-modal-id="{{fav.product.id}}">
-                                            Add to cart
+                                        <div class="block2-txt-child2 flex-r p-t-3">
+                                            <label class="hartcont">
+                                                <input class="aDdTofavEOu" data-product-id-fav="{{product.id}}"  type="checkbox"  checked >
+                                                <div class="checkmark">
+                                                    <svg class="hart-popup" viewBox="0 0 256 256">
+                                                    <rect fill="none" height="256" width="256"></rect>
+                                                    <path d="M224.6,51.9a59.5,59.5,0,0,0-43-19.9,60.5,60.5,0,0,0-44,17.6L128,59.1l-7.5-7.4C97.2,28.3,59.2,26.3,35.9,47.4a59.9,59.9,0,0,0-2.3,87l83.1,83.1a15.9,15.9,0,0,0,22.6,0l81-81C243.7,113.2,245.6,75.2,224.6,51.9Z" stroke-width="20px" stroke="#bfbfbf" fill="none"></path></svg>
+                                                </div>
+                                            </label>
+                                        </div>
+
+                                        <div class="breck-popup-active"></div>
+        
+                                        <button id="facebook-socila-share" data-porduct="{{product.id}}" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+                                            <i class="fa fa-facebook"></i>
+                                        </button>
+            
+                                        <button id="twitter-socila-share" data-porduct="{{product.id}}" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="X-Twitter">
+                                            <i class="fa-brands fa-x-twitter"></i>
+                                        </button>
+            
+                                        <button id="whatsapp-socila-share" data-porduct="{{product.id}}" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Whatsapp">
+                                            <i class="fa-brands fa-whatsapp fa-lg"></i>
                                         </button>
                                     </div>
                                 </div>
-                                <div class="pro-details-compare-wishlist pro-details-wishlist ">
-                                    <a href="wishlist.html"><i class="pe-7s-like"></i></a>
-                                </div>
-                            </div>
-                            <div class="payment-img">
-                                <a href="#"><img src="assets/images/icons/payment.png" alt=""></a>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>			          		
+            </div>	
+            <!-- End Popup -->
+
+            <div class="block2-txt-child2 flex-r p-t-3">
+                <h2 class="counTfaVE-dis" data-like-text-id="{{product.id}}">{{product.all_likes}}</h2>
+                <label class="hartcont">
+                    <input class="aDdTofavEOu" data-product-id-fav="{{product.id}}"  type="checkbox" checked>
+                    <div class="checkmark">
+                        <svg viewBox="0 0 256 256">
+                        <rect fill="none" height="256" width="256"></rect>
+                        <path d="M224.6,51.9a59.5,59.5,0,0,0-43-19.9,60.5,60.5,0,0,0-44,17.6L128,59.1l-7.5-7.4C97.2,28.3,59.2,26.3,35.9,47.4a59.9,59.9,0,0,0-2.3,87l83.1,83.1a15.9,15.9,0,0,0,22.6,0l81-81C243.7,113.2,245.6,75.2,224.6,51.9Z" stroke-width="20px" stroke="#bfbfbf" fill="none"></path></svg>
+                    </div>
+                </label>
             </div>
         </div>
     </div>
@@ -202,52 +197,175 @@
 
 
 
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+	<script>
+		$(".js-select2-size").each(function () {
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			}).on('change', function() {
+				$('.color-selction').removeClass('disp-none')
+				var select_val=$(this).val()
+				var id =$(this).data('id');
+				var elmincolor = $('#cOLor-CH');
+				var elmincolor_modal = $('#coLOr-CHo-MOdal[data-color="'+id+'"]');
+				$.ajax({
+					url:'/products/order_selection_filter/',
+					data:{
+						'id':id,
+						'select_val':select_val,
+					},
+					beforeSend:function(){
+						$('.color-text').addClass('disp-none')
+						$('.color-loader').removeClass('hidden')
+					},
+					dataType:'json',
+					success: function(data){
+						elmincolor.empty();
+						elmincolor_modal.empty();
+						$.each(data.edit_action, function(index, color) {
+							var capitalizedColor = color.charAt(0).toUpperCase() + color.slice(1);
+							elmincolor.append($('<option>', {
+								text: capitalizedColor
+							}));
+						});
+						$.each(data.edit_action, function(index, color) {
+							var capitalizedColor = color.charAt(0).toUpperCase() + color.slice(1);
+							elmincolor_modal.append($('<option>', {
+								text: capitalizedColor
+							}));
+						});
+
+						$('.color-text').removeClass('disp-none')
+						$('.color-loader').addClass('hidden')
+					}
+				});
+			});
+		});
+
+		
+
+		$(".js-select2-color").each(function () {
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			});
+		})
+	</script>
+	
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/slick/slick.min.js' %}"></script>
+	<script src="{% static 'js/slick-custom.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/parallax100/parallax100.js' %}"></script>
+	<script>
+		$('.parallax100').parallax100();
+	</script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/MagnificPopup/jquery.magnific-popup.min.js' %}"></script>
+	<script>
+		$('.gallery-lb').each(function () { // the containers for all your galleries
+			$(this).magnificPopup({
+				delegate: 'a', // the selector for gallery item
+				type: 'image',
+				gallery: {
+					enabled: true
+				},
+				mainClass: 'mfp-fade'
+			});
+		});
+	</script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/isotope/isotope.pkgd.min.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/sweetalert/sweetalert.min.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+	<script src="{% static 'jquery.toast.js' %}"></script>
+	<script>
+		$('.js-pscroll').each(function () {
+			$(this).css('position', 'relative');
+			$(this).css('overflow', 'hidden');
+			var ps = new PerfectScrollbar(this, {
+				wheelSpeed: 1,
+				scrollingThreshold: 1000,
+				wheelPropagation: false,
+			});
+
+			$(window).on('resize', function () {
+				ps.update();
+			})
+		});
+
+
+
+		$('.btn-num-product-down').on('click', function(){
+			var numProduct = Number($(this).next().val());
+			if(numProduct > 0) $(this).next().val(numProduct - 1);
+		});
+	
+		$('.btn-num-product-up').on('click', function(){
+			var numProduct = Number($(this).prev().val());
+			$(this).prev().val(numProduct + 1);
+		});
+	
+
+	</script>
+
+
+
 
 
 <script>
 	
 
-	$('.DisFAveINbaGE').click(function(){
-		var id =$(this).data('produ-id-favepage');
-        var mytoast=$.toast({
-			heading: 'Success',
-			text: 'The product has been removed successfully',
-			showHideTransition: 'slide',
-			icon: 'success',
-			position: {
-				top: 60,
-				left: 10,
-			}
-		})
+
+	$('.aDdTofavEOu').click(function(){    
+		var id =$(this).data('product-id-fav');
+		console.log(id)
 		$.ajax({
 	
 			url:'/products/add_favorite/',
 			data:{
 				'id':id,
-				
 			},
 			dataType:'json',
 			success: function(data){
-				
 				$('.square-FaVE-Pc').text(data.count); 
 				$('.square-FaVE-PhoNe').text(data.count);
 				$('#faveorIT-content').html(data.template);
-                mytoast;
-                if(data.count == 0){
+				if(data.count == 0){
 					$('#fave-PagE-coNtent').html(data.template_2);
 				}
-			
+				
 			}
-	
 		});
 	});
+
+
+
+
+
 	
 
 
 	$('.QuicK-ViEw').click(function(){
 		var id =$(this).data('quick-id');
+		$('#lbl-popup[data-popup="' + id + '"]').click()
 		var selectElement = $('#coLOr-CHo-MOdal[data-color="' + id + '"]');
 		var elmintsize = $('#SizE-cHo-mODal[data-size="' + id + '"]');
+		$('.color-selction').addClass('disp-none')
 		
 		$.ajax({
 			url: '/products/quick/',
@@ -258,27 +376,28 @@
 			success: function(data) {
 				selectElement.empty();   
 				elmintsize.empty(); 
-		
-				selectElement.append($('<option>', {
-					text: 'Select'
-				}));
-				elmintsize.append($('<option>', {
-					text: 'Select'
-				}));
-		
+				
 				$.each(data.colors, function(index, color) {
 					// تحويل الحرف الأول إلى حرف كبير باستخدام toUpperCase()
 					var capitalizedColor = color.charAt(0).toUpperCase() + color.slice(1);
-				  
 					selectElement.append($('<option>', {
 						text: capitalizedColor
 					}));
 				});
 				$.each(data.sizes, function(index, size) {
+					var capitalizedSize = size.charAt(0).toUpperCase() + size.slice(1);
 					elmintsize.append($('<option>', {
-						text: size
+						text: capitalizedSize
 					}));
 				});
+				if (data.lang == 'en'){elmintsize.prepend('<option selected disabled>Choose a size</option>')}
+				else{elmintsize.prepend('<option selected disabled>أختر حجم</option>')}
+				if (!data.is_have_coustm){
+					$('.add-TOcarT-MOdAL[data-modal-id="'+id+'"]').addClass('addcart-null')
+					$('.add-TOcarT-MOdAL[data-modal-id="'+id+'"]').attr('disabled',true);
+					if (data.lang == 'en'){$('.add-TOcarT-MOdAL[data-modal-id="'+id+'"]').text('unavailable');}
+					else{$('.add-TOcarT-MOdAL[data-modal-id="'+id+'"]').text('غير متوفر');}
+				}
 			}
 		});
 		
@@ -291,15 +410,32 @@
 		var id =$(this).data('modal-id');
 		var color=$('#coLOr-CHo-MOdal[data-color="' + id + '"]').val()
 		var size=$('#SizE-cHo-mODal[data-size="' + id + '"]').val()
-		let qty=1
-		if (color === 'Select' || size === 'Select') {
-			alert('choos color and size')
+		var qty=$('#modal-Qty[data-p-qty="' + id + '"]').val()
+		var lang ='{{lang}}'
+
+		if (size == null) {
+			if (lang == 'en'){
+				var en_toast=$.toast({
+					heading: 'Error',
+					text: 'Please select a size.',
+					showHideTransition: 'fade',
+					icon: 'error',
+					position: 'top-left',
+					})
+				}
+				else{
+				var en_toast=$.toast({
+					heading: 'خطأ',
+					text: 'يرجي اختيار حجم',
+					showHideTransition: 'fade',
+					icon: 'error',
+					position: 'top-right',
+					})
+				}
 
 		}
 		else {
 			
-
-		
 
 		$.ajax({
 
@@ -309,15 +445,32 @@
 				'size':size,
 				'color':color,
 				'qty':qty,
-				
 			},
 			dataType:'json',
 			success: function(data){
 				$('.square-CarT-Pc').text(data['cart_count']); 
 				$('.square-CarT-PhoNE').text(data['cart_count']);
 				$('.Noti-ShopCart-PC').text(data['cart_count']);
-				alert('the product is adedd')
-	
+				$('#sidE-Cart').html(data.templ_side_cart);
+
+				if (lang == 'en'){
+					var en_toast=$.toast({
+					heading: 'Success',
+					text: 'Added to cart',
+					showHideTransition: 'plain',
+					icon: 'success',
+					position: 'top-left',
+					})
+					}
+					else{
+					var en_toast=$.toast({
+					heading: 'نجاح',
+					text: 'تمت الاضافة الي العربة',
+					showHideTransition: 'plain',
+					icon: 'success',
+					position: 'top-right',
+					})
+				}
 			}
 	
 		});
@@ -325,3 +478,5 @@
 	});
 		
 	</script>
+
+

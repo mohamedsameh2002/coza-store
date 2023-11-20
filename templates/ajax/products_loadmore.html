@@ -148,7 +148,7 @@
 
 											<div class="block2-txt-child2 flex-r p-t-3">
 												<label class="hartcont">
-													<input class="eZH-{{random_1_fvort}}" data-product-id-fav="{{product.id}}"  type="checkbox" {% if product.id in id_products_list  %} checked="checked" {% endif %}>
+													<input class="eZH-{{random_1_fvort}}" data-product-id-fav="{{product.id}}"  type="checkbox" {% if product in all_favorit   %} checked="checked" {% endif %}>
 													<div class="checkmark">
 														<svg class="hart-popup" viewBox="0 0 256 256">
 														<rect fill="none" height="256" width="256"></rect>
@@ -159,17 +159,17 @@
 
 											<div class="breck-popup-active"></div>
 			
-											<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+											<button id="facebook-{{random_2_qick}}-Yxi" data-porduct="{{product.id}}" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
 												<i class="fa fa-facebook"></i>
-											</a>
-			
-											<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
-												<i class="fa fa-twitter"></i>
-											</a>
-			
-											<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
-												<i class="fa fa-google-plus"></i>
-											</a>
+											</button>
+				
+											<button id="twitter-{{random_5_color_cho}}-Of5" data-porduct="{{product.id}}" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="X-Twitter">
+												<i class="fa-brands fa-x-twitter"></i>
+											</button>
+				
+											<button id="whatsapp-{{random_4_select_size}}-Geh" data-porduct="{{product.id}}" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Whatsapp">
+												<i class="fa-brands fa-whatsapp fa-lg"></i>
+											</button>
 										</div>
 									</div>
 								</div>
@@ -182,7 +182,7 @@
 				<div class="block2-txt-child2 flex-r p-t-3">
 					<h2 class="counTfaVE-dis" data-like-text-id="{{product.id}}">{{product.all_likes}}</h2>
 					<label class="hartcont">
-						<input class="eZH-{{random_1_fvort}}" data-product-id-fav="{{product.id}}"  type="checkbox" {% if product.id in id_products_list  %} checked="checked" {% endif %}>
+						<input class="eZH-{{random_1_fvort}}" data-product-id-fav="{{product.id}}"  type="checkbox" {% if product in all_favorit   %} checked="checked" {% endif %}>
 						<div class="checkmark">
 							<svg viewBox="0 0 256 256">
 							<rect fill="none" height="256" width="256"></rect>
@@ -322,6 +322,7 @@
 	<script src="{% static 'vendor/sweetalert/sweetalert.min.js' %}"></script>
 	<!--===============================================================================================-->
 	<script src="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+	<script src="{% static 'jquery.toast.js' %}"></script>
 	<script>
 		$('.js-pscroll').each(function () {
 			$(this).css('position', 'relative');
@@ -431,9 +432,27 @@
 			var color=$('#JvP-{{random_5_color_cho}}[data-color="' + id + '"]').val()
 			var size=$('#SizE-cHo-mODal[data-size="' + id + '"]').val()
 			var qty=$('#modal-Qty[data-p-qty="' + id + '"]').val()
+			var lang ='{{lang}}'
 	
 			if (size == null) {
-				console.log('no')
+				if (lang == 'en'){
+					var en_toast=$.toast({
+						heading: 'Error',
+						text: 'Please select a size.',
+						showHideTransition: 'fade',
+						icon: 'error',
+						position: 'top-left',
+						})
+					}
+					else{
+					var en_toast=$.toast({
+						heading: 'خطأ',
+						text: 'يرجي اختيار حجم',
+						showHideTransition: 'fade',
+						icon: 'error',
+						position: 'top-right',
+						})
+					}
 	
 			}
 			else {
@@ -454,6 +473,24 @@
 					$('.square-CarT-PhoNE').text(data['cart_count']);
 					$('.Noti-ShopCart-PC').text(data['cart_count']);
 					$('#sidE-Cart').html(data.templ_side_cart);
+					if (lang == 'en'){
+						var en_toast=$.toast({
+						heading: 'Success',
+						text: 'Added to cart',
+						showHideTransition: 'plain',
+						icon: 'success',
+						position: 'top-left',
+						})
+						}
+						else{
+						var en_toast=$.toast({
+						heading: 'نجاح',
+						text: 'تمت الاضافة الي العربة',
+						showHideTransition: 'plain',
+						icon: 'success',
+						position: 'top-right',
+						})
+					}
 				}
 		
 			});
@@ -461,7 +498,27 @@
 		});
 			
 		
-		
+		$('#facebook-{{random_2_qick}}-Yxi,#twitter-{{random_5_color_cho}}-Of5,#whatsapp-{{random_4_select_size}}-Geh').click(function(){
+			var id =$(this).data('porduct')
+			var link= encodeURI(window.location.href + id)
+			var type=$(this).data('tooltip')
+			
+			const msg=encodeURIComponent(',worled')
+			const title=encodeURIComponent(document.querySelector('title').textContent)
+			if (type == 'Facebook'){
+				window.open(`https://www.facebook.com/share.php?u=${link}`, '_blank');
+			}
+			else if (type == 'X-Twitter'){
+				window.open(`http://twitter.com/share?url=${link}`, '_blank');
+			}
+	
+			else{
+				window.open(`https://api.whatsapp.com/send?text=${link}`, '_blank');
+			}
+			
+	
+		});
+	
 	
 		
 	</script>

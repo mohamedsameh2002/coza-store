@@ -8,45 +8,12 @@
 	<!-- breadcrumb -->
 
 	<style>
+		body{direction: ltr;}
 
-		.reviw-content{
-			background-color: #f4f4f4;
-			overflow-wrap: anywhere;
-			width: fit-content;
-			max-width: 85%;
-			padding: 10px 25px;
-			border-radius: 10px;
-		}
-		.flex-w.flex-t.p-b-68{
-			padding-bottom: 20px;
-		}
-		.wrap-pic-s.size-109.bor0.of-hidden.m-r-18.m-t-6{
-			width: 45px;
-			height: 45px;
-			margin: 0 8px 0 30px;
-		}
-		.col-sm-10.col-md-8.col-lg-6.m-lr-auto{
-				display: flex;
-				justify-content: flex-end;
-				width: -1px;
-				padding: 0;
-				margin-left: 443px;
-				margin-bottom: 20px;
-		}
-		.reviw-content .rating__label{
-			font-size: 17px !important;
-			cursor: inherit !important;
-			
-		}
 
-		#addFOrm-Review .rating-group{
-			margin: 4px 25px -4px;
-			direction: ltr;
-			position: relative;
-			left: 145px;
-			
+		.reviw-content .rating__label{font-size: 17px !important;cursor: inherit !important;}
 
-		}
+		#addFOrm-Review .rating-group{direction: ltr;position: relative;left: 134%;}
 
 		.reviw-content .rating-group{
 			margin: 1px 0 -6px -9px;
@@ -57,17 +24,9 @@
 			font-size: 30px !important;
 		}
 
-		.ADD-reVEw-Btn{
-			width: fit-content;
-			background-color: black;
-			color: white;
-			padding: 10px 22px;
-			border-radius: 47px;
-			font-size: 15px;
-			font-weight: 600;
-			text-transform: uppercase;
-		}
-		.stext-105.cl3 .rating__label{
+
+		
+		.text .rev-heder .rating__label{
 			cursor: initial !important;
 		}
 		.flex-w.flex-m.p-l-100.p-t-40.respon7{
@@ -78,71 +37,37 @@
 			margin: 14px -17px -14px -13px;
 		}
 
-		
+	
 
-		@media (max-width:991px) {
-			.wrap-pic-s.size-109.bor0.of-hidden.m-r-18.m-t-6{
-				width: 32px;
-				height: 32px;
-			}
-			.reviw-content{
-				width: 73%;
-			}
-			.col-sm-10.col-md-8.col-lg-6.m-lr-auto{
-				margin-left: -50px;
-			}
-			.ADD-reVEw-Btn{
-				padding: 9px 16px;
-				font-size: 12px;
-				font-weight: 600;
-			}
-
-			.stars-and-deletbtn .imoje-btn{
-				left: 230px !important;
-			}
-			.stars-and-deletbtn .imoje-btn i{
-				font-size: 18px;
-			}
-			.modal-wrap .input-rev textarea{
-				margin: 0 -1px 0 -12px;
-			}
-			#addFOrm-Review .rating-group{
-				left: 35px;
-			}
-			
+		@media (max-width:767px) {
+			#addFOrm-Review .rating-group{left:100px;}
 		}
 	</style>
 	{% if LANGUAGE_CODE == 'ar' %}
 	<style>
-		
+		.slick-track{direction: rtl !important;}
+		.sec-product-detail.bg0.p-t-65.p-b-60{direction: rtl;}
 		.wrap-slick3-arrows{right: 120px !important;}
 		.flex-w.flex-m.p-l-100.p-t-40.respon7{justify-content: center;}
 		.flex-m.bor9.p-r-10.m-r-11{border: none;border-left: 1px solid #c3c3c3;}
 		.checkmark{left: 7px}
 		.counTfaVE-dis{position: relative;left: 5px;}
-		.slick-track{direction: rtl !important;}
 		.flex-w.flex-m.p-l-100.p-t-40.respon7{justify-content: flex-end;}
 		.wrap-pic-s.size-109.bor0.of-hidden.m-r-18.m-t-6{margin: 0 26px 0 8px;}
-		.col-sm-10.col-md-8.col-lg-6.m-lr-auto{margin-left: 140px;}
 		.stars-and-deletbtn .imoje-btn{left: -103px;}
-		.modal-footer .edIT-BTn{margin-left: -77px;}
-		.modal-footer .edIT-BTn img{margin: -11px 3px -11px -4px;}
 		.stars-and-deletbtn .DelETE-Btn{margin: 52px 3px -3px 10px;}
-		#addFOrm-Review .rating-group{position: relative;left: -157px !important;}
-		.modal-footer .submMIt-bTN{position: relative;left:-30px;}
-		.modal-footer .submMIt-bTN img {transform: scale(-0.5);margin: -11px -4px -11px -10px;}
+		#addFOrm-Review .rating-group{left: -168px !important;}
 		@media (max-width:991px) {
 			.mtext-106.cl2 .rating-group{margin: 14px -5px -14px -13px;}
-			.col-sm-10.col-md-8.col-lg-6.m-lr-auto{margin-left: 42px;}
 			.wrap-slick3-arrows{right: 58px !important;}
-			#addFOrm-Review .restor-reviw{margin: 15px 0px -19px;}
-			.modal-wrap .input-rev textarea{margin-right: -15px;}
-			#addFOrm-Review .rating-group{right: 35px;}
+		}
+		@media (max-width:767px) {
+			#addFOrm-Review .rating-group{right: 65px;}
 		}
 		@media (min-width: 992px) and (max-width: 1599px){.wrap-slick3-arrows{right: 102px !important;}}
+		
 	</style>
 	{% endif %}
-
 
 	<div class="container">
 		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
@@ -331,7 +256,7 @@
 						</li>
 
 						<li class="nav-item p-b-10">
-							<a class="nav-link" data-toggle="tab" href="#reviews" role="tab">{% trans "Reviews" %} (<span id="reviwes-ConTS">{{reviews|length}}</span>)</a>
+							<a class="nav-link" data-toggle="tab" href="#reviews" role="tab">{% trans "Reviews" %} (<span id="reviwes-ConTS">{{count_reviews}}</span>)</a>
 						</li>
 					</ul>
 
@@ -350,38 +275,77 @@
 						
 						<!-- - -->
 						<div class="tab-pane fade" id="reviews" role="tabpanel">
-							<div class="row">
-								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
-									<!-- Add review -->
-										<button type="button" class="ADD-reVEw-Btn">
-											{% if rating %}{% trans "Edit Review" %}{% else %}{% trans "Add Review" %}{% endif %}
-										</button>
-							<!-- Start Popup -->
-							<input class="modal-btn" type="checkbox" id="pupup-review" name="modal-btn"/>
+							<div class="container">
+								<div class="reviews-list">
+									<button type="button" class="ADD-reVEw-Btn">
+										{% if rating %}{% trans "Edit Review" %}{% else %}{% trans "Add Review" %}{% endif %}
+									</button>
+									<div id="review-LIst">
+									{% for review in reviews %}
+									<div class="sengle-review">
+										<a class="image" href="">
+											<img src="{{review.user.profile_pictuer.url}}" alt="">
+										</a>
+										<div class="text">
+											<div class="rev-heder">
+												<a href="">{{review.user.user.full_name}}</a>
+												<div id="half-stars-example">
+													<div  style="direction: ltr;" class="rating-group">
+														<label aria-label="0 stars" class="rating__label" for="rating2-0">&nbsp;</label>
+														<label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating2-05"><i {% if review.rating < 0.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+														<label aria-label="1 star" class="rating__label" for="rating2-10"><i {% if review.rating < 1 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+														<label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating2-15"><i {% if review.rating < 1.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+														<label aria-label="2 stars" class="rating__label" for="rating2-20"><i {% if review.rating < 2 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+														<label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating2-25"><i {% if review.rating < 2.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+														<label aria-label="3 stars" class="rating__label" for="rating2-30"><i {% if review.rating < 3 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+														<label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating2-35"><i {% if review.rating < 3.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+														<label aria-label="4 stars" class="rating__label" for="rating2-40"><i {% if review.rating < 4 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+														<label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating2-45"><i {% if review.rating < 4.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+														<label aria-label="5 stars" class="rating__label" for="rating2-50"><i {% if review.rating < 5 %}style="color: #ddd;"{% endif %}  class="rating__icon rating__icon--star fa fa-star"></i></label>
+													</div>
+												</div>
+											</div>
+											<p class="content">
+												{{review.review}}
+											</p>
+										</div>
+									</div>
+									{% endfor %}
+								</div>
+							</div>
+							<button id="lod-more-rev" data-limit="2" data-total="{{count_reviews}}">
+								<span class="loader-revus"></span>
+								<span class="loadmor-text">{% trans "Load More" %}</span>
+							</button>
+						</div>
+					</div>
+
+
+						<input class="modal-btn" type="checkbox" id="pupup-review" name="modal-btn"/>
 							<label id="lbl-review"  for="pupup-review"></label> 
 							<div  class="modal">
-								<div class="modal-wrap">	
+								<div  class="modal-wrap">	
 									<form  method="post" id="addFOrm-Review" action="{% url 'satve-review' product.id %}">
 										{% csrf_token %}
-										{% if LANGUAGE_CODE == 'en' %}
-										<p class="restor-reviw hidden">You will be able to write your review again if you deleted it by mistake</p>
-										{% else %}
-										<p class="restor-reviw hidden">تستطيع ان تكتب مراجعتك مره اخري ان كنت مسحتها عن طريق الخطأ</p>
-										{% endif %}
-										<div class="input-rev">
+										
+										
+										<div style="direction: ltr;" class="input-rev">
 											<div class="modal-footer">
-												<button type="submit" class="edIT-BTn" id="ediT-REviW" value="edit">EDIT<img src="{% static 'images/icons/62455.png' %}" ></button>
+												<button type="submit" class="edIT-BTn" id="ediT-REviW" value="edit">EDIT <i class="fa-solid fa-pen"></i></button>
 												<button type="submit" class=" submMIt-bTN" id="supMIT-reVIW" value="post">POST<img src="{% static 'images/icons/75846.png' %}"></button>
 											</div>
-
-											<textarea  name="review" placeholder="Write your review...." id="myTextarea" oninput="autoResizeAndScroll()" maxlength="850"></textarea>
-											{% if valeue %}
-											<script>
-												var textarea = document.getElementById("myTextarea");
-													textarea.value = "{{valeue}}";
-											</script>
-											{% endif %}
+											<input type="hidden" value="{{valeue}}" id="reVew-vaL">
+											<div class="textar-sec">
+												<textarea  name="review" placeholder="Write your review...." id="myTextarea" oninput="autoResizeAndScroll()" maxlength="850"></textarea>
+												<div class="toolpar">
+													<div class="back-g"></div>
+													<button type="button" id="btn-emojy" class="imoje-btn">
+														<i class="fa-solid fa-face-smile"></i>
+													</button>
+												</div>
+											</div>
 										</div>
+										
 									<div class="stars-and-deletbtn">
 										<div id="half-stars-example">
 											<div class="rating-group">
@@ -409,10 +373,8 @@
 												<input class="rating__input" name="rating" id="rating2-50" value="5" {% if rating == 5 %}checked{% endif %}  type="radio">
 											</div>
 										</div>
-										<button type="button" id="btn-emojy" class="imoje-btn">
-											<i class="fa-solid fa-face-smile"></i>
-										</button>
-										<button type="submit" class="DelETE-Btn" id="DleTE-reviw" value="delete">DELETE</button>
+										
+										<button type="submit" class="DelETE-Btn" id="DleTE-reviw" value="delete">DELETE <i class="fa-solid fa-trash"></i></button>
 									</div>
 									</div>
 									</form>
@@ -420,50 +382,8 @@
 								
 							</div>	
 							<!-- End Popup -->
-									<div class="p-b-30 m-lr-15-sm">
-									</div>
-									<!-- Review -->
-									<div style="max-width: 100%;" id="review-LIst">
-									{% for review in reviews %}
-									<div class="flex-w flex-t p-b-68" >
-										<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-											<img src="{{review.user.profile_pictuer.url}}" alt="AVATAR">
-										</div>
-	
-										<div class="size-207 reviw-content">
-											<div style="padding-bottom: 0;" class="flex-w flex-sb-m p-b-17">
-												<span style="font-weight: 600;font-size: 14px;color: black;" class="mtext-107 cl2 p-r-20">
-													{{review.user.user.full_name}}
-												</span>
-	
-											</div>
-											<div id="half-stars-example">
-												<div  style="direction: ltr;" class="rating-group">
-													<label aria-label="0 stars" class="rating__label" for="rating2-0">&nbsp;</label>
-													<label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating2-05"><i {% if review.rating < 0.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-													<label aria-label="1 star" class="rating__label" for="rating2-10"><i {% if review.rating < 1 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
-													<label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating2-15"><i {% if review.rating < 1.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-													<label aria-label="2 stars" class="rating__label" for="rating2-20"><i {% if review.rating < 2 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
-													<label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating2-25"><i {% if review.rating < 2.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-													<label aria-label="3 stars" class="rating__label" for="rating2-30"><i {% if review.rating < 3 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
-													<label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating2-35"><i {% if review.rating < 3.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-													<label aria-label="4 stars" class="rating__label" for="rating2-40"><i {% if review.rating < 4 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
-													<label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating2-45"><i {% if review.rating < 4.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
-													<label aria-label="5 stars" class="rating__label" for="rating2-50"><i {% if review.rating < 5 %}style="color: #ddd;"{% endif %}  class="rating__icon rating__icon--star fa fa-star"></i></label>
-												</div>
-											</div>
-											
+							
 
-											<p style="font-family: inherit;font-weight: 500;color:#383838;font-size: 14.5px; direction: {{review.direction}};"  class="stext-102 cl6">
-												{{review.review}}
-											</p>
-										</div>
-									</div>
-									{% endfor %}
-								</div>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -575,6 +495,10 @@ $(document).ready(function(){
 			}
 		}
 	});
+	$('.loader-revus').hide()
+	var reviw_showed=$('.sengle-review').length
+	var total=$('#lod-more-rev').data('total')
+	if (total == reviw_showed){$('#lod-more-rev').hide()}
 });
 	
 
@@ -728,7 +652,6 @@ $('#Add-To-carT').click(function(){
 				//
 				if (data.bool === true){
 					$('#lbl-review').click()
-					$('.restor-reviw').addClass('hidden');
 					$('#review-LIst').html(data.template_rev);
 					$('#reviwes-ConTS').text(data.count);
 					$('.submMIt-bTN').hide();
@@ -737,6 +660,9 @@ $('#Add-To-carT').click(function(){
 					$('.edIT-BTn').show();
 					if (data.lang == 'en'){$('.ADD-reVEw-Btn').text('Edit Review');}
 					else{$('.ADD-reVEw-Btn').text('تعديل المراجعة');}
+					var reviw_showed=$('.sengle-review').length
+					if ( reviw_showed == data.count){$('#lod-more-rev').hide()}
+					else{$('#lod-more-rev').show()}
 				}
 			}
 		});
@@ -775,6 +701,9 @@ $('#Add-To-carT').click(function(){
 					$('#lbl-review').click()
 					$('#review-LIst').html(data.template_rev);
 					$('#reviwes-ConTS').text(data.count);
+					var reviw_showed=$('.sengle-review').length
+					if ( reviw_showed == data.count){$('#lod-more-rev').hide()}
+					else{$('#lod-more-rev').show()}
 				}
 			}
 		});
@@ -814,9 +743,11 @@ $('#Add-To-carT').click(function(){
 					$('.DelETE-Btn').addClass('disple');
 					$(".DelETE-Btn").attr('disabled',true);
 					$('.edIT-BTn').hide();
-					$('.restor-reviw').removeClass('hidden');
 					if (data.lang == 'en'){$('.ADD-reVEw-Btn').text('Add Review');}
 					else{$('.ADD-reVEw-Btn').text('إضافة مراجة');}
+					var reviw_showed=$('.sengle-review').length
+					if ( reviw_showed == data.count){$('#lod-more-rev').hide()}
+					else{$('#lod-more-rev').show()}
 				}
 			}
 		});
@@ -873,8 +804,6 @@ function autoResizeAndScroll() {
 	}
 }
 
-
-
 var textarea = document.getElementById("myTextarea");
 
 textarea.addEventListener("input", function() {
@@ -887,6 +816,13 @@ textarea.addEventListener("input", function() {
     textarea.style.direction = "ltr"; // اتجاه النص من اليسار إلى اليمين
   }
 });
+
+
+
+
+
+
+
 
 new EmojiPicker({
 	trigger: [
@@ -924,5 +860,43 @@ new EmojiPicker({
 
 </script>
 
+<script>
+	var val=$('#reVew-vaL').val()
+	if (val != 'None'){
+	var textarea = document.getElementById("myTextarea");
+	textarea.value =val;
+	}
+
+	$('#lod-more-rev').click(function(){
+		var reviw_showed=$('.sengle-review').length
+		var total=$(this).data('total')
+		var limit=$(this).data('limit')
+		var id =$('#prod-id').val();
+		//review-LIst
+		$.ajax({
+			url:'/products/load_review/',
+			data:{
+				'id':id,
+				'reviw_showed':reviw_showed,
+				'limit':limit,
+				
+			},
+			dataType:'json',
+			beforeSend:function(){
+				$('.loader-revus').show()
+				$('.loadmor-text').hide()
+				
+			},
+			success:function(data){
+				if (total == reviw_showed){$('#lod-more-rev').hide()}
+				$('#review-LIst').append(data.template)
+				$('.loader-revus').hide()
+				$('.loadmor-text').show()
+				
+			}
+		});
+		
+	});
+</script>
 
 {% endblock scripts %}

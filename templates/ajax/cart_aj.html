@@ -1,232 +1,262 @@
 {% load static %}
 {% load i18n %}
 
-    <table class="table-shopping-cart">
-        <tr class="table_head">
-            <th class="column-1">Product</th>
-            <th class="column-2"></th>
-            <th class="column-3">Price</th>
-            <th class="column-4">Quantity</th>
-            <th class="column-5">SubTotal</th>
-        </tr>
-        
-        {% for item in cart_items %}
-        
-        <tr class="table_row ConTent" data-content="{{item.product.id}}" data-size="{{item.size}}"data-color="{{item.color}}">
-            <td class="column-1">
-                <div style="position: relative; ">
-                    <a href="{% url 'product_details' item.product.id %}">
-                        <img src="{{item.product.image.url}}" alt="IMG" width="90" height="105" class="move-right"></a>
-                        <br>
-                        <div>
-                            <br>
-
-                            <button class="delete-button-iTem" data-product-id-delete="{{item.product.id}}"  data-color="{{item.color}}" data-size="{{item.size}}" type="button" style="position: absolute; top: -1px; right: 0px; width: 20px; height: 20px; border-radius: 50%;"
-                            ></button>
-                        </div>
-                    </div>
-                </td>
-                <td class="column-2">
+<table class="table-shopping-cart">
+    <tr class="table_head">
+        <th class="column-1 produ-td">{% trans "Product" %}</th>
+        <th class="column-2"></th>
+        <th class="column-3 price-td">{% trans "Price" %}</th>
+        <th style="display: flex;justify-content: center;" class="column-4">{% trans "Quantity" %}</th>
+        <th style="padding: 0 33px;" class="column-5">{% trans "SubTotal" %}</th>
+    </tr>
+    
+    {% for item in cart_items %}
+    
+    <tr class="table_row ConTent" data-content="{{item.product.id}}" data-size="{{item.size}}"data-color="{{item.color}}">
+        <td class="column-1">
+            <div style="position: relative; ">
+                <a href="{% url 'product_details' item.product.id %}">
+                    <img src="{{item.product.image.url}}" alt="IMG" width="90" height="105" class="move-right"></a>
+                    <br>
                     <div>
-                        <a class="stext-110 cl2" href="{% url 'product_details' item.product.id %}">
-                            {% if lang == 'en' %}
-                            {{item.product.product_name}}
-                            {% else %}
-                            {{item.product.product_name_ar}}
-                            {% endif %}
-                        </a>
                         <br>
-                        <span>
-                            {% if lang == 'en' %}
-                            {% trans "Size" %} : {{item.size.size_name}}
-                            {% else %}
-                            {% trans "Size" %} : {{item.size.size_name_ar}}
-                            {% endif %}
-                        </span>
-                        <br>
-                        <span>
-                            {% if lang == 'en' %}
-                            {% trans "Color" %} : {{item.color.color_name|capfirst}}
-                            {% else %}
-                            {% trans "Color" %} : {{item.color.color_name_ar}}
-                            {% endif %}
-                        </span>
+
+                        <button class="delete-button-iTem" data-product-id-delete="{{item.product.id}}"  data-color="{{item.color}}" data-size="{{item.size}}" type="button"><img src="{% static 'images/icons/468545.png' %}" alt=""></button>
                     </div>
-                </td>
-                <td class="column-3">$ {{item.product.price}}</td>
-                <td class="column-4">
-                    <div class="wrap-num-product flex-w m-l-auto m-r-0">
-                        <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                            <button class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m BuT-mInuS" type="button" id="button-plus" data-product-id-minus="{{item.product.id}}" data-item-id-minus="{{item.id}}" data-product-id-color="{{item.color}}"data-product-id-size="{{item.size}}">
-                                <i class="fs-16 zmdi zmdi-minus"></i>
-                            </button>
-                        </div>
-                        <input class="mtext-104 cl3 txt-center num-product pRodUct-Qty" type="number" name="num-product1" value="{{item.quantity}}" data-qty="{{item.product.id}}" data-color="{{item.color}}"data-size="{{item.size}}" readonly>
-                        <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                            <button class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m BuT-pLUS" type="button" id="button-plus" data-product-id-plus="{{item.product.id}}" data-product-id-color="{{item.color}}"data-product-id-size="{{item.size}}">
-                                <i class="fs-16 zmdi zmdi-plus"></i>
-                            </button>
-                        </div>
+                </div>
+            </td>
+            <td class="column-2">
+                <div>
+                    <a style="font-size: 16px;" class="stext-110 cl2" href="{% url 'product_details' item.product.id %}">
+                        {% if lang == 'en' %}
+                        {{item.product.product_name}}
+                        {% else %}
+                        {{item.product.product_name_ar}}
+                        {% endif %}
+                    </a>
+                    <br>
+                    <span>
+                        {% if lang == 'en' %}
+                        {% trans "Size" %} : <span style="font-weight: 600;font-size: 13px;">{{item.size.size_name}}</span>
+                        {% else %}
+                        {% trans "Size" %} : <span style="font-weight: 600;font-size: 13px;">{{item.size.size_name_ar}}</span>
+                        {% endif %}
+                    </span>
+                    <br>
+                    <span>
+                        {% if lang == 'en' %}
+                        {% trans "Color" %} : <span style="font-weight: 600;font-size: 13px;">{{item.color.color_name|capfirst}}</span>
+                        {% else %}
+                        {% trans "Color" %} : <span style="font-weight: 600;font-size: 13px;">{{item.color.color_name_ar}}</span>
+                        {% endif %}
+                    </span>
+                </div>
+            </td>
+            <td class="column-3">$ {{item.product.price}}</td>
+            <td class="column-4">
+                <div style="direction: ltr;" class="wrap-num-product flex-w m-l-auto m-r-0">
+                    <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                        <button class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m BuT-mInuS" type="button" id="button-plus" data-product-id-minus="{{item.product.id}}" data-item-id-minus="{{item.id}}" data-product-id-color="{{item.color}}"data-product-id-size="{{item.size}}">
+                            <i class="fs-16 zmdi zmdi-minus"></i>
+                        </button>
                     </div>
-                </td>
-                
-                
-                <td class="column-5 SUb-totAl" data-subtotal-id="{{item.product.id}}"data-subtotal-color="{{item.color}}"data-subtotal-size="{{item.size}}">$ {{item.sub_total}}</td>
-            </tr>
-            <input type="hidden" class="Thj-PrICEE" value="{{item.product.price}}" data-pprice="{{item.product.id}}">
-            {% endfor %}
-        </table>
+                    <input class="mtext-104 cl3 txt-center num-product pRodUct-Qty" type="number" name="num-product1" value="{{item.quantity}}" data-qty="{{item.product.id}}" data-color="{{item.color}}"data-size="{{item.size}}" readonly lang="en">
+                    <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                        <button class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m BuT-pLUS" type="button" id="button-plus" data-product-id-plus="{{item.product.id}}" data-product-id-color="{{item.color}}"data-product-id-size="{{item.size}}">
+                            <i class="fs-16 zmdi zmdi-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </td>
+            
+            
+            <td class="column-5 SUb-totAl" data-subtotal-id="{{item.product.id}}"data-subtotal-color="{{item.color}}"data-subtotal-size="{{item.size}}">$ {{item.sub_total}}</td>
+        </tr>
+        <input type="hidden" class="Thj-PrICEE" value="{{item.product.price}}" data-pprice="{{item.product.id}}">
+        {% endfor %}
+    </table>
 
 
 
 
+    <script>
+	$(document).ready(function(){
+		$('.loader-check-btn').hide()
+	});
+	
+	$('.BuT-pLUS').click(function(){
+		var id =$(this).data('product-id-plus');
+		var color =$(this).data('product-id-color');
+		var size =$(this).data('product-id-size');
+		var price = $('.Thj-PrICEE[data-pprice="' + id + '"]').val();
+		var qty = parseInt($('.pRodUct-Qty[data-qty="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').val()) + 1;
+		
 
-        <script>
-            $('.BuT-pLUS').click(function(){
-                var id =$(this).data('product-id-plus');
-                var color =$(this).data('product-id-color');
-                var size =$(this).data('product-id-size');
-                var price = $('.Thj-PrICEE[data-pprice="' + id + '"]').val();
-                var qty = parseInt($('.pRodUct-Qty[data-qty="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').val()) + 1;
-                
-                
+
+		$.ajax({
+
+			url:'/cart/add_cart/',
+			data:{
+				'id':id,
+				'color':color,
+				'size':size,
+				
+			},
+			dataType:'json',
+			beforeSend:function(){
+				$('.BuT-pLUS').attr('disabled',true);
+				$('.check-btn').hide()
+				$('.bg3.bor14.hov-btn3').addClass('dis-chickaout')
+				$('.loader-check-btn').show()
+			},
+			success: function(data){
+				$('.square-CarT-Pc').text(data['cart_count']); 
+				$('.square-CarT-PhoNE').text(data['cart_count']);
+				$('.Noti-ShopCart-PC').text(data['cart_count']); 
+				$('.SUb-totAl[data-subtotal-id="' + id + '"][data-subtotal-color="' + color + '"][data-subtotal-size="' + size + '"]').text('$ ' + qty*price);   
+				// side bar
+				$('.toTAL-totAL').text('$ ' + data.total.toFixed(0));
+				$('.Tax-toTal').text('$ ' + data.tax.toFixed(1));
+				$('.FinaL-ToTal').text('$ ' + data.grand_total.toFixed(1));
+				$('#sidE-Cart').html(data.templ_side_cart);
+				$('.check-btn').show()
+				$('.bg3.bor14.hov-btn3').removeClass('dis-chickaout')
+				$('.loader-check-btn').hide()
+				$('.BuT-pLUS').attr('disabled',false);
+				
+				
+			}
+		});
+	});
+</script>
+
+
+<script>
+	
+	$('.BuT-mInuS').click(function(){
+		var id =$(this).data('product-id-minus');
+		var color =$(this).data('product-id-color');
+		var size =$(this).data('product-id-size');
+		var price = $('.Thj-PrICEE[data-pprice="' + id + '"]').val();
+		var qty = parseInt($('.pRodUct-Qty[data-qty="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').val()) - 1;
         
-        
-                $.ajax({
-        
-                    url:'/cart/add_cart/',
-                    data:{
-                        'id':id,
-                        'color':color,
-                        'size':size,
-                        
-                    },
-                    dataType:'json',
-                    success: function(data){
-                        $('.square-CarT-Pc').text(data['cart_count']); 
-                        $('.square-CarT-PhoNE').text(data['cart_count']);
-                        $('.Noti-ShopCart-PC').text(data['cart_count']); 
-                        $('.SUb-totAl[data-subtotal-id="' + id + '"][data-subtotal-color="' + color + '"][data-subtotal-size="' + size + '"]').text('$ ' + qty*price);   
-                        // side bar
-                        $('.toTAL-totAL').text('$ ' + data['total'].toFixed(0));
-                        $('.Tax-toTal').text('$ ' + data['tax'].toFixed(1));
-                        $('.FinaL-ToTal').text('$ ' + data['grand_total'].toFixed(1));
-                        $('#sidE-Cart').html(data.templ_side_cart);
-        
-                    }
-                });
-            });
-        </script>
-        
-        
+		
+
+		$.ajax({
+
+			url:'/cart/decrement_cart/',
+			data:{
+				'id':id,
+				'color':color,
+				'size':size,
+				
+				
+			},
+			dataType:'json',
+			beforeSend:function(){
+				$('.BuT-mInuS').attr('disabled',true);
+				$('.check-btn').hide()
+				$('.bg3.bor14.hov-btn3').addClass('dis-chickaout')
+				$('.loader-check-btn').show()
+			},
+			success: function(data){
+				$('.square-CarT-Pc').text(data['cart_count']); 
+				$('.square-CarT-PhoNE').text(data['cart_count']);
+				$('.Noti-ShopCart-PC').text(data['cart_count']); 
+
+				$('.SUb-totAl[data-subtotal-id="' + id + '"][data-subtotal-color="' + color + '"][data-subtotal-size="' + size + '"]').text('$ ' + qty*price);
+
+				// side bar
+				$('.toTAL-totAL').text('$ ' + data['total'].toFixed(0));
+				$('.Tax-toTal').text('$ ' + data['tax'].toFixed(1));
+				$('.FinaL-ToTal').text('$ ' + data['grand_total'].toFixed(1));
+				$('#sidE-Cart').html(data.templ_side_cart);
+				if ($('.pRodUct-Qty[data-qty="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').val() < 1) {
+                    $("#caRT-tabLe").html(data.template);
+				}
+				if ($('.ConTent').length == 0) {
+					$("#conTen-caRT").html(data.template_2);
+				}
+				$('.check-btn').show()
+				$('.bg3.bor14.hov-btn3').removeClass('dis-chickaout')
+				$('.loader-check-btn').hide()
+				$('.BuT-mInuS').attr('disabled',false);
+			}
+		});
+	});
+</script>
+
+
+
+<script>
+	
+	$('.delete-button-iTem').click(function(){
+		var id =$(this).data('product-id-delete');
+		var color =$(this).data('color');
+		var size =$(this).data('size');
+
+		var mytoast=$.toast({
+			heading: 'Success',
+			text: 'The product has been removed successfully',
+			showHideTransition: 'slide',
+			icon: 'success',
+			position: {
+				top: 60,
+				left: 10,
+			}
+		})
+
+		$.ajax({
+
+			url:'/cart/remove_item/',
+			data:{
+				'id':id,
+				'color':color,
+				'size':size,
+				
+				
+			},
+			dataType:'json',
+			beforeSend:function(){
+				$('.delete-button-iTem').attr('disabled',true);
+				$('.check-btn').hide()
+				$('.bg3.bor14.hov-btn3').addClass('dis-chickaout')
+				$('.loader-check-btn').show()
+			},
+			success: function(data){
+				// side bar
+				$('.square-CarT-Pc').text(data['cart_count']); 
+				$('.square-CarT-PhoNE').text(data['cart_count']);
+				$('.Noti-ShopCart-PC').text(data['cart_count']); 
+				//sidbar
+				$('.toTAL-totAL').text('$ ' + data['total'].toFixed(0));
+				$('.Tax-toTal').text('$ ' + data['tax'].toFixed(1));
+				$('.FinaL-ToTal').text('$ ' + data['grand_total'].toFixed(1));
+                // remove action
+				$("#caRT-tabLe").html(data.template);
+				$('#sidE-Cart').html(data.templ_side_cart);
+				mytoast;
+				if ($('.ConTent').length == 0) {
+					$("#conTen-caRT").html(data.template_2);
+				}
+				$('.check-btn').show()
+				$('.bg3.bor14.hov-btn3').removeClass('dis-chickaout')
+				$('.loader-check-btn').hide()
+				$('.delete-button-iTem').attr('disabled',false);
+				
+				
+				
+			}
+		});
+
+	
+	});
+</script>
         
         
         
         <script>
             
-            $('.BuT-mInuS').click(function(){
-                var id =$(this).data('product-id-minus');
-                var color =$(this).data('product-id-color');
-                var size =$(this).data('product-id-size');
-                var price = $('.Thj-PrICEE[data-pprice="' + id + '"]').val();
-                var qty = parseInt($('.pRodUct-Qty[data-qty="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').val()) - 1;
-                
-                
-        
-                $.ajax({
-        
-                    url:'/cart/decrement_cart/',
-                    data:{
-                        'id':id,
-                        'color':color,
-                        'size':size,
-                        
-                        
-                    },
-                    dataType:'json',
-                    success: function(data){
-                        $('.square-CarT-Pc').text(data['cart_count']); 
-                        $('.square-CarT-PhoNE').text(data['cart_count']);
-                        $('.Noti-ShopCart-PC').text(data['cart_count']); 
-        
-                        $('.SUb-totAl[data-subtotal-id="' + id + '"][data-subtotal-color="' + color + '"][data-subtotal-size="' + size + '"]').text('$ ' + qty*price);
-        
-                        // side bar
-                        $('.toTAL-totAL').text('$ ' + data['total'].toFixed(0));
-                        $('.Tax-toTal').text('$ ' + data['tax'].toFixed(1));
-                        $('.FinaL-ToTal').text('$ ' + data['grand_total'].toFixed(1));
-                        $('#sidE-Cart').html(data.templ_side_cart);
-                        if ($('.pRodUct-Qty[data-qty="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').val() < 1) {
-                            $("#caRT-tabLe").html(data.template);
-                        }
-                        if ($('.ConTent').length == 0) {
-                            $("#conTen-caRT").html(data.template_2);
-                        }
-                    }
-                });
-            });
-        </script>
-        
-        
-        
-        
-        <script>
-            
-            $('.delete-button-iTem').click(function(){
-                var id =$(this).data('product-id-delete');
-                var color =$(this).data('color');
-                var size =$(this).data('size');
-
-                var mytoast=$.toast({
-                    heading: 'Success',
-                    text: 'The product has been removed successfully',
-                    showHideTransition: 'slide',
-                    icon: 'success',
-                    position: {
-                        top: 60,
-                        left: 10,
-                    }
-                })
-        
-        
-                $.ajax({
-        
-                    url:'/cart/remove_item/',
-                    data:{
-                        'id':id,
-                        'color':color,
-                        'size':size,
-                        
-                        
-                    },
-                    dataType:'json',
-                    success: function(data){
-                        // side bar
-                        $('.square-CarT-Pc').text(data['cart_count']); 
-                        $('.square-CarT-PhoNE').text(data['cart_count']);
-                        $('.Noti-ShopCart-PC').text(data['cart_count']); 
-                        //sidbar
-                        $('.toTAL-totAL').text('$ ' + data['total'].toFixed(0));
-                        $('.Tax-toTal').text('$ ' + data['tax'].toFixed(1));
-                        $('.FinaL-ToTal').text('$ ' + data['grand_total'].toFixed(1));
-                        // remove action
-                        $("#caRT-tabLe").html(data.template);
-                        $('#sidE-Cart').html(data.templ_side_cart);
-                        mytoast;
-                        if ($('.ConTent').length == 0) {
-                            $("#conTen-caRT").html(data.template_2);
-                        }
-                        
-                        
-                        
-                        
-                    }
-                });
-        
-            
-            });
-
-
             
             $('.btn-num-product-down').on('click', function(){
                 var numProduct = Number($(this).next().val());

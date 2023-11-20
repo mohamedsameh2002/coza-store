@@ -1,10 +1,7 @@
 from .models import *
 from .views import _cart_id
-from django.shortcuts import render
 from .models import Cart,CartItem
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 
 
 

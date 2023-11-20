@@ -9,15 +9,65 @@
 	.move-right {
 		margin: 0 20px 0 0; 
 	}
-
     .delete-button-iTem {
-		background-image: url("{% static 'images/icons/icon-close2.png' %}");
+		position: absolute;
 		width: 20px;
 		height: 20px;
-		left: 320px;
+		left: 660px;
+		top: 4px;
+}
+.mtext-110.cl2 p {
+	font-size: 16px;
+    width: 90px;
+    height: 91px;
+    padding-top: 12px;
+    text-align: center;
+    position: absolute;
+    left: 350px;
+    top: 8px;
+    line-height: 1.4;
+    color: #ebe6e6;
+    border: 1px dashed #262525;
+    border-radius: 50%;
+    background-color: #a99676;
+}
+.mtext-110.cl2 p span{
+	color: #a85a13;
+    font: inherit;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.delete-button-iTem img {width:20px;}
+@media (max-width:1601px) {
+	.delete-button-iTem{left: 552px;}
+}
+@media (max-width:1199px) {
+	.mtext-110.cl2 p{left: 520px;}
+}
+@media (max-width:767px) {
+	.mtext-110.cl2 p{left: 257px;}
 }
 </style>
-
+{% if LANGUAGE_CODE == 'ar' %}
+<style>
+	.delete-button-iTem{left: -598px;}
+	.mtext-110.cl2 p{left: 85px;font-size: 22px;}
+	.flex-c-m.stext-101.cl2.size-118.bg8{margin: 0 40px;}
+	.mtext-110.cl2 p span{font-size: 23px;}
+	.price-td{text-align: start;}
+	.produ-td{text-align: center;}
+	@media (max-width:1601px) {
+		.delete-button-iTem{left: -511px;}
+	}
+	@media (max-width:1199px) {
+		.mtext-110.cl2 p{left: 80px;}
+	}
+	@media (max-width:767px) {
+		.mtext-110.cl2 p{left: 30px;}
+	}
+</style>
+{% endif %}
 
 
 
@@ -47,15 +97,15 @@
 			<div class="row">
 				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
 					<div class="m-l-25 m-r--38 m-lr-0-xl">
+						<span style="position: relative;top: -10px;">{% include 'includes/masg.html' %}</span>
 						<div class="wrap-table-shopping-cart" id="caRT-tabLe">
-							{% include 'includes/masg.html' %}
 							<table class="table-shopping-cart">
 								<tr class="table_head">
-									<th class="column-1">{% trans "Product" %}</th>
+									<th class="column-1 produ-td">{% trans "Product" %}</th>
 									<th class="column-2"></th>
-									<th class="column-3">{% trans "Price" %}</th>
-									<th class="column-4">{% trans "Quantity" %}</th>
-									<th class="column-5">{% trans "SubTotal" %}</th>
+									<th class="column-3 price-td">{% trans "Price" %}</th>
+									<th style="display: flex;justify-content: center;" class="column-4">{% trans "Quantity" %}</th>
+									<th style="padding: 0 33px;" class="column-5">{% trans "SubTotal" %}</th>
 								</tr>
                                 
                                 {% for item in cart_items %}
@@ -69,14 +119,13 @@
 												<div>
 													<br>
 
-													<button class="delete-button-iTem" data-product-id-delete="{{item.product.id}}"  data-color="{{item.color}}" data-size="{{item.size}}" type="button" style="position: absolute; top: -1px; right: 0px; width: 20px; height: 20px; border-radius: 50%;"
-													></button>
+													<button class="delete-button-iTem" data-product-id-delete="{{item.product.id}}"  data-color="{{item.color}}" data-size="{{item.size}}" type="button"><img src="{% static 'images/icons/468545.png' %}" alt=""></button>
 												</div>
 											</div>
 										</td>
 										<td class="column-2">
 											<div>
-												<a class="stext-110 cl2" href="{% url 'product_details' item.product.id %}">
+												<a style="font-size: 16px;" class="stext-110 cl2" href="{% url 'product_details' item.product.id %}">
 													{% if LANGUAGE_CODE == 'en' %}
 													{{item.product.product_name}}
 													{% else %}
@@ -86,24 +135,24 @@
 												<br>
 												<span>
 													{% if LANGUAGE_CODE == 'en' %}
-													{% trans "Size" %} : {{item.size.size_name}}
+													{% trans "Size" %} : <span style="font-weight: 600;font-size: 13px;">{{item.size.size_name}}</span>
 													{% else %}
-													{% trans "Size" %} : {{item.size.size_name_ar}}
+													{% trans "Size" %} : <span style="font-weight: 600;font-size: 13px;">{{item.size.size_name_ar}}</span>
 													{% endif %}
 												</span>
 												<br>
 												<span>
 													{% if LANGUAGE_CODE == 'en' %}
-													{% trans "Color" %} : {{item.color.color_name|capfirst}}
+													{% trans "Color" %} : <span style="font-weight: 600;font-size: 13px;">{{item.color.color_name|capfirst}}</span>
 													{% else %}
-													{% trans "Color" %} : {{item.color.color_name_ar}}
+													{% trans "Color" %} : <span style="font-weight: 600;font-size: 13px;">{{item.color.color_name_ar}}</span>
 													{% endif %}
 												</span>
 											</div>
 										</td>
 										<td class="column-3">$ {{item.product.price}}</td>
 										<td class="column-4">
-											<div class="wrap-num-product flex-w m-l-auto m-r-0">
+											<div style="direction: ltr;" class="wrap-num-product flex-w m-l-auto m-r-0">
 												<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
 													<button class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m BuT-mInuS" type="button" id="button-plus" data-product-id-minus="{{item.product.id}}" data-item-id-minus="{{item.id}}" data-product-id-color="{{item.color}}"data-product-id-size="{{item.size}}">
 														<i class="fs-16 zmdi zmdi-minus"></i>
@@ -126,18 +175,15 @@
 								</table>
 						</div>
                         
-						<div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
+						<div style="justify-content: center;" class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
 							<div class="flex-w flex-m m-r-20 m-tb-5">
-								<input class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" type="text" name="coupon" placeholder="{% trans "Discount code" %}">
+								<input style="font-weight: bold;letter-spacing: 1px;" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" type="text" name="coupon" placeholder="{% trans "Discount code" %}">
 									
-								<button class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
-									{% trans "Use the code" %}
-								</button>
 							</div>
+							<button class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
+								{% trans "Use the code" %}
+							</button>
 
-							<a href='{% url "store" %}' class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
-								{% trans "Update Cart" %}
-							</a>
 						</div>
 					</div>
 				</div>
@@ -147,9 +193,7 @@
 						<h4 class="mtext-109 cl2 p-b-30">
 							{% trans "Cart Totals" %}
 						</h4>
-						{% if total_discount != 0 %}
-						After a ${{total_discount}} discount
-						{% endif %}
+						
 
 						<div class="flex-w flex-t bor12 p-b-13">
 							<div class="size-208">
@@ -159,8 +203,15 @@
 							</div>
 
 							<div class="size-209">
-								<span class="mtext-110 cl2 toTAL-totAL">
-									$ {{total}}
+								<span class="mtext-110 cl2 ">
+									<span class="toTAL-totAL">$ {{total}}</span>
+									{% if total_discount != 0 %}
+									{% if LANGUAGE_CODE == 'en' %}
+									<p>after a discount of <span>${{total_discount}}</span></p>
+									{% else %}
+									<p>بعد خصم <span>${{total_discount}}</span></p>
+									{% endif %}
+									{% endif %}
 								</span>
 							</div>
 						</div>
@@ -197,7 +248,21 @@
 						</div>
 
 						<a href="{% url 'chekout' %}" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-							{% trans "Checkout" %}
+							<span class="check-btn">{% trans "Checkout" %}</span>
+							<div class="loader-check-btn">
+								<div class="bar1"></div>
+								<div class="bar2"></div>
+								<div class="bar3"></div>
+								<div class="bar4"></div>
+								<div class="bar5"></div>
+								<div class="bar6"></div>
+								<div class="bar7"></div>
+								<div class="bar8"></div>
+								<div class="bar9"></div>
+								<div class="bar10"></div>
+								<div class="bar11"></div>
+								<div class="bar12"></div>
+							</div>
 						</a>
 					</div>
 				</div>
@@ -234,6 +299,9 @@
 {% block scripts %}
 
 <script>
+	$(document).ready(function(){
+		$('.loader-check-btn').hide()
+	});
 	
 	$('.BuT-pLUS').click(function(){
 		var id =$(this).data('product-id-plus');
@@ -254,6 +322,12 @@
 				
 			},
 			dataType:'json',
+			beforeSend:function(){
+				$('.BuT-pLUS').attr('disabled',true);
+				$('.check-btn').hide()
+				$('.bg3.bor14.hov-btn3').addClass('dis-chickaout')
+				$('.loader-check-btn').show()
+			},
 			success: function(data){
 				$('.square-CarT-Pc').text(data['cart_count']); 
 				$('.square-CarT-PhoNE').text(data['cart_count']);
@@ -264,6 +338,10 @@
 				$('.Tax-toTal').text('$ ' + data.tax.toFixed(1));
 				$('.FinaL-ToTal').text('$ ' + data.grand_total.toFixed(1));
 				$('#sidE-Cart').html(data.templ_side_cart);
+				$('.check-btn').show()
+				$('.bg3.bor14.hov-btn3').removeClass('dis-chickaout')
+				$('.loader-check-btn').hide()
+				$('.BuT-pLUS').attr('disabled',false);
 				
 				
 			}
@@ -294,6 +372,12 @@
 				
 			},
 			dataType:'json',
+			beforeSend:function(){
+				$('.BuT-mInuS').attr('disabled',true);
+				$('.check-btn').hide()
+				$('.bg3.bor14.hov-btn3').addClass('dis-chickaout')
+				$('.loader-check-btn').show()
+			},
 			success: function(data){
 				$('.square-CarT-Pc').text(data['cart_count']); 
 				$('.square-CarT-PhoNE').text(data['cart_count']);
@@ -312,6 +396,10 @@
 				if ($('.ConTent').length == 0) {
 					$("#conTen-caRT").html(data.template_2);
 				}
+				$('.check-btn').show()
+				$('.bg3.bor14.hov-btn3').removeClass('dis-chickaout')
+				$('.loader-check-btn').hide()
+				$('.BuT-mInuS').attr('disabled',false);
 			}
 		});
 	});
@@ -337,10 +425,6 @@
 			}
 		})
 
-
-		
-		
-
 		$.ajax({
 
 			url:'/cart/remove_item/',
@@ -352,6 +436,12 @@
 				
 			},
 			dataType:'json',
+			beforeSend:function(){
+				$('.delete-button-iTem').attr('disabled',true);
+				$('.check-btn').hide()
+				$('.bg3.bor14.hov-btn3').addClass('dis-chickaout')
+				$('.loader-check-btn').show()
+			},
 			success: function(data){
 				// side bar
 				$('.square-CarT-Pc').text(data['cart_count']); 
@@ -368,6 +458,10 @@
 				if ($('.ConTent').length == 0) {
 					$("#conTen-caRT").html(data.template_2);
 				}
+				$('.check-btn').show()
+				$('.bg3.bor14.hov-btn3').removeClass('dis-chickaout')
+				$('.loader-check-btn').hide()
+				$('.delete-button-iTem').attr('disabled',false);
 				
 				
 				

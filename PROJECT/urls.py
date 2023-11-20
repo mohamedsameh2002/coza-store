@@ -22,8 +22,9 @@ urlpatterns += i18n_patterns(
     path('communication/', include('communication.urls')),
 
     path('oauth/', include('social_django.urls', namespace='social')),
+    path('paypal/', include('paypal.standard.ipn.urls')),
 
-    # path('accounts/', include('allauth.urls')),
+
 )
 
 

@@ -1,156 +1,371 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 
-<section class="section-content padding-y bg">
-    <div class="container">
+<style>
+    .modal-wrap {width: fit-content;}
+    input[type="number"]::-webkit-inner-spin-button {display: none;}
+    .table-shopping-cart {min-width: 440px;}
 
-        <!-- ============================ COMPONENT 1 ================================= -->
-        <br>
-        <br>
-        <br>
-        <br>
-        <div class="row">
-            <aside class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title mb-4">Billing Address</h4>
-                        <form action="{% url 'go_pyment' %}" method="POST">
-                            {% csrf_token %}
-                            <div class="form-row">
-                                <div class="col form-group">
-                                    <label for="">First Name</label>
-                                    <input type="text" name="first_name" class="bor8 bg0 m-b-12" required style="font-size: 22px;">                                </div>
-                                <div class="col form-group">
-                                    <label for="">Last Name</label>
-                                    <input type="text" name="last_name" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col form-group">
-                                    <label for="">Email</label>
-                                    <input type="email" name="email" class="form-control" required>
-                                </div>
-                                <div class="col form-group">
-                                    <label for="">Phone Numper</label>
-                                    <input type="text" name="phone" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col form-group">
-                                    <label for="">Addres Line 1</label>
-                                    <input type="text" name="address_line_1" class="form-control" required>
-                                </div>
-                                <div class="col form-group">
-                                    <label for="">Addres Line 2</label>
-                                    <input type="text" name="address_line_2" class="form-control">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col form-group">
-                                    <label for="">City</label>
-                                    <input type="text" name="city" class="form-control" required>
-                                </div>
-                                <div class="col form-group">
-                                    <label for="">State</label>
-                                    <input type="text" name="state" class="form-control" required>
-                                </div>
-                                <div class="col form-group">
-                                    <label for="">Country</label>
-                                    <input type="text" name="country" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <label for="">Order Note</label>
-                                <textarea name="order_note" rows="2" class="form-control"></textarea>
-                            </div>
+    .table-shopping-cart .column-4 {width: fit-content;text-align: center;}
+    .price-td {text-align: center;}
+    .produ-td {text-align: center;}
 
-                        
+    .table-shopping-cart .column-1 {padding-left: 12px;}
+
+    .table-shopping-cart .column-2 {width:100%;padding-left: 7px;}
+
+    .chek-cart-qty {color: rebeccapurple; border: 1px solid;padding: 2px 11px;}
+    .bg3.bor14.hov-btn3{
+        width: 60%;
+        margin: 0 auto;
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+    .modal{background-color: #0d0e1694;}
+    .modal-btn:checked + label:after, .modal-btn:not(:checked) + label:after{display: none;}
+    .table-shopping-cart .column-5{padding-right: 24px;}
+    .table-shopping-cart .table_row td{padding-right: 0;text-align: center;}
+    @media(max-width:660px){
+        .modal-wrap{width: 94%;}
+        .chek-choies #py-OfLine{width: 43%;}
+        .chek-choies #py-Stripe{width: 22%;}
+        .chek-choies #py-Paypal{width: 23%;}
+    }
+</style>
+{% if LANGUAGE_CODE == 'ar' %}
+<style>
+    .jq-toast-wrap{
+        direction: rtl;
+    }
+    [type="checkbox"]:checked,
+		[type="checkbox"]:not(:checked){
+		position: absolute;
+		left: 9999px;
+		}
+    .table-shopping-cart .table_row td.column-1{padding-right: 12px !important;}
+</style>
+{% endif %}
+
+<title>{% trans "Chekout" %}</title>
+
+<div class="container">
+    <h1 class="chekout-title">Purchase information</h1>
+    <span class="chekout-line"></span>
+    <div class="chekout">
+        <div class="checkout-form">
+            <span >{% include 'includes/masg.html' %}</span>
+            <h4 style="margin-top: 15px;" class="card-title mb-4">Enter Your Information</h4>
+            <form  id="chekout-form-info" action="{% url 'mk-order' %}" method="POST">
+                {% csrf_token %}
+
+                <div class="checkout-fealds">
+                    <label class="custom-field one">
+                        <input name="first_name" type="text" placeholder=" " required />
+                        <span class="placeholder">First Name</span>
+                    </label>
+
+                    <label class="custom-field one">
+                        <input name="last_name" type="text" placeholder=" " required />
+                        <span class="placeholder">Last Name</span>
+                    </label>
+
+                </div>
+
+                <div class="checkout-fealds">
+                    <label class="custom-field one">
+                        <input name="email" id="inp-Emil" type="eamil" placeholder=" " required />
+                        <span class="placeholder">E-mail</span>
+                    </label>
+
+                    <label class="custom-field one">
+                        <input name="phone" type="number" placeholder=" " required />
+                        <span class="placeholder">Phone Number</span>
+                    </label>
+
+                </div>
+                <div class="checkout-fealds">
+
+                    <label class="custom-field one">
+                        <input name="address_line_1" type="text" placeholder=" " required />
+                        <span class="placeholder">address line 1</span>
+                    </label>
+
+                    <label class="custom-field one">
+                        <input name="address_line_2" type="text" placeholder=" " />
+                        <span class="placeholder">address line 2</span>
+                    </label>
+
+                </div>
+                <div class="checkout-fealds">
+
+                    <label class="custom-field one">
+                        <input name="city" type="text" placeholder=" " required />
+                        <span class="placeholder">City</span>
+                    </label>
+
+                    <label class="custom-field one">
+                        <input name="state" type="text" placeholder=" " required />
+                        <span class="placeholder">State</span>
+                    </label>
+
+                    <label class="custom-field one">
+                        <input name="country" type="text" placeholder=" " required />
+                        <span class="placeholder">Country</span>
+                    </label>
+                </div>
+
+                <div class="chek-input">
+                    <textarea name="order_note" rows="2" required></textarea>
+                    <label>Order Note</label>
+                </div>
+                <button disabled type="button" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer dis-chickaout">{% trans "submit" %}</button>
+            </form>
+
+            <input class="modal-btn" type="checkbox" id="pupup-chekout" name="modal-btn"/>
+			<label id="lbl-chekout"  for="pupup-chekout"></label> 
+            <div  class="modal">
+                <div class="modal-wrap">
+                    <div class="chek-text">
+                        <h2>Which payment method do you prefer?</h2>
                     </div>
-                </div> <!-- card.// -->
+                    
+                    <div class="chek-chioes-ping"><img src="{% static 'images/84321.png' %}"></div>
+                    <div class="chek-choies">
+                        <button id="py-Stripe" value="online">stripe <i class="fa-brands fa-cc-stripe"></i></button>
+                        <button id="py-Paypal" value="online">paypal <i class="fa-brands fa-paypal"></i></button>
+                        <button id="py-OfLine" value="w_recieving">When Recieving <i class="fa-solid fa-handshake"></i></button>
+                    </div>
+                </div>
+            </div>
 
-            </aside> <!-- col.// -->
-            <aside class="col-lg-6">
+        </div>
+        <div  class="checkout-cart">
+            <div class="wrap-table-shopping-cart">
+                <table class="table-shopping-cart">
+                    <tr class="table_head">
+                        <th class="column-1 produ-td">{% trans "Product" %}</th>
+                        <th class="column-2"></th>
+                        <th class="column-3 price-td">{% trans "Price" %}</th>
+                        <th style="display: flex;justify-content: center;padding: 15px 13px;" class="column-4">{% trans "Quantity" %}</th>
+                        <th style="padding: 0 8px;" class="column-5">{% trans "SubTotal" %}</th>
+                    </tr>
 
-                <div class="card">
-                    <div class="card-body">
+                    {% for item in cart_items %}
 
+                    <tr class="table_row ConTent" data-content="{{item.product.id}}" data-size="{{item.size}}"
+                        data-color="{{item.color}}">
+                        <td class="column-1">
+                            <div style="position: relative; ">
+                                <a href="{% url 'product_details' item.product.id %}">
+                                    <img src="{{item.product.image.url}}" alt="IMG" width="90" height="105"
+                                        class="move-right"></a>
+                                <div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="text-align: start;" class="column-2">
+                            <div>
+                                <a style="font-size: 16px;" class="stext-110 cl2"
+                                    href="{% url 'product_details' item.product.id %}">
+                                    {% if LANGUAGE_CODE == 'en' %}
+                                    {{item.product.product_name}}
+                                    {% else %}
+                                    {{item.product.product_name_ar}}
+                                    {% endif %}
+                                </a>
+                                <br>
+                                <span>
+                                    {% if LANGUAGE_CODE == 'en' %}
+                                    {% trans "Size" %} : <span
+                                        style="font-weight: 600;font-size: 13px;">{{item.size.size_name}}</span>
+                                    {% else %}
+                                    {% trans "Size" %} : <span
+                                        style="font-weight: 600;font-size: 13px;">{{item.size.size_name_ar}}</span>
+                                    {% endif %}
+                                </span>
+                                <br>
+                                <span>
+                                    {% if LANGUAGE_CODE == 'en' %}
+                                    {% trans "Color" %} : <span
+                                        style="font-weight: 600;font-size: 13px;">{{item.color.color_name|capfirst}}</span>
+                                    {% else %}
+                                    {% trans "Color" %} : <span
+                                        style="font-weight: 600;font-size: 13px;">{{item.color.color_name_ar}}</span>
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </td>
+                        <td style="text-align: center;" class="column-3">${{item.product.price}}</td>
+                        <td class="column-4">
+                            <span class="chek-cart-qty">{{item.quantity}}</span>
+                        </td>
 
-							<table class="table-shopping-cart">
-								<tr class="table_head">
-									<th class="column-1">Product</th>
-									<th class="column-2"></th>
-									<th class="column-3">Price</th>
-									<th class="column-4">Quantity</th>
-									<th class="column-5">SubTotal</th>
-								</tr>
-                                
-                                {% for item in cart_items %}
-								
-								<tr class="table_row ConTent" data-content="{{item.product.id}}" data-size="{{item.size}}"data-color="{{item.color}}">
-									<td class="column-1">
-										<div style="position: relative; ">
-											<a href="{% url 'product_details' item.product.id %}">
-												<img src="{{item.product.image.url}}" alt="IMG" width="90" height="105" class="move-right"></a>
-												<br>
-												<div>
-													<br>
+                        <td class="column-5 SUb-totAl">
+                            ${{item.sub_total}}
+                        </td>
+                    </tr>
+                    <input type="hidden" class="Thj-PrICEE" value="{{item.product.price}}"
+                        data-pprice="{{item.product.id}}">
+                    {% endfor %}
+                </table>
+            </div>
 
-													
-												</div>
-											</div>
-										</td>
-										<td class="column-2">
-											<div>
-												<a class="stext-110 cl2" href="{% url 'product_details' item.product.id %}">
-													{{item.product.product_name}}
-												</a>
-												<br>
-												<span>
-													Size : {{item.size}}
-												</span>
-												<br>
-												<span>
-													Color : {{item.color}}
-												</span>
-											</div>
-										</td>
-										<td class="column-3">$ {{item.product.price}}</td>
-										<td class="column-4">
-											<div class="wrap-num-product flex-w m-l-auto m-r-0">
-												<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-													<button class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m BuT-mInuS" type="button" id="button-plus" data-product-id-minus="{{item.product.id}}" data-item-id-minus="{{item.id}}" data-product-id-color="{{item.color}}"data-product-id-size="{{item.size}}">
-														<i class="fs-16 zmdi zmdi-minus"></i>
-													</button>
-												</div>
-												<input class="mtext-104 cl3 txt-center num-product pRodUct-Qty" type="number" name="num-product1" value="{{item.quantity}}" data-qty="{{item.product.id}}" data-color="{{item.color}}"data-size="{{item.size}}" readonly>
-												<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-													<button class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m BuT-pLUS" type="button" id="button-plus" data-product-id-plus="{{item.product.id}}" data-product-id-color="{{item.color}}"data-product-id-size="{{item.size}}">
-														<i class="fs-16 zmdi zmdi-plus"></i>
-													</button>
-												</div>
-											</div>
-										</td>
-										
-										
-										<td class="column-5 SUb-totAl" data-subtotal-id="{{item.product.id}}"data-subtotal-color="{{item.color}}"data-subtotal-size="{{item.size}}">$ {{item.sub_total}}</td>
-									</tr>
-									<input type="hidden" class="Thj-PrICEE" value="{{item.product.price}}" data-pprice="{{item.product.id}}">
-									{% endfor %}
-								</table>
-
-                        
-                                <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" type="submit" name="submit" >Go to payment</button>
-                            </form>
-                    </div> <!-- card-body.// -->
-                </div> <!-- card.// -->
-
-            </aside> <!-- col.// -->
+            <div class="info-chek">
 
 
-        </div> <!-- row.// -->
-        <!-- ============================ COMPONENT 1 END .// ================================= -->
+                <div class="flex-w flex-t bor12 p-b-13">
+                    <div class="size-208">
+                        <span class="stext-110 cl2">
+                            {% trans "Total" %}:
+                        </span>
+                    </div>
 
-    </div> <!-- container .//  -->
-</section>
+                    <div style="display: flex;gap: 20px;" class="size-209">
+                        {% if total_discount != 0 %}
+                        <span style="order: 1;" class="mtext-110 cl2 ">
+                            <span style="text-decoration: line-through;font-size: 16px;" class="toTAL-totAL">${{total}}</span>
+                        </span>
+
+                        <span class="mtext-110 cl2 ">
+                            <span class="toTAL-totAL">${{new_price}}</span>
+                        </span>
+                        {% else %}
+                        <span class="mtext-110 cl2 ">
+                            <span class="toTAL-totAL">${{total}}</span>
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                <br>
+
+                <div class="flex-w flex-t bor12 p-b-13">
+                    <div class="size-208">
+                        <span class="stext-110 cl2">
+                            {% trans "Tax" %}:
+                        </span>
+                    </div>
+
+                    <div class="size-209">
+                        <span class="mtext-110 cl2 Tax-toTal">
+                            ${{tax}}
+                        </span>
+                    </div>
+                </div>
+
+
+
+                <div class="flex-w flex-t p-t-27 p-b-33">
+                    <div class="size-208">
+                        <span class="mtext-101 cl2">
+                            {% trans "Final Total" %}:
+                        </span>
+                    </div>
+
+                    <div class="size-209 p-t-1">
+                        <span style="font-weight: 600;" class="mtext-110 cl2 FinaL-ToTal">
+                            ${{grand_total}}
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
 {% endblock content %}
+
+{% block scripts %}
+
+
+<script>
+    
+    $(".bg3.bor14.hov-btn3").click(function(){
+        $('#lbl-chekout').click()
+    });
+
+    $("#py-OfLine,#py-Paypal").click(function(e){
+        var button=$(this).val()
+        var formData = $("#chekout-form-info").serialize();
+		var params = new URLSearchParams(formData);
+		var dataArray = Array.from(params.entries()).map(function(item) {
+		return {[item[0]]: item[1]}; 
+		});
+        
+		$.ajax({
+			data:{
+                info:dataArray,
+                button:button,
+				csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+			},
+			method:$("#chekout-form-info").attr('method'),
+			url:$("#chekout-form-info").attr('action'),
+			
+			dataType:'json',
+			success:function(data){
+                if (data.url_pyament){
+                    window.location.href=data.url_pyament
+                }
+			}
+		});
+		e.preventDefault();
+	});
+
+
+    $("#py-Stripe").click(function(e){
+
+        if (window.location.href.includes("/en/")) {
+            var en_toast=$.toast({
+                heading: 'Error',
+                text: 'You cannot resend.',
+                showHideTransition: 'fade',
+                icon: 'error',
+                position: 'top-left',
+                })
+        } else {
+            var en_toast=$.toast({
+                heading: 'Error',
+                text: 'السلام',
+                showHideTransition: 'fade',
+                icon: 'error',
+                position: 'top-right',
+                })
+        }
+        
+        
+        
+    });    
+
+    var form = document.getElementById("chekout-form-info");
+    var inputFields = form.querySelectorAll("input[required]");
+    
+
+    inputFields.forEach(inputField => {
+    inputField.addEventListener("input", checkFields);
+    });
+
+    function checkFields() {
+        var isAllFieldsFilled = Array.from(inputFields).every(inputField => inputField.value.trim() !== "");
+        var email= document.getElementById('inp-Emil').value;
+        var is_good=false
+        
+        if (email.includes('@') && email.includes('.') && /[a-zA-Z]/.test(email)) {
+            if (email.indexOf('@') > 0 && email.length > email.indexOf('@') + 1) {is_good=true} 
+        }
+
+
+        if (isAllFieldsFilled && is_good) {
+            $('.bg3.bor14.hov-btn3').attr('disabled',false)
+            $('.bg3.bor14.hov-btn3').removeClass('dis-chickaout')
+        } 
+        else {
+                $('.bg3.bor14.hov-btn3').addClass('dis-chickaout')
+                $('.bg3.bor14.hov-btn3').attr('disabled',true)
+            }
+    }
+</script>
+
+{% endblock scripts %}

@@ -3,10 +3,9 @@ import string
 from django.shortcuts import render,redirect
 from django.http import JsonResponse
 from django.contrib import messages,auth
-from cart.models import Cart,CartItem,Temporary_cart
+from cart.models import Cart,CartItem
 from cart.views import _cart_id
-from store.models import Product,Favorite,Favorite_storeg_id
-from store.views import _favorit_id
+from store.models import Product
 from accounts.models import Accounts,UserProfile
 from .forms import SingupForm
 from django.conf import settings
@@ -23,6 +22,9 @@ def SINGUP (request):
     if request.method == 'POST':
         form=SingupForm(request.POST)
         if form.is_valid():
+            # x=form.save(commit=False)
+            # x.is_active=False
+            # x.save()
             first_name=form.cleaned_data['first_name']
             last_name=form.cleaned_data['last_name']
             email=form.cleaned_data['email']
@@ -239,24 +241,6 @@ def LOGIN (request):
                     cart.delete()
             except:
                 pass
-            try:
-                fave_storeg=Favorite_storeg_id.objects.get(favorite_id=_favorit_id(request))
-                is_favorit_exist=Favorite.objects.filter(by_session=fave_storeg).exists()
-                if is_favorit_exist:
-                    favorits=Favorite.objects.filter(by_session=fave_storeg)
-                    for fav in favorits:
-                        fav_product=Product.objects.get(id=fav.product.id)
-                        isfav_ex_inuser=Favorite.objects.filter(user=user,product=fav_product).exists()
-                        if isfav_ex_inuser :
-                            x=Favorite.objects.get(by_session=fave_storeg,product=fav_product)
-                            x.delete()
-                        else:
-                            fav.user=user
-                            fav.by_session=None
-                            fav.save()
-                    fave_storeg.delete()
-            except:
-                pass
             auth.login(request,user)
             return redirect('home')
         else:
@@ -461,7 +445,7 @@ def new_password (request):
                 if '/en/' in request.path:
                     messages.error(request,'The password has been changed successfully')
                 else:
-                    messages.error(request,'تم تغيير كلمة السر بنجاح')
+                    messages.success(request,'تم تغيير كلمة السر بنجاح')
                 return redirect('login')
         else:
             if '/en/' in request.path:
@@ -483,17 +467,6 @@ def LOG_OUT (request):
     return redirect('login')
 
 
-
-
-def make_tep_session (request):
-    session_key=request.session.session_key
-    tep=Temporary_cart.objects.create(temporary_id=session_key)
-    tep.save()
-    
-    data={
-        
-    }
-    return JsonResponse(data)
 
 
 def on_popup (request):

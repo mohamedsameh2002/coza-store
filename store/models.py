@@ -61,7 +61,7 @@ class Product (models.Model):
     information=RichTextField(null=True)
     information_ar=RichTextField(null=True)
 
-    # favorits=models.ManyToManyField(Accounts)#==============================
+    favorits=models.ManyToManyField(Accounts)
 
     price = models.IntegerField()
 
@@ -75,8 +75,9 @@ class Product (models.Model):
     def __str__(self):
         return self.product_name
     
+    
     def all_likes (self):
-        likes=Favorite.objects.filter(product=self).exclude(user=None).count()
+        likes=self.favorits.count()
         return likes
     
     def save (self,*args,**kwargs): 
@@ -119,21 +120,8 @@ class ProductGallery (models.Model):
         pict=pict.resize((1200,1486))
         pict.save(self.img.path)
 
-class Favorite_storeg_id (models.Model):
-    favorite_id=models.CharField(max_length=250,blank=True)
-    date_added=models.DateTimeField(auto_now_add=True)
 
-    def __str__(self) -> str:
-        return self.favorite_id
 
-class Favorite (models.Model):
-    user=models.ForeignKey(Accounts,on_delete=models.CASCADE,null=True)
-    by_session=models.ForeignKey(Favorite_storeg_id,on_delete=models.CASCADE,null=True)
-    product=models.ForeignKey(Product,on_delete=models.CASCADE)
-    # favorit_at=models.DateTimeField(auto_now_add=True)
-
-    def __str__(self) -> str:
-        return str (self.product)
 
 
 

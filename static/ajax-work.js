@@ -32,14 +32,16 @@ $(document).ready(function(){
 			dataType:'json',
 			beforeSend:function(){
                 $(".ajaxLoader").show();
+                $(this).attr('disabled',true)
 			},
 			success:function(res){
 				$(".ajaxLoader").hide();
-				$("#filterProducts").html(res.data);
+				$("#filterProducts").hide().html(res.data).fadeIn(500);
 				var _totalShowing=$(".product-box").length;
 				if(_totalShowing<_total){$("#loadMore").show();}
 				if(_totalShowing==res.count){$("#loadMore").hide();}
 				else {$("#loadMore").show();}
+				$(this).attr('disabled',false)
                 
 			}
 		});
