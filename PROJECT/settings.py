@@ -28,7 +28,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'django.contrib.sites',
     #app
@@ -121,15 +120,18 @@ AUTH_USER_MODEL='accounts.Accounts'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 import dj_database_url
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
-
-database_url=os.environ.get("DATABASE_URL")
-DATABASES['default'] =dj_database_url.parse(database_url)
+else:
+    DATABASES = {
+        'default':dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    }
+    
 
 
 # Password validation
@@ -177,10 +179,11 @@ LOCALE_PATHS = [os.path.join(BASE_DIR,'locale')]
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    "/var/www/static/",
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+#     "/var/www/static/",
+# ]
+STATIC_ROOT=BASE_DIR/'static'
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 

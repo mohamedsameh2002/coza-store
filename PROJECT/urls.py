@@ -11,8 +11,8 @@ path("i18n/", include("django.conf.urls.i18n")),
 ]
 
 urlpatterns += i18n_patterns(
-    path('admin/', admin.site.urls),
     path('',views.home,name='home'),
+    path('sammor/', admin.site.urls),
     path('about/',views.ABOUT,name='about'),
     path('help/',views.HELP,name='help'),
     path('products/',include('store.urls')),
