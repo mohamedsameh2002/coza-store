@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-o4xq8g!ipn=yfp^ebyu9l8*!f2&m*jbv!qqc-#0dz)+tvvm_m2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -49,7 +49,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',#الخاص بالترجمة
     'django.middleware.common.CommonMiddleware',
@@ -119,10 +118,7 @@ AUTH_USER_MODEL='accounts.Accounts'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-
-
-
-
+import dj_database_url
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -130,9 +126,9 @@ DATABASES = {
     }
 }
 
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
+
+DATABASES['default'] =dj_database_url.parse("postgres://java_store_db_user:JcfPMmLP47Cnz1f2TXER5z6rPH36C8EO@dpg-clq6po0gqk6s738plhm0-a.oregon-postgres.render.com/java_store_db")
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -256,8 +252,7 @@ JAZZMIN_UI_TWEAKS = {
 
 #Celery
 
-CELERY_BROKER_URL=os.environ['REDIS_UEL']
-# CELERY_BROKER_URL='redis://127.0.0.1:6379'
+CELERY_BROKER_URL='redis://127.0.0.1:6379'
 CELERY_ACCEPT_CONTENT=['application/json']
 CELERY_RESULT_SERIALIZER='json'
 CELERY_TASK_SERIALIZER='json'
@@ -270,7 +265,7 @@ CELERY_RESULT_BACKEND='django-db'
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": os.environ['REDIS_UEL'],
+        "LOCATION": "redis://127.0.0.1:6379",
         'OPTION':{
             'CLIENT_CLASS':'django_redis.client.DefaultClinent'
         }
