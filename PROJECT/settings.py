@@ -127,7 +127,7 @@ DATABASES = {
 }
 
 database_url=os.environ.get("DATABASE_URL")
-DATABASES['default'] =dj_database_url.parse("postgres://java_store_db_user:JcfPMmLP47Cnz1f2TXER5z6rPH36C8EO@dpg-clq6po0gqk6s738plhm0-a.oregon-postgres.render.com/java_store_db")
+DATABASES['default'] =dj_database_url.parse(database_url)
 
 
 # Password validation
