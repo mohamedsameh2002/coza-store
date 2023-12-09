@@ -3,6 +3,17 @@
 {% load i18n %}
 {% block content %}
 <title>{% trans "Blog" %}</title>
+<style>
+    @media(max-width:767px){
+        .col-md-8.col-lg-9.p-b-80{order: 1}
+    }
+</style>
+{% if tag %}
+<style>
+    .col-md-4.col-lg-3.p-b-80{display: none;}
+    .container .row{justify-content: center;}
+</style>
+{% endif %}
 
 	<!-- Title page -->
 	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('{% static 'images/bg-02.jpg' %}');">
@@ -15,9 +26,14 @@
 	<section class="bg0 p-t-62 p-b-60">
         <div class="container">
             <div class="row">
+                {% if tag %}
+                <div class="teg-page-lable">
+                    <h1>{% trans "The Page Is Tagged With" %} <span>{{tag.name}}</span> </h1>
+                </div>
+                {% endif %}
                 <div class="col-md-8 col-lg-9 p-b-80">
                     <div class="p-r-45 p-r-0-lg">
-                        <h5 id="lOdinG">loding......</h5>
+                        <h5 id="lOdinG">{% trans "loding..." %}</h5>
                         <div id="conteNT-BloG">
                             {% for blog in blogs %}
                             <!-- item blog -->
@@ -61,12 +77,17 @@
                                             </span>
 
                                             <span>
-                                                {% for i in blog.tags_set.all %} {% if LANGUAGE_CODE == 'en' %}  {{i.tag|capfirst}} {% else %} {{i.tag_ar}} {% endif %} {% endfor %}  
+                                                
+                                                {% for tag in blog.tags.all %}
+                                                <a href="{% url "blog_bytag" tag.slug %}" style="color: #707fe0;">{{tag.name}}</a>
+                                                {% if not forloop.last %},{% endif %}
+                                                {% endfor %}
+                                        
                                                 <span class="cl12 m-l-4 m-r-6">|</span>
                                             </span>
 
                                             <span>
-                                                8 {% trans "Comments" %}
+                                                {{blog.commetns_count}} {% trans "Comments" %}
                                             </span>
                                         </span>
 
@@ -99,14 +120,35 @@
 					<div class="side-menu">
 						<div class="bor17 of-hidden pos-relative">
                             <form action="{% url "search-blog" %}" method="get" id="seARch-Blog">
-							<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="search" placeholder=" {% trans "Search" %}" id="seaRCh-query">
+                                <input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="search" placeholder=" {% trans "Search" %}" id="seaRCh-query">
 
-							<button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04">
-								<i class="zmdi zmdi-search"></i>
-							</button>
-                        </form>
+                                <button type="submit" class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04">
+                                    <i class="zmdi zmdi-search"></i>
+                                </button>
+                            </form>
 						</div>
 
+						<div class="p-t-55">
+                            
+                            <div class="dropdown">
+                                <button  type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa-solid fa-bell notifict-bell"></i>
+                                    {% if  is_news %}
+                                    <span class="notific-scour">0</span>
+                                    {% endif %}
+                                </button>
+                                
+                                <div style="height: 270px;overflow-y: scroll;width: 100%;" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    {% for noti in notifs %}
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            <a class="dropdown-item" href="{% url "blog_detail" noti.post.slug noti.post.id %}"><p style="font-weight: 700 !important;width: 100%;text-wrap: wrap;border-bottom: 1px solid #e1e1e1;"> <span style="color:#707fe0">{{noti.reply_sent.first_name}}</span> responded to you in the post <span style="color:#707fe0">{{noti.post.topic|truncatechars:20}}</span> </p></a>
+                                        {% else %}
+                                            <a class="dropdown-item" href="{% url "blog_detail" noti.post.slug noti.post.id %}"><p style="font-weight: 700 !important;width: 100%;text-wrap: wrap;border-bottom: 1px solid #e1e1e1;direction: rtl;"> <span style="color:#707fe0">{{noti.reply_sent.first_name}}</span> قام بالرد عليك في منشور <span style="color:#707fe0">{{noti.post.topic_ar|truncatechars:20}}</span> </p></a>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+						</div>
 						<div class="p-t-55">
 							<h4 class="mtext-112 cl2 p-b-33">
 								{% trans "Categories" %}
@@ -131,22 +173,9 @@
                             </h4>
 
                             <div class="flex-w m-r--5">
-                                {% if LANGUAGE_CODE == 'en' %}
                                 {% for tag in tags %}
-                                <button class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5 TAgs-ident" value="tags" itemid="{{tag}}" id="tgsen-{{tag}}-fe">
-                                    {{tag|capfirst}}
-                                </button>
+                                    <a href="{% url "blog_bytag" tag.slug %}" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">{{tag.name}}</a>
                                 {% endfor %}
-
-                                {% else %}
-
-                                {% for tag in tags_ar %}
-                                <button class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5 TAgs-ident" value="tags" itemid="{{tag}}" id="tgsar-{{tag}}-fe">
-                                    {{tag}}
-                                </button>
-                                {% endfor %}
-                                {% endif %}
-
                             </div>
                         </div>
 
@@ -200,7 +229,6 @@
         $('#lOdinG').hide()
         var ident = new URLSearchParams(window.location.search).get('ident');
         if (ident){
-            console.log(ident)
             window.onload=function(){
                 document.getElementById(ident).click();
                 };
@@ -231,11 +259,22 @@ $("#seARch-Blog").submit(function(e){
     e.preventDefault();
 });
 
+$("#dropdownMenuButton").click(function(){
+    $.ajax({
+        data:{},
+        url:'/blog/hide_noti_icon/',
+        
+        dataType:'json',
+        success:function(data){
+            $('.notific-scour').hide()
+        }
+    });
+});
 
 
 
 
-$(".TAgs-ident,.caTEgor-idE,.ArChiVe").click(function(){
+$(".caTEgor-idE,.ArChiVe").click(function(){
     var button=$(this).val()
     var text = event.target.getAttribute('itemid'); 
     

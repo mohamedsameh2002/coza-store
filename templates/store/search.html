@@ -4,255 +4,311 @@
 
 
 {% block content %}
-<title>{% trans "Search Result" %}</title>
+<title>{% trans "Search" %}</title>
 
+
+<style>
+	body{direction: ltr;}
+	.rating-group {position: relative;top: -28px;left: 90px;}
+	.stext-105.cl3 .rating__label{cursor: initial !important;font-size: 17px;}
+</style>
+
+
+{% if LANGUAGE_CODE == 'en' %}
+<style>
+	
+	.checkmark{position: relative;left: -7px;top: -4px;}
+	.hed{direction: rtl;}
+</style>
+{% else %}
+<style>
+	.jq-toast-wrap{direction: rtl;}
+	.checkmark{position: relative;left: 7px;top: -4px;}
+	.block2-txt-child1.flex-col-l a p{font: menu;font-size: 18px;font-weight: 500;}
+	#filterProducts{direction: rtl;}
+	.dis-none.panel-filter{direction: rtl;}
+	.flex-w.flex-sb-m.p-b-52{direction: rtl;}
+	.loder-products{direction: rtl;}
+	.hed{direction: ltr;}
+</style>
+{% endif %}
 	<!-- Product -->
+	{% if products %}
 	<div class="bg0 m-t-23 p-b-140">
 		<div class="container">
-			<h1>Search Result</h1>
+			<div class="hed"> <h1 style="font-size: 30px;" class="chekout-title">{% trans "Search Result" %}</h1> <span class="chekout-line"></span> </div>
 			<div class="flex-w flex-sb-m p-b-52">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10 conTEnt-storBy">
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1">
-						{% trans "Default" %}
-						<input class="filter-checkbox" id="stoR-By" data-filter="storby" itemid="1" value="1" type="checkbox"/> 
-					</button>
+					<div class="text">
+						<h2>{% trans "Sort by :" %}</h2>
+						<h2>{% trans "default" %}</h2>
+					</div>
+					
+					<div class="checkbox">
+						<label class="checkbox-wrapper">
+							<input type="checkbox" class="checkbox-input filter-checkbox" id="stoR-By" data-filter="storby" itemid="2" value="2" />
+							<span class="checkbox-tile">
+								<span class="checkbox-icon">
+									<img class="spetcila"  src="{% static 'images/icons/6482.png' %}" alt="">
+								</span>
+								<span class="checkbox-label">{% trans "Alphabet A to Z" %}</span>
+							</span>
+						</label>
+					</div>
+					
+					<div class="checkbox">
+						<label class="checkbox-wrapper">
+							<input type="checkbox" class="checkbox-input filter-checkbox" id="stoR-By" data-filter="storby" itemid="3" value="3" />
+							<span class="checkbox-tile">
+								<span class="checkbox-icon">
+									<img class="spetcila" src="{% static 'images/icons/4864.png' %}" alt="">
+								</span>
+								<span class="checkbox-label">{% trans "Alphabet z to a" %}</span>
+							</span>
+						</label>
+					</div>
+					<div class="checkbox">
+						<label class="checkbox-wrapper">
+							<input type="checkbox" class="checkbox-input filter-checkbox" id="stoR-By" data-filter="storby" itemid="4" value="4" />
+							<span class="checkbox-tile">
+								<span class="checkbox-icon">
+									<img   src="{% static 'images/icons/3658.png' %}" alt="">
+								</span>
+								<span class="checkbox-label">{% trans "Highest rating" %}</span>
+							</span>
+						</label>
+					</div>
+					<div class="checkbox">
+						<label class="checkbox-wrapper">
+							<input type="checkbox" class="checkbox-input filter-checkbox" id="stoR-By" data-filter="storby" itemid="5" value="5" />
+							<span class="checkbox-tile">
+								<span class="checkbox-icon">
+									<img class="spetcila" src="{% static 'images/icons/5465.png' %}" alt="">
+								</span>
+								<span class="checkbox-label">{% trans "The newest" %}</span>
+							</span>
+						</label>
+					</div>
+					<div class="checkbox">
+						<label class="checkbox-wrapper">
+							<input type="checkbox" class="checkbox-input filter-checkbox" id="stoR-By" data-filter="storby" itemid="6" value="6" />
+							<span class="checkbox-tile">
+								<span class="checkbox-icon">
+									<img src="{% static 'images/icons/6984.png' %}" alt="">
+								</span>
+								<span class="checkbox-label">{% trans "Price ascending" %}</span>
+							</span>
+						</label>
+					</div>
+					<div class="checkbox">
+						<label class="checkbox-wrapper">
+							<input type="checkbox" class="checkbox-input filter-checkbox" id="stoR-By" data-filter="storby" itemid="7" value="7" />
+							<span class="checkbox-tile">
+								<span class="checkbox-icon">
+									<img src="{% static 'images/icons/4695.png' %}" alt="">
+								</span>
+								<span class="checkbox-label">{% trans "Price descending" %}</span>
+							</span>
+						</label>
+					</div>
 
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
-						{% trans "A to Z" %}
-						<input class="filter-checkbox" id="stoR-By" data-filter="storby" itemid="2" value="2" type="checkbox" /> 
-					</button>
-
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
-						{% trans "Z to A" %}
-						<input class="filter-checkbox" id="stoR-By" data-filter="storby" itemid="3" value="3" type="checkbox" /> 
-					</button>
-
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
-						{% trans "Highest Rating" %}
-						<input class="filter-checkbox" id="stoR-By" data-filter="storby" itemid="4" value="4" type="checkbox" /> 
-					</button>
-
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
-						{% trans "Newer" %}
-						<input class="filter-checkbox" id="stoR-By" data-filter="storby" itemid="5" value="5" type="checkbox" /> 
-					</button>
-
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
-						{% trans "Price: Low to High" %}
-						<input class="filter-checkbox" id="stoR-By" data-filter="storby" itemid="6" value="6" type="checkbox" /> 
-					</button>
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
-						{% trans "Price: High to Low" %}
-						<input class="filter-checkbox" id="stoR-By" data-filter="storby" itemid="7" value="7" type="checkbox" /> 
-					</button>
+				
 				</div>
 				
-
-				<!-- Filter -->
-				<div class="dis-none panel-filter w-full p-t-10">
-					{% include 'includes/filter.html' %}
-				</div>
+				
+				<!-- Search product -->
+				
 			</div>
-
-			<p class="ajaxLoader">Loading...</p>
+			<div class="loder-products">
+				<span class="ajaxLoader"></span>
+			</div>
 			<div class="row" id="filterProducts">
                 {% for product in products %}
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item  product-box">
 					<!-- Block2 -->
 					<div class="block2">
-						<div class="block2-pic hov-img0 label-new" data-label="{{product.product_name}}">
+						<div class="block2-pic hov-img0 label-new" {% if LANGUAGE_CODE == 'en' %}data-label="{{product.category.category_name}}" {% else %} data-label="{{product.category.category_name_ar}}" {% endif %}>
 							
 							<img src= "{{product.image.url}}" alt="IMG-PRODUCT" class="ImgPROd" >
-							<button class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1 QuicK-ViEw" data-link-action="quickview" title="Quick view" data-bs-toggle="modal" data-bs-target="#exampleModal-{{product.id}}" data-quick-id="{{product.id}}">QuicK ViEw</button>
+							<button class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1 QuicK-ViEw" data-link-action="quickview" title="Quick view" data-quick-id="{{product.id}}">{% trans "QuicK ViEw" %}</button>
 						</div>
+
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="{% url 'product_details' product.id %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6" >
-									<p class="NeamPROd" data-name="{{product.id}}">{{product.product_name}}</p>
+								
+								<a href="{{product.get_absolute_url}}" class="mtext-102 cl2  p-b-14" >
+									<p>{% if LANGUAGE_CODE == 'en' %}{{product.product_name}} {% else %} {{product.product_name_ar}} {% endif %}</p>
 								</a>
+								
 								<span class="stext-105 cl3">
-									<p class="PriCEPROd" data-price="{{product.id}}">${{product.price}}</p>
-									<p class="counTfaVE-dis" data-like-text-id="{{product.id}}">{{product.all_likes}}</p>
-								</span>
-							</div>
-							
-							<input type="hidden" id="prod-id-Ou" value="{{product.id}}">
-							
-							<div class="block2-txt-child2 flex-r p-t-3">
-                                {% if product.id in id_products_list  %}
-								<button  class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 DisADdfaV" data-product-id-dis="{{product.id}}">
-									<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-								</button>
-								{% else %}
-								<button  class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 aDdTofavEOu" data-product-id-fav="{{product.id}}">
-									<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-								</button>
-								{% endif %}
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- modal -->
-				<div class="modal modal-2 fade" id="exampleModal-{{product.id}}" tabindex="-1" role="dialog">
-					<div class="modal-dialog modal-dialog-centered" role="document">
-						<div class="modal-content">
-							<div class="modal-body">
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <i class="pe-7s-close"></i></button>
-								<div class="row">
-									<div class="col-lg-6 col-sm-12 col-xs-12 mb-lm-30px mb-md-30px mb-sm-30px">
-										<!-- Swiper -->
-										<div class="swiper-container gallery-top">
-											<div class="swiper-wrapper">
-												
-												{% for i in product.productgallery_set.all %}
-												<div class="swiper-slide">
-													<img class="img-responsive m-auto" src="{{i.img.url}}" alt="">
-												</div>
-												{% endfor %}
-											</div>
-										</div>
-										<div class="swiper-container gallery-thumbs mt-20px slider-nav-style-1 small-nav">
-											<div class="swiper-wrapper">
-												{% for i in product.productgallery_set.all %}
-												<div class="swiper-slide">
-													<img class="img-responsive m-auto" src="{{i.img.url}}" alt="">
-												</div>
-												{% endfor %}
-											
-											</div>
-											<!-- Add Arrows -->
-											<div class="swiper-buttons">
-												<div class="swiper-button-next"></div>
-												<div class="swiper-button-prev"></div>
-											</div>
+									<p class="mtext-104 cl2" data-price="{{product.id}}">${{product.price}}</p>
+									<div id="half-stars-example">
+										<div  style="direction: ltr;" class="rating-group">
+											<label aria-label="0 stars" class="rating__label" for="rating2-0">&nbsp;</label>
+											<label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating2-05"><i {% if product.avg_rate < 0.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+											<label aria-label="1 star" class="rating__label" for="rating2-10"><i {% if product.avg_rate < 1 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+											<label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating2-15"><i {% if product.avg_rate < 1.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+											<label aria-label="2 stars" class="rating__label" for="rating2-20"><i {% if product.avg_rate < 2 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+											<label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating2-25"><i {% if product.avg_rate < 2.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+											<label aria-label="3 stars" class="rating__label" for="rating2-30"><i {% if product.avg_rate < 3 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+											<label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating2-35"><i {% if product.avg_rate < 3.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+											<label aria-label="4 stars" class="rating__label" for="rating2-40"><i {% if product.avg_rate < 4 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+											<label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating2-45"><i {% if product.avg_rate < 4.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+											<label aria-label="5 stars" class="rating__label" for="rating2-50"><i {% if product.avg_rate < 5 %}style="color: #ddd;"{% endif %}  class="rating__icon rating__icon--star fa fa-star"></i></label>
 										</div>
 									</div>
-									<div class="col-lg-6 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="200">
-										<div class="product-details-content quickview-content">
-											<h2>{{product.product_name}}</h2>
-											<div class="pricing-meta">
-												<ul class="d-flex">
-													<li class="new-price">$20.90</li>
-												</ul>
-											</div>
-											<div class="pro-details-rating-wrap">
-												<div class="rating-product">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<span class="read-review"><a class="reviews" href="#">( 2 Review )</a></span>
-											</div>
-											<p class="mt-30px">{{product.product_name}}</p>
-											<div class="pro-details-categories-info pro-details-same-style d-flex m-0">
-												<span>SKU:</span>
-												<ul class="d-flex">
-													<li>
-														<a href="#">Ch-256xl</a>
-													</li>
-												</ul>
-											</div>
-											<div class="pro-details-categories-info pro-details-same-style d-flex m-0">
-												<span>Categories: </span>
-												<ul class="d-flex">
-													<li>
-														<a href="#">Smart Device, </a>
-													</li>
-													<li>
-														<a href="#">ETC</a>
-													</li>
-												</ul>
-											</div>
-											<div class="pro-details-categories-info pro-details-same-style d-flex m-0">
-												<span>Tags: </span>
-												<ul class="d-flex">
-													<li>
-														<a href="#">Smart Device, </a>
-													</li>
-													<li>
-														<a href="#">Phone</a>
-													</li>
-												</ul>
-											</div>
-											<div class="pro-details-quality">
-												<div class="cart-plus-minus">
-													<input class="cart-plus-minus-box" type="text" name="qtybutton" value="1" />
-												</div>
+								</span>
+							</div>
 
-
-												<div class="flex-w flex-r-m p-b-10">
-													<div class="size-203 flex-c-m respon6">
-														Size
-													</div>
-
-													<div class="size-204 respon6-next">
-														<div class="rs1-select2 bor8 bg0">
-															<select class="js-select2" name="time" id="SizE-cHo-mODal" data-size="{{product.id}}">
-																<option>Choose an option</option>
-																<option>Size S</option>
-																<option>Size M</option>
-																<option>Size L</option>
-																<option>Size XL</option>
-															</select>
-															<div class="dropDownSelect2"></div>
-														</div>
-													</div>
-												</div>
-
-												<div class="flex-w flex-r-m p-b-10">
-													<div class="size-203 flex-c-m respon6">
-														Color
-													</div>
-
-													<div class="size-204 respon6-next">
-														<div class="rs1-select2 bor8 bg0">
-															<select class="js-select2" name="time" id="coLOr-CHo-MOdal" data-color="{{product.id}}">
-																<option>Choose an option</option>
-																<option>Red</option>
-																<option>Blue</option>
-																<option>White</option>
-																<option>Grey</option>
-															</select>
-															<div class="dropDownSelect2"></div>
-														</div>
-													</div>
-												</div>
-
-
-												<div class="flex-w flex-r-m p-b-10">
-													<div class="size-204 flex-w flex-m respon6-next">
-														<div class="wrap-num-product flex-w m-r-20 m-tb-10">
-															<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-																<i class="fs-16 zmdi zmdi-minus"></i>
+							<!-- Start Popup -->
+							<input class="modal-btn" type="checkbox" id="modal-btn-{{product.id}}" name="modal-btn"/>
+							<label id="lbl-popup" data-popup="{{product.id}}" for="modal-btn-{{product.id}}"></label> 		
+							<div style="direction: ltr;" class="modal">		
+								<div class="container">
+									<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
+										<div class="row">
+											<div class="col-md-6 col-lg-7 p-b-30">
+												<div class="p-l-25 p-r-30 p-lr-0-lg">
+													<div class="wrap-slick3 flex-sb flex-w">
+														<div class="wrap-slick3-dots"></div>
+														<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+														<div class="slick3 gallery-lb">
+															{% for i in product.productgallery_set.all %}
+															<div class="item-slick3" data-thumb="{{i.img.url}}">
+																<div class="wrap-pic-w pos-relative">
+																	<img src="{{i.img.url}}" alt="IMG-PRODUCT">
+																	<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="{{i.img.url}}">
+																		<i class="fa fa-expand"></i>
+																	</a>
+																</div>
 															</div>
-
-															<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
-
-															<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-																<i class="fs-16 zmdi zmdi-plus"></i>
+															{% endfor %}
+														</div>
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-md-6 col-lg-5 p-b-30">
+												<div {% if LANGUAGE_CODE == 'ar' %} style="direction: rtl;" {% endif %} class="p-r-50 p-t-5 p-lr-0-lg">
+													<h4 class="mtext-105 cl2 js-name-detail p-b-14">
+														{% if LANGUAGE_CODE == 'en' %}{{product.product_name}} {% else %} {{product.product_name_ar}} {% endif %}
+													</h4>
+													
+													<span class="mtext-106 cl2">
+														$ {{product.price}}
+													</span>
+						
+													<p class="stext-102 cl3 p-t-23">
+														{% if LANGUAGE_CODE == 'en' %}{{product.description|safe|truncatechars:140}} {% else %} {{product.description_ar|safe|truncatechars:140}} {% endif %}
+													</p>
+													
+													<!--  -->
+													<div class="p-t-33">
+														<div class="flex-w flex-r-m p-b-10">
+															<div class="size-203 flex-c-m respon6">
+																{% trans "Size" %}
+															</div>
+						
+															<div class="size-204 respon6-next">
+																<div class="rs1-select2 bor8 bg0">
+																	<select data-id="{{product.id}}" class="js-select2-size" name="time" id="SizE-cHo-mODal" data-size="{{product.id}}">
+																		<option>Choose an option</option>
+																		<option>Size S</option>
+																		<option>Size M</option>
+																		<option>Size L</option>
+																		<option>Size XL</option>
+																	</select>
+																	<div class="dropDownSelect2"></div>
+																</div>
 															</div>
 														</div>
+						
+														<div class="flex-w flex-r-m p-b-10 color-selction disp-none">
+															<div class="size-203 flex-c-m respon6">
+																<span class="color-loader hidden"></span>
+																<span class="color-text">{% trans "Color" %}</span>
+															</div>
+															<div class="size-204 respon6-next">
+																<div class="rs1-select2 bor8 bg0">
+																	<select class="js-select2-color" name="time" id="coLOr-CHo-MOdal" data-color="{{product.id}}">
+																		<option>Choose an option</option>
+																		<option>Red</option>
+																		<option>Blue</option>
+																		<option>White</option>
+																		<option>Grey</option>
+																	</select>
+																	<div class="dropDownSelect2"></div>
+																</div>
+															</div>
+														</div>
+						
+														<div class="flex-w flex-r-m p-b-10">
+															<div  class="size-204 flex-w flex-m respon6-next">
+																<div style="direction: ltr;" class="wrap-num-product flex-w m-r-20 m-tb-10">
+																	<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+																		<i class="fs-16 zmdi zmdi-minus"></i>
+																	</div>
+						
+																	<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" id="modal-Qty" data-p-qty="{{product.id}}" value="1" readonly>
+						
+																	<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+																		<i class="fs-16 zmdi zmdi-plus"></i>
+																	</div>
+																</div>
+						
+																<button {% if LANGUAGE_CODE == 'ar' %} style="margin-right: 15px" {% endif %} class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail add-TOcarT-MOdAL" data-modal-id="{{product.id}}">
+																	{% trans "Add to cart" %}
+																</button>
+															</div>
+														</div>	
+													</div>
+						
+													<!--  -->
+													<div style="justify-content: center;" class="flex-w flex-m p-l-100 p-t-40 respon7">
 
-														<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail add-TOcarT-MOdAL" data-modal-id="{{product.id}}">
-															Add to cart
+														<div class="block2-txt-child2 flex-r p-t-3">
+															<label class="hartcont">
+																<input class="aDdTofavEOu" data-product-id-fav="{{product.id}}"  type="checkbox" {% if product.id in id_products_list  %} checked="checked" {% endif %}>
+																<div class="checkmark">
+																	<svg class="hart-popup" viewBox="0 0 256 256">
+																	<rect fill="none" height="256" width="256"></rect>
+																	<path d="M224.6,51.9a59.5,59.5,0,0,0-43-19.9,60.5,60.5,0,0,0-44,17.6L128,59.1l-7.5-7.4C97.2,28.3,59.2,26.3,35.9,47.4a59.9,59.9,0,0,0-2.3,87l83.1,83.1a15.9,15.9,0,0,0,22.6,0l81-81C243.7,113.2,245.6,75.2,224.6,51.9Z" stroke-width="20px" stroke="#bfbfbf" fill="none"></path></svg>
+																</div>
+															</label>
+														</div>
+
+														<div class="breck-popup-active"></div>
+						
+														<button id="facebook-socila-share" data-porduct="{{product.id}}" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+															<i class="fa fa-facebook"></i>
+														</button>
+							
+														<button id="twitter-socila-share" data-porduct="{{product.id}}" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="X-Twitter">
+															<i class="fa-brands fa-x-twitter"></i>
+														</button>
+							
+														<button id="whatsapp-socila-share" data-porduct="{{product.id}}" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Whatsapp">
+															<i class="fa-brands fa-whatsapp fa-lg"></i>
 														</button>
 													</div>
 												</div>
-												<div class="pro-details-compare-wishlist pro-details-wishlist ">
-													<a href="wishlist.html"><i class="pe-7s-like"></i></a>
-												</div>
-											</div>
-											<div class="payment-img">
-												<a href="#"><img src="assets/images/icons/payment.png" alt=""></a>
 											</div>
 										</div>
 									</div>
-								</div>
+								</div>			          		
+							</div>	
+							<!-- End Popup -->
+
+							<div class="block2-txt-child2 flex-r p-t-3">
+								<h2 class="counTfaVE-dis" data-like-text-id="{{product.id}}">{{product.all_likes}}</h2>
+								<label class="hartcont">
+									<input class="aDdTofavEOu" data-product-id-fav="{{product.id}}"  type="checkbox" {% if product in all_favorit  %} checked="checked" {% endif %}>
+									<div class="checkmark">
+										<svg viewBox="0 0 256 256">
+										<rect fill="none" height="256" width="256"></rect>
+										<path d="M224.6,51.9a59.5,59.5,0,0,0-43-19.9,60.5,60.5,0,0,0-44,17.6L128,59.1l-7.5-7.4C97.2,28.3,59.2,26.3,35.9,47.4a59.9,59.9,0,0,0-2.3,87l83.1,83.1a15.9,15.9,0,0,0,22.6,0l81-81C243.7,113.2,245.6,75.2,224.6,51.9Z" stroke-width="20px" stroke="#bfbfbf" fill="none"></path></svg>
+									</div>
+								</label>
 							</div>
 						</div>
 					</div>
@@ -265,13 +321,20 @@
 			
 			<div class="flex-c-m flex-w w-full p-t-45">
 				<button  class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04" id="loadMore" data-limit="2" data-total="{{count_products}}">
-					{% trans "Load More" %}
+					<span class="loadmore-loder"></span>
+					<span class="loadmor-text">{% trans "Load More" %}</span>
 				</button>
 			</div>
 		</div>
 	</div>
-		
 
+	{% else %}
+	<div style="margin-top: 55px;padding: 140px 0;" class="if-no-comments">
+        <h1>{% trans "No products found" %}</h1>
+        <img style="margin-top: 16px;width: 230px;" src="{% static 'images/784694.png' %}" alt="">
+    </div>
+	{% endif %}
+		
 
 	<!-- Back to top -->
 	<div class="btn-back-to-top" id="myBtn">
@@ -301,42 +364,8 @@
 </script>
 <script>
 
-	$('.DisADdfaV').click(function(){    
-		var id =$(this).data('product-id-dis');
-		var img_done='<img class="icon-heart1 dis-block trans-04" src="{% static "images/icons/icon-heart-02.png" %}" alt="ICON"><img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static "images/icons/icon-heart-01.png" %}" alt="ICON">'
-		var img_dis='<img class="icon-heart1 dis-block trans-04" src="{% static "images/icons/icon-heart-01.png" %}" alt="ICON"><img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static "images/icons/icon-heart-02.png" %}" alt="ICON">'
-
-		
-		
-		$.ajax({
-	
-			url:'/products/add_favorite/',
-			data:{
-				'id':id,
-				
-			},
-			dataType:'json',
-			success: function(data){
-				if (data.is_prod_exist){
-					$('.DisADdfaV[data-product-id-dis="' + id + '"]').html(img_dis);
-				}
-				else{
-					$('.DisADdfaV[data-product-id-dis="' + id + '"]').html(img_done);
-				}
-                $('.square-FaVE-PhoNe').text(data.count);
-                $('.square-FaVE-Pc').text(data.count); 
-				console.log(data.likes)
-                $('.counTfaVE-dis[data-like-text-id="' + id + '"]').text(data.likes); 
-				
-		
-			}
-	
-		});
-	});
 	$('.aDdTofavEOu').click(function(){    
 		var id =$(this).data('product-id-fav');
-		var img_done='<img class="icon-heart1 dis-block trans-04" src="{% static "images/icons/icon-heart-02.png" %}" alt="ICON"><img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static "images/icons/icon-heart-01.png" %}" alt="ICON">'
-		var img_dis='<img class="icon-heart1 dis-block trans-04" src="{% static "images/icons/icon-heart-01.png" %}" alt="ICON"><img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static "images/icons/icon-heart-02.png" %}" alt="ICON">'
 
 		
 		$.ajax({
@@ -344,33 +373,51 @@
 			url:'/products/add_favorite/',
 			data:{
 				'id':id,
-				
 			},
 			dataType:'json',
 			success: function(data){
-				if (data.is_prod_exist){
-					$('.aDdTofavEOu[data-product-id-fav="' + id + '"]').html(img_dis);
+				if (data.likes != null){
+					
+					$('.square-FaVE-PhoNe').text(data.count);
+					$('.square-FaVE-Pc').text(data.count);
+					$('.counTfaVE-dis[data-like-text-id="' + id + '"]').text(data.likes); 
 				}
 				else{
-					$('.aDdTofavEOu[data-product-id-fav="' + id + '"]').html(img_done);
+					
+					if (data.lang == 'en'){
+						$.toast({
+							heading: 'Error',
+							text: 'Register first from here <a href="{% url 'singup' %} ">Register</a>',
+							showHideTransition: 'fade',
+							icon: 'error',
+							position: 'top-left',
+						})
+					}
+					else{
+						$.toast({
+							heading: 'Error',
+							text: 'سجل اولا من هنا <a href="{% url 'singup' %} ">تسجيل</a>',
+							showHideTransition: 'fade',
+							icon: 'error',
+							position: 'top-right',
+							})
+					}
+					
+					
 				}
-                $('.square-FaVE-PhoNe').text(data.count);
-                $('.square-FaVE-Pc').text(data.count);
-				$('.counTfaVE-dis[data-like-text-id="' + id + '"]').text(data.likes); 
 				
-				
-		
 			}
-	
 		});
 	});
 
 
-	
+
 	$('.QuicK-ViEw').click(function(){
 		var id =$(this).data('quick-id');
+		$('#lbl-popup[data-popup="' + id + '"]').click()
 		var selectElement = $('#coLOr-CHo-MOdal[data-color="' + id + '"]');
 		var elmintsize = $('#SizE-cHo-mODal[data-size="' + id + '"]');
+		$('.color-selction').addClass('disp-none')
 		
 		$.ajax({
 			url: '/products/quick/',
@@ -381,14 +428,7 @@
 			success: function(data) {
 				selectElement.empty();   
 				elmintsize.empty(); 
-		
-				selectElement.append($('<option>', {
-					text: 'Select'
-				}));
-				elmintsize.append($('<option>', {
-					text: 'Select'
-				}));
-		
+				
 				$.each(data.colors, function(index, color) {
 					// تحويل الحرف الأول إلى حرف كبير باستخدام toUpperCase()
 					var capitalizedColor = color.charAt(0).toUpperCase() + color.slice(1);
@@ -397,10 +437,19 @@
 					}));
 				});
 				$.each(data.sizes, function(index, size) {
+					var capitalizedSize = size.charAt(0).toUpperCase() + size.slice(1);
 					elmintsize.append($('<option>', {
-						text: size
+						text: capitalizedSize
 					}));
 				});
+				if (data.lang == 'en'){elmintsize.prepend('<option selected disabled>Choose a size</option>')}
+				else{elmintsize.prepend('<option selected disabled>أختر حجم</option>')}
+				if (!data.is_have_coustm){
+					$('.add-TOcarT-MOdAL[data-modal-id="'+id+'"]').addClass('addcart-null')
+					$('.add-TOcarT-MOdAL[data-modal-id="'+id+'"]').attr('disabled',true);
+					if (data.lang == 'en'){$('.add-TOcarT-MOdAL[data-modal-id="'+id+'"]').text('unavailable');}
+					else{$('.add-TOcarT-MOdAL[data-modal-id="'+id+'"]').text('غير متوفر');}
+				}
 			}
 		});
 		
@@ -409,28 +458,36 @@
 
 
 
-
 	$('.add-TOcarT-MOdAL').click(function(){
 		var id =$(this).data('modal-id');
 		var color=$('#coLOr-CHo-MOdal[data-color="' + id + '"]').val()
 		var size=$('#SizE-cHo-mODal[data-size="' + id + '"]').val()
-		let qty=1
-		var toast=$.toast({
-			heading: 'Error',
-			text: 'Report any <a href="https://github.com/kamranahmedse/jquery-toast-plugin/issues">issues</a>',
-			showHideTransition: 'fade',
-			icon: 'error'
-		})
+		var qty=$('#modal-Qty[data-p-qty="' + id + '"]').val()
+		var lang ='{{lang}}'
 
-
-		if (color === 'Select' || size === 'Select') {
-			toast
+		if (size == null) {
+			if (lang == 'en'){
+				var en_toast=$.toast({
+					heading: 'Error',
+					text: 'Please select a size.',
+					showHideTransition: 'fade',
+					icon: 'error',
+					position: 'top-left',
+					})
+				}
+				else{
+				var en_toast=$.toast({
+					heading: 'خطأ',
+					text: 'يرجي اختيار حجم',
+					showHideTransition: 'fade',
+					icon: 'error',
+					position: 'top-right',
+					})
+				}
 
 		}
 		else {
 			
-
-		
 
 		$.ajax({
 
@@ -440,7 +497,6 @@
 				'size':size,
 				'color':color,
 				'qty':qty,
-				
 			},
 			dataType:'json',
 			success: function(data){
@@ -448,29 +504,111 @@
 				$('.square-CarT-PhoNE').text(data['cart_count']);
 				$('.Noti-ShopCart-PC').text(data['cart_count']);
 				$('#sidE-Cart').html(data.templ_side_cart);
-				alert('the product is adedd')
-	
+
+				if (lang == 'en'){
+					var en_toast=$.toast({
+					heading: 'Success',
+					text: 'Added to cart',
+					showHideTransition: 'plain',
+					icon: 'success',
+					position: 'top-left',
+					})
+					}
+					else{
+					var en_toast=$.toast({
+					heading: 'نجاح',
+					text: 'تمت الاضافة الي العربة',
+					showHideTransition: 'plain',
+					icon: 'success',
+					position: 'top-right',
+					})
+				}
 			}
 	
 		});
 	}
 	});
 		
+
+
+
+
+
 	$('input[type="checkbox"][id="stoR-By"]').click(function() {
         $('input[type="checkbox"]').not(this).prop('checked', false);
+		const checkboxes = document.querySelectorAll('.checkbox-input');
+		checkboxes.forEach(function(checkbox) {
+		checkbox.addEventListener('change', function() {
+			if (this.checked) {
+				if ($(this).val() == 2){
+					$('.conTEnt-storBy .text h2:nth-child(2)').text('Alphabet A to Z');
+				}
+				else if ($(this).val() == 3){
+					$('.conTEnt-storBy .text h2:nth-child(2)').text('Alphabet Z to A');
+				}
+				else if ($(this).val() == 4){
+					$('.conTEnt-storBy .text h2:nth-child(2)').text('Highest rating');
+				}
+				else if ($(this).val() == 5){
+					$('.conTEnt-storBy .text h2:nth-child(2)').text('The newest');
+				}
+				else if ($(this).val() == 6){
+					$('.conTEnt-storBy .text h2:nth-child(2)').text('Price ascending');
+				}
+				else if ($(this).val() == 7){
+					$('.conTEnt-storBy .text h2:nth-child(2)').text('Price descending');
+				}
+			}
+			else{
+				$('.conTEnt-storBy .text h2:nth-child(2)').text('default');
+			}
+		});
+		});
     });
 
 	$('.js-show-filter').click(function() {
-        $('.conTEnt-storBy').hide();
+		$('input[type="checkbox"]').prop('checked', false);
+		if ($('.conTEnt-storBy').hasClass('hidden')){
+			$('.conTEnt-storBy').removeClass('hidden')
+			$('.conTEnt-storBy .text h2:nth-child(2)').text('default')
+		}
+		else{
+			$('.conTEnt-storBy').addClass('hidden')
+			$('.conTEnt-storBy .text h2:nth-child(2)').text('default')
+		}
+	});
 
-		$(this).click(function() {
-			$('.conTEnt-storBy').show();
-	
-		});
-    });
-	
+
+
+
+	$('#facebook-socila-share,#whatsapp-socila-share,#twitter-socila-share').click(function(){
+		var id =$(this).data('porduct')
+		var link= encodeURI(window.location.href + id)
+		var type=$(this).data('tooltip')
+		
+		const msg=encodeURIComponent(',worled')
+		const title=encodeURIComponent(document.querySelector('title').textContent)
+		if (type == 'Facebook'){
+			window.open(`https://www.facebook.com/share.php?u=${link}`, '_blank');
+		}
+		else if (type == 'X-Twitter'){
+			window.open(`http://twitter.com/share?url=${link}`, '_blank');
+		}
+
+		else{
+			window.open(`https://api.whatsapp.com/send?text=${link}`, '_blank');
+		}
+		
+
+	});
+
+
+	//$('.product-box').slice(1).hide()
+	//console.log($('.product-box').length)
+
 	
 </script>
+
 
 
 {% endblock scripts %}

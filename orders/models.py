@@ -52,6 +52,7 @@ class Order (models.Model):
     status=models.CharField(choices=STATUS,max_length=100,default='Delivery is in progress')
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
+    order_E_mesg=models.BooleanField(default=False)
 
     def full_name (self):
         return f'{self.first_name} {self.last_name}'

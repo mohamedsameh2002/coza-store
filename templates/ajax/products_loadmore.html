@@ -5,7 +5,7 @@
 	<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item  product-box">
 		<!-- Block2 -->
 		<div class="block2">
-			<div class="block2-pic hov-img0 label-new" data-label="{{product.product_name}}">
+			<div class="block2-pic hov-img0 label-new" {% if lang == 'en' %}data-label="{{product.category.category_name}}" {% else %} data-label="{{product.category.category_name_ar}}" {% endif %}>
 				
 				<img src= "{{product.image.url}}" alt="IMG-PRODUCT" class="ImgPROd" >
 				<button class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1 Gsp-{{random_2_qick}}" data-link-action="quickview" title="Quick view" data-quick-id="{{product.id}}">{% trans "QuicK ViEw" %}</button>
@@ -370,9 +370,36 @@
 				},
 				dataType:'json',
 				success: function(data){
-					$('.square-FaVE-PhoNe').text(data.count);
-					$('.square-FaVE-Pc').text(data.count);
-					$('.counTfaVE-dis[data-like-text-id="' + id + '"]').text(data.likes); 
+					if (data.likes != null){
+						$('.square-FaVE-PhoNe').text(data.count);
+						$('.square-FaVE-Pc').text(data.count);
+						$('.counTfaVE-dis[data-like-text-id="' + id + '"]').text(data.likes); 
+					}
+					else{
+						
+						
+						if (data.lang == 'en'){
+							$.toast({
+								heading: 'Error',
+								text: 'Register first from here <a href="{% url 'singup' %} ">Register</a>',
+								showHideTransition: 'fade',
+								icon: 'error',
+								position: 'top-left',
+							})
+						}
+						else{
+							$.toast({
+								heading: 'Error',
+								text: 'سجل اولا من هنا <a href="{% url 'singup' %} ">تسجيل</a>',
+								showHideTransition: 'fade',
+								icon: 'error',
+								position: 'top-right',
+								})
+						}
+						
+						
+					}
+					
 				}
 			});
 		});

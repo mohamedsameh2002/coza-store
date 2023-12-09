@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+{% load i18n %}
+<title>{% trans "Edit Profile" %}</title>
+<style>
+    body{ font-weight: 500}
+    .card-header{background-color: #5f5f5f;color: white;}
+    label{font-weight:500 !important;font-size: 13px !important;}
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {-webkit-appearance: none;margin: 0;}
+</style>
+<div class="container">
+        <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+        <a href="{% url "home" %}" class="stext-109 cl8 hov-cl1 trans-04">
+            {% trans "Home" %}
+            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+        </a>
+
+        <span class="stext-109 cl4">
+            {% trans "Edit Profile" %}
+        </span>
+        </div>
+    </div>
+    <br>
+<div class="container">
+    <!-- Account page navigation-->
+    <div class="row">
+        <div class="col-xl-4">
+            <!-- Profile picture card-->
+            <div class="card mb-4 mb-xl-0">
+                <div class="card-header">{% trans "Profile Picture" %}</div>
+                <div class="card-body text-center">
+                    <!-- Profile picture image-->
+                    <img id="profileImage" class="edit_profile_img" src="{{userprofile.profile_pictuer.url}}">
+                    <!-- Profile picture help block-->
+                    <div class="small font-italic text-muted mb-4"></div>
+                    <!-- Profile picture upload button-->
+    <form method="post" action="{% url "edit_profile" user.id user.slug %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                    <button class="uplud-new-img-btn" type="button" onclick="triggerFileInput()">{% trans "Upload new image" %}</button>
+                    <button class="delet-imge-btn" type="button" onclick="loadSpecificImage()">{% trans "Remove the picture" %}</button>
+                    <input id="fileInput" name="profile_pictuer" type="file" style="display: none;" onchange="displayImage(this)" value="{{userprofile.profile_pictuer}}">
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-8">
+            <!-- Account details card-->
+            <div class="card mb-4">
+            <div class="card-header">{% trans "Account Details" %}</div>
+                <div class="card-body">
+                        <!-- Form Group (username)-->
+                        
+                        <!-- Form Row-->
+                        <div class="row gx-3 mb-3">
+                            <!-- Form Group (first name)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1">{% trans "First name" %}</label>
+                                <input class="form-control input-fled-editprofile" name="first_name"  type="text" placeholder="{% trans "Enter your first name" %}" value="{{user.first_name}}">
+                            </div>
+                            <!-- Form Group (last name)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1">{% trans "Last name" %}</label>
+                                <input class="form-control input-fled-editprofile" name="last_name"  type="text" placeholder="{% trans "Enter your last name" %}" value="{{user.last_name}}">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="small mb-1" >{% trans "Phone" %}</label>
+                            <input class="form-control input-fled-editprofile" name="phone_numper" type="number" placeholder="{% trans "Enter your phone number" %}" value="{{userprofile.phone_numper}}">
+                        </div>
+                        <div class="row gx-3 mb-3">
+                            <!-- Form Group (first name)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1" for="inputFirstName">{% trans "Address Line 1" %}</label>
+                                <input class="form-control input-fled-editprofile" name="address_line_1"  type="text" placeholder="{% trans "Address Line 1" %}" value="{{userprofile.address_line_1}}">
+                            </div>
+                            <!-- Form Group (last name)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1" for="inputLastName">{% trans "Address Line 2" %}</label>
+                                <input class="form-control input-fled-editprofile" name="address_line_2"  type="text" placeholder="{% trans "Address Line 2" %}" value="{{userprofile.address_line_2}}">
+                            </div>
+                        </div>
+                        
+
+                        <div class="row gx-3 mb-3">
+                            <!-- Form Group (first name)-->
+                            <div class="col-md-4">
+                                <label class="small mb-1" for="inputFirstName">{% trans "City" %}</label>
+                                <input class="form-control input-fled-editprofile" name="city"   type="text" placeholder="{% trans "City" %}" value="{{userprofile.city}}">
+                            </div>
+                            <!-- Form Group (middle name)-->
+                            <div class="col-md-4">
+                                <label class="small mb-1" for="inputMiddleName">{% trans "State" %}</label>
+                                <input class="form-control input-fled-editprofile" name="state"  type="text" placeholder="{% trans "State" %}" value="{{userprofile.state}}">
+                            </div>
+                            <!-- Form Group (last name)-->
+                            <div class="col-md-4">
+                                <label class="small mb-1" for="inputLastName">{% trans "Country" %}</label>
+                                <input class="form-control input-fled-editprofile" name="country"   type="text" placeholder="{% trans "Country" %}" value="{{userprofile.country}}">
+                            </div>
+                        </div>
+                        {% if user.is_manual == True %}
+                        <div class="mb-3">
+                            <label class="small mb-1">{% trans "E-mail" %} ({% trans "Please check your email carefully" %})</label>
+                            <input class="form-control input-fled-editprofile" name="email" type="email" placeholder="{% trans "Enter your e-mail" %}" value="{{user.email}}">
+                        </div>
+                        {% endif %}
+                        <input name="img-status" value="" type="hidden" id="image-status">
+                        <!-- Save changes button-->
+                        <button class="uplud-new-img-btn" type="submit">{% trans "Save changes" %}</button>
+    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block scripts %}
+
+<script>
+    function triggerFileInput() {
+        document.getElementById('fileInput').click();
+    }
+
+    function displayImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            document.getElementById('image-status').value = '';
+            reader.onload = function (e) {
+                document.getElementById('profileImage').src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    var url="{% static 'images/icons/av12154.png' %}"
+
+    function loadSpecificImage() {
+        // تحديد الصورة المطلوبة من المسار
+        var imagePath = url;
+        var imageElement = document.getElementById('profileImage');
+        imageElement.src = imagePath;
+        document.getElementById('image-status').value = 'delete';
+    }
+
+
+</script>
+{% endblock scripts %}

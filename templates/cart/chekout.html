@@ -28,7 +28,7 @@
     .table-shopping-cart .column-5{padding-right: 24px;}
     .table-shopping-cart .table_row td{padding-right: 0;text-align: center;}
     @media(max-width:660px){
-        .modal-wrap{width: 94%;}
+        .modal-wrap{width: fit-content;}
         .chek-choies #py-OfLine{width: 43%;}
         .chek-choies #py-Stripe{width: 22%;}
         .chek-choies #py-Paypal{width: 23%;}
@@ -36,9 +36,9 @@
 </style>
 {% if LANGUAGE_CODE == 'ar' %}
 <style>
-    .jq-toast-wrap{
-        direction: rtl;
-    }
+    .modal-wrap{width: fit-content;}
+    .jq-toast-wrap{direction: rtl;}
+    .custom-field.one input + .placeholder{height: 17px;}
     [type="checkbox"]:checked,
 		[type="checkbox"]:not(:checked){
 		position: absolute;
@@ -51,24 +51,24 @@
 <title>{% trans "Chekout" %}</title>
 
 <div class="container">
-    <h1 class="chekout-title">Purchase information</h1>
+    <h1 class="chekout-title">{% trans "Purchase information" %}</h1>
     <span class="chekout-line"></span>
     <div class="chekout">
         <div class="checkout-form">
             <span >{% include 'includes/masg.html' %}</span>
-            <h4 style="margin-top: 15px;" class="card-title mb-4">Enter Your Information</h4>
+            <h4 style="margin-top: 15px;" class="card-title mb-4">{% trans "Enter Your Information" %}</h4>
             <form  id="chekout-form-info" action="{% url 'mk-order' %}" method="POST">
                 {% csrf_token %}
 
                 <div class="checkout-fealds">
                     <label class="custom-field one">
-                        <input name="first_name" type="text" placeholder=" " required />
-                        <span class="placeholder">First Name</span>
+                        <input name="first_name" type="text" placeholder=" " required value="{{request.user.first_name}}" />
+                        <span class="placeholder">{% trans "First Name" %}</span>
                     </label>
 
                     <label class="custom-field one">
-                        <input name="last_name" type="text" placeholder=" " required />
-                        <span class="placeholder">Last Name</span>
+                        <input name="last_name" type="text" placeholder=" " required value="{{request.user.last_name}}"/>
+                        <span class="placeholder">{% trans "Last Name" %}</span>
                     </label>
 
                 </div>
@@ -76,51 +76,51 @@
                 <div class="checkout-fealds">
                     <label class="custom-field one">
                         <input name="email" id="inp-Emil" type="eamil" placeholder=" " required />
-                        <span class="placeholder">E-mail</span>
+                        <span class="placeholder">{% trans "E-mail" %}</span>
                     </label>
 
                     <label class="custom-field one">
-                        <input name="phone" type="number" placeholder=" " required />
-                        <span class="placeholder">Phone Number</span>
-                    </label>
-
-                </div>
-                <div class="checkout-fealds">
-
-                    <label class="custom-field one">
-                        <input name="address_line_1" type="text" placeholder=" " required />
-                        <span class="placeholder">address line 1</span>
-                    </label>
-
-                    <label class="custom-field one">
-                        <input name="address_line_2" type="text" placeholder=" " />
-                        <span class="placeholder">address line 2</span>
+                        <input name="phone" type="number" placeholder=" " required value="{{user_profile.phone_numper}}" />
+                        <span class="placeholder">{% trans "Phone Number" %}</span>
                     </label>
 
                 </div>
                 <div class="checkout-fealds">
 
                     <label class="custom-field one">
-                        <input name="city" type="text" placeholder=" " required />
-                        <span class="placeholder">City</span>
+                        <input name="address_line_1" type="text" placeholder=" " required value="{{user_profile.address_line_1}}"/>
+                        <span class="placeholder">{% trans "Address Line 1" %}</span>
                     </label>
 
                     <label class="custom-field one">
-                        <input name="state" type="text" placeholder=" " required />
-                        <span class="placeholder">State</span>
+                        <input name="address_line_2" type="text" placeholder=" " value="{{user_profile.address_line_2}}" />
+                        <span class="placeholder">{% trans "Address Line 2" %}</span>
+                    </label>
+
+                </div>
+                <div class="checkout-fealds">
+
+                    <label class="custom-field one">
+                        <input name="city" type="text" placeholder=" "  required value="{{user_profile.city}}" />
+                        <span class="placeholder">{% trans "City" %}</span>
                     </label>
 
                     <label class="custom-field one">
-                        <input name="country" type="text" placeholder=" " required />
-                        <span class="placeholder">Country</span>
+                        <input name="state" type="text" placeholder=" " required value="{{user_profile.state}}"/>
+                        <span class="placeholder">{% trans "State" %}</span>
+                    </label>
+
+                    <label class="custom-field one">
+                        <input name="country" type="text" placeholder=" " required value="{{user_profile.counter}}"/>
+                        <span class="placeholder">{% trans "Country" %}</span>
                     </label>
                 </div>
 
                 <div class="chek-input">
                     <textarea name="order_note" rows="2" required></textarea>
-                    <label>Order Note</label>
+                    <label>{% trans "Order Note" %}</label>
                 </div>
-                <button disabled type="button" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer dis-chickaout">{% trans "submit" %}</button>
+                <button disabled type="button" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer dis-chickaout">{% trans "next step" %}</button>
             </form>
 
             <input class="modal-btn" type="checkbox" id="pupup-chekout" name="modal-btn"/>
@@ -128,14 +128,14 @@
             <div  class="modal">
                 <div class="modal-wrap">
                     <div class="chek-text">
-                        <h2>Which payment method do you prefer?</h2>
+                        <h2>{% trans "Which payment method do you prefer?" %}</h2>
                     </div>
                     
                     <div class="chek-chioes-ping"><img src="{% static 'images/84321.png' %}"></div>
                     <div class="chek-choies">
                         <button id="py-Stripe" value="online">stripe <i class="fa-brands fa-cc-stripe"></i></button>
                         <button id="py-Paypal" value="online">paypal <i class="fa-brands fa-paypal"></i></button>
-                        <button id="py-OfLine" value="w_recieving">When Recieving <i class="fa-solid fa-handshake"></i></button>
+                        <button id="py-OfLine" value="w_recieving">{% trans "When Recieving " %}<i class="fa-solid fa-handshake"></i></button>
                     </div>
                 </div>
             </div>
@@ -320,7 +320,7 @@
         if (window.location.href.includes("/en/")) {
             var en_toast=$.toast({
                 heading: 'Error',
-                text: 'You cannot resend.',
+                text: 'Temporarily disabled, it will be activated soon',
                 showHideTransition: 'fade',
                 icon: 'error',
                 position: 'top-left',
@@ -328,7 +328,7 @@
         } else {
             var en_toast=$.toast({
                 heading: 'Error',
-                text: 'السلام',
+                text: 'معطلة مؤقتا، سوف يتم تفعيلها قريبا',
                 showHideTransition: 'fade',
                 icon: 'error',
                 position: 'top-right',

@@ -1,0 +1,274 @@
+{% load static %}
+{% load i18n %}
+<input id="blog-Slug" type="hidden" value="{{id}}">
+<input id="blog-id" type="hidden" value="{{slug}}">
+{% if comments %}
+	{% for comment in comments %}
+	<div class="base-comment">
+
+		<div class="the-comment">
+			<div class="image">
+				<img src="{{comment.user.profile_pictuer.url}}" alt="">
+			</div>
+			<div class="data-commetn">
+				<h2>{{comment.user.user.full_name}}</h2>
+				<p>{{comment.comment}}</p>
+				<div class="buttons">
+					<button class="reply-comment" data-id-comment="{{comment.id}}">{% trans "reply" %}</button>
+					<button class="show-btn {% if not comment.is_has_reply %}hide-show-rep {% endif %}" data-show-id="{{comment.id}}"><span>{{comment.count_reply}}</span> {% trans "replays" %}</button>
+					{% if comment.user.user == userprofile.user %}
+					<a href="{% url "delet_com_rep" comment.id 'comment' %}" class="dele-option">{% trans "Delete" %}</a>
+					{% endif %}
+					
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="replay">
+			<div class="heder-system heder-2" data-id-fld="{{comment.id}}">
+				<div class="image">
+					<img src="{{userprofile.profile_pictuer.url}}" >
+				</div>
+				<div class="input-fld">
+					<label class="label-reply4comment" for="">@<span class="span-name-reply4comment" data-id-comment="{{comment.id}}" data-name-comment="{{comment.user.user.full_name}}"></span></label>
+					<textarea class="textare-reply4comment"  data-text-reply4comment="{{comment.id}}" placeholder="add reply...."  maxlength="2000"></textarea>
+					<div class="buttons">
+						<div class="comment-meiion">
+							<button type="button" class="cancel-replay" data-id-cancel="{{comment.id}}">{% trans "cancel" %}</button>
+							<button class="reply4comment" data-id-reply4comment="{{comment.id}}" value="reply4comment">{% trans "reply" %}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div  class="comments-body content-2 disp-none replays-lOop" data-content2-id="{{comment.id}}">
+				{% for i in comment.reply_set.all %}
+				<div style="margin-top: 20px;" class="the-comment">
+					<div  class="image">
+						<img style="margin-top: -5px;"  src="{{i.user.profile_pictuer.url}}" alt="">
+					</div>
+					<div style="width: 90%;" class="data-commetn">
+						<h2>{{i.user.user.full_name}}</h2>
+						<div style="display: flex;gap: 5px;"><p><span><a href="">@{{i.reply_or_comment}}</a> </span></p><p>{{i.reply}}</p></div>
+						<div class="buttons">
+							<button class="reply4reply" data-id-reply="{{i.id}}">{% trans "reply" %}</button>
+							{% if i.user.user == userprofile.user %}
+							<a href="{% url "delet_com_rep" i.id 'reply' %}" class="dele-option">{% trans "Delete" %}</a>
+							{% endif %}
+						</div>
+						<div class="reply4rply-textarea" data-id-reply-textarea="{{i.id}}">
+							<div class="heder-system">
+								<div class="image">
+									<img src="{{userprofile.profile_pictuer.url}}">
+								</div>
+								<div class="input-fld">
+									<label class="label-reply4comment" for="">@<span class="span-name-reply4reply" data-id-reply="{{i.id}}" data-name-reply="{{i.user.user.full_name}}"></span></label>
+									<textarea class="textar-reply4reply" data-reply-id-textar="{{i.id}}" placeholder="add reply...."  maxlength="2000"></textarea>
+									<div class="buttons">
+										<div class="comment-meiion">
+											<button class="cancel-reply4reply" data-id-reply="{{i.id}}" type="button">{% trans "cancel" %}</button>
+											<button value="reply4reply" class="Add_reply4reply" data-id-reply="{{i.id}}" data-id-commetn="{{comment.id}}">{% trans "reply" %}</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div> 
+	{% endfor %}
+	{% else %}
+	<div class="if-no-comments">
+		<h1>{% trans "There are no comments for this post" %}</h1>
+		<img src="{% static 'images/456456.png' %}" alt="">
+	</div>
+	{% endif %}
+
+
+    <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+
+    <script>
+		$(document).ready(function(){
+			$('.heder-2').hide()
+			$('.hide-show-rep').hide()
+			$('.reply4rply-textarea').hide()
+		});
+		
+
+		$('.reply-comment').click(function(){
+			id=$(this).data('id-comment')
+			$('.heder-2[data-id-fld="'+id+'"]').show()
+			var name=$('.span-name-reply4comment[data-id-comment="'+id+'"]').data('name-comment')
+			$('.span-name-reply4comment[data-id-comment="'+id+'"]').text(name)
+			
+		});
+
+
+		$('.cancel-replay').click(function(){
+			id=$(this).data('id-cancel')
+			$('.heder-2[data-id-fld="'+id+'"]').hide()
+		});
+
+
+		$('.cancel-comment').click(function(){
+			$('.myTextarea').val('');
+			$('.myTextarea').height('3px');
+		});
+
+		
+		
+		$('.show-btn').click(function(){
+			id=$(this).data('show-id')
+			if ($('.content-2[data-content2-id="'+id+'"]').hasClass('disp-none')){
+				$('.content-2[data-content2-id="'+id+'"]').removeClass('disp-none')
+			}
+			else{
+				$('.content-2[data-content2-id="'+id+'"]').addClass('disp-none')
+			}
+
+		});
+
+
+		$('.reply4reply').click(function(){
+			var id = $(this).data('id-reply')
+			$('.reply4rply-textarea[data-id-reply-textarea="'+id+'"]').show()
+			var name=$('.span-name-reply4reply[data-id-reply="'+id+'"]').data('name-reply')
+			$('.span-name-reply4reply[data-id-reply="'+id+'"]').text(name)
+		})
+
+
+
+
+
+		$('.cancel-reply4reply').click(function(){
+			var id = $(this).data('id-reply')
+			$('.reply4rply-textarea[data-id-reply-textarea="'+id+'"]').hide()
+		})
+		
+
+		$(".reply4comment").click(function(){
+			var slug=$('#blog-Slug').val()
+			var id=$('#blog-id').val()
+			var comment_id =$(this).data('id-reply4comment')
+			var val=$(this).val()
+			var reply=$('.textare-reply4comment[data-text-reply4comment="'+comment_id+'"]').val()
+			//ajax
+			$.ajax({
+				data:{
+					'slug':slug,
+					'id':id,
+					'reply':reply,
+					'val':val,
+					'comment_id':comment_id,
+				},
+				url:'/blog/add_reply/',
+				dataType:'json',
+				beforeSend:function(){
+				},
+				success:function(data){
+					var reply=$('.textare-reply4comment[data-text-reply4comment="'+comment_id+'"]').height('30px')
+					$('.textare-reply4comment[data-text-reply4comment="'+comment_id+'"]').val('')
+					$('.replays-lOop[data-content2-id='+comment_id+']').html(data.template)
+					
+					if ($('.show-btn[data-show-id="'+comment_id+'"]').hasClass('hide-show-rep')){
+						$('.show-btn[data-show-id="'+comment_id+'"]').show()
+						$('.show-btn[data-show-id="'+comment_id+'"]').removeClass('hide-show-rep')
+					}
+					$('.heder-2[data-id-fld="'+comment_id+'"]').hide()
+					$('.show-btn[data-show-id="'+comment_id+'"] span').text(data.count)
+					$('.commets-count-ditail').text(data.comments_count)
+				}
+			});
+		});
+
+
+
+
+		$(".Add_reply4reply").click(function(){
+			console.log('comments')
+			var id=$('#blog-id').val()
+			var slug=$('#blog-Slug').val()
+			var comment_id =$(this).data('id-commetn')
+			var reply_id =$(this).data('id-reply')
+			var val=$(this).val()
+			var reply=$('.textar-reply4reply[data-reply-id-textar="'+reply_id+'"]').val()
+
+			//ajax
+			$.ajax({
+				data:{
+					'id':id,
+					'slug':slug,
+					'comment_id':comment_id,
+					'reply_id':reply_id,
+					'val':val,
+					'reply':reply,
+				},
+				url:'/blog/add_reply/',
+				dataType:'json',
+				beforeSend:function(){
+				},
+				success:function(data){
+					$('.textar-reply4reply[data-reply-id-textar="'+reply_id+'"]').height('30px')
+					$('.textar-reply4reply[data-reply-id-textar="'+reply_id+'"]').val('')
+					$('.replays-lOop[data-content2-id='+comment_id+']').html(data.template)
+					$('.show-btn[data-show-id="'+comment_id+'"] span').text(data.count)
+					$('.commets-count-ditail').text(data.comments_count)
+				}
+			});
+		});
+		
+	</script>
+	<script>
+
+
+
+
+		$('.textare-reply4comment,.textar-reply4reply,.myTextarea').click(function(){
+
+			var id_1 =$(this).data('text-reply4comment')
+			var id_2 =$(this).data('reply-id-textar')
+		
+			if (id_1){var textarea = $('.textare-reply4comment[data-text-reply4comment="'+id_1+'"]');}
+			else if (id_2){var textarea = $('.textar-reply4reply[data-reply-id-textar="'+id_2+'"]');}
+			else {var textarea = $('.myTextarea')}
+
+			textarea.on('input', function () {
+				var text = $(this).val();
+				var isArabic = /[\u0600-\u06FF]/.test(text);
+
+				if (isArabic) {
+					$(this).css('direction', 'rtl');
+				} else {
+					$(this).css('direction', 'ltr');
+				}
+
+				autoResizeAndScroll1321(this); 
+			});
+
+			function autoResizeAndScroll1321(textarea) {
+				var wordCount = textarea.value.trim().split('').length;
+				var maxWordCount = 1500;
+
+				textarea.style.overflowY = 'hidden';
+				textarea.readOnly = false;
+
+				if (wordCount <= maxWordCount) {
+					textarea.style.height = 'auto';
+					textarea.style.height = textarea.scrollHeight + 'px';
+				} else {
+					textarea.style.overflowY = 'scroll';
+				}
+			}
+		})
+
+
+
+
+
+		
+	</script>

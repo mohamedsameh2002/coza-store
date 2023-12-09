@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: .\templates\orders\ajax\order_complete_aj.html:324
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-15 07:59+0300\n"
+"POT-Creation-Date: 2023-12-07 08:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,12 +24,14 @@ msgstr ""
 msgid "All Products"
 msgstr "كل المنتجات"
 
-#: .\COZA-temp\contact.html:28 .\templates\store\products.html:52
+#: .\COZA-temp\contact.html:28 .\templates\includes\filter.html:89
+#: .\templates\store\products.html:117
 msgid "Filter"
 msgstr "فلتر"
 
-#: .\COZA-temp\contact.html:34 .\templates\blog\blog.html:102
-#: .\templates\home.html:625 .\templates\store\products.html:58
+#: .\COZA-temp\contact.html:34 .\templates\blog\blog.html:123
+#: .\templates\home.html:625 .\templates\store\products.html:123
+#: .\templates\store\search.html:7
 msgid "Search"
 msgstr "بحث"
 
@@ -36,43 +39,38 @@ msgstr "بحث"
 msgid "Sort By"
 msgstr "ترتيب حسب"
 
-#: .\COZA-temp\contact.html:60 .\templates\store\products.html:15
-#: .\templates\store\search.html:16
+#: .\COZA-temp\contact.html:60
 msgid "Default"
 msgstr "افتراضي"
 
-#: .\COZA-temp\contact.html:66 .\templates\store\products.html:20
-#: .\templates\store\search.html:21
+#: .\COZA-temp\contact.html:66
 msgid "A to Z"
 msgstr "من أ الي ي"
 
-#: .\COZA-temp\contact.html:71 .\templates\store\products.html:25
-#: .\templates\store\search.html:26
+#: .\COZA-temp\contact.html:71
 msgid "Z to A"
 msgstr "من ي الي أ"
 
-#: .\COZA-temp\contact.html:77 .\templates\store\products.html:30
-#: .\templates\store\search.html:31
+#: .\COZA-temp\contact.html:77
 msgid "Highest Rating"
 msgstr "الأعلى تقييما"
 
-#: .\COZA-temp\contact.html:83 .\templates\store\products.html:35
-#: .\templates\store\search.html:36
+#: .\COZA-temp\contact.html:83
 msgid "Newer"
 msgstr "الأحدث"
 
-#: .\COZA-temp\contact.html:89 .\templates\store\products.html:40
-#: .\templates\store\search.html:41
+#: .\COZA-temp\contact.html:89
 msgid "Price: Low to High"
 msgstr "السعر : من الأقل الي الأعلى"
 
-#: .\COZA-temp\contact.html:95 .\templates\store\products.html:44
-#: .\templates\store\search.html:45
+#: .\COZA-temp\contact.html:95
 msgid "Price: High to Low"
 msgstr "السعر : من الأعلى الي الأقل"
 
-#: .\COZA-temp\contact.html:103 .\templates\cart\cart.html:56
-#: .\templates\includes\filter.html:24
+#: .\COZA-temp\contact.html:103 .\templates\ajax\cart_aj.html:8
+#: .\templates\cart\cart.html:109 .\templates\cart\chekout.html:150
+#: .\templates\includes\filter.html:84
+#: .\templates\registration\user_profile.html:122
 msgid "Price"
 msgstr "السعر"
 
@@ -80,233 +78,400 @@ msgstr "السعر"
 msgid "All"
 msgstr "الجميع"
 
-#: .\COZA-temp\contact.html:147 .\templates\cart\cart.html:88
-#: .\templates\includes\filter.html:37
-#: .\templates\store\product_details.html:97
+#: .\COZA-temp\contact.html:147 .\templates\ajax\cart_aj.html:45
+#: .\templates\ajax\cart_aj.html:47 .\templates\ajax\products_filter.html:107
+#: .\templates\ajax\products_loadmore.html:107 .\templates\cart\cart.html:146
+#: .\templates\cart\cart.html:148 .\templates\cart\chekout.html:191
+#: .\templates\cart\chekout.html:194 .\templates\includes\filter.html:68
+#: .\templates\store\favorite.html:153
+#: .\templates\store\product_details.html:179
+#: .\templates\store\products.html:252 .\templates\store\search.html:228
 msgid "Color"
 msgstr "اللون"
 
-#: .\COZA-temp\contact.html:168 .\templates\includes\filter.html:63
+#: .\COZA-temp\contact.html:168 .\templates\includes\filter.html:97
 msgid "Sizes"
 msgstr "الأحجام"
 
-#: .\COZA-temp\contact.html:242 .\templates\store\products.html:291
-#: .\templates\store\search.html:268
+#: .\COZA-temp\contact.html:242 .\templates\store\product_details.html:329
+#: .\templates\store\products.html:348 .\templates\store\search.html:324
 msgid "Load More"
 msgstr "تحميل المزيد"
 
-#: .\templates\base.html:56 .\templates\home.html:52
+#: .\templates\ajax\cart_aj.html:6 .\templates\cart\cart.html:107
+#: .\templates\cart\chekout.html:148
+msgid "Product"
+msgstr "المنتج"
+
+#: .\templates\ajax\cart_aj.html:9 .\templates\cart\cart.html:110
+#: .\templates\cart\chekout.html:151
+msgid "Quantity"
+msgstr "الكمية"
+
+#: .\templates\ajax\cart_aj.html:10 .\templates\cart\cart.html:111
+#: .\templates\cart\chekout.html:152
+msgid "SubTotal"
+msgstr "المجموع الفرعي"
+
+#: .\templates\ajax\cart_aj.html:37 .\templates\ajax\cart_aj.html:39
+#: .\templates\ajax\products_filter.html:87
+#: .\templates\ajax\products_loadmore.html:87 .\templates\cart\cart.html:138
+#: .\templates\cart\cart.html:140 .\templates\cart\chekout.html:181
+#: .\templates\cart\chekout.html:184 .\templates\store\favorite.html:133
+#: .\templates\store\product_details.html:156
+#: .\templates\store\products.html:232 .\templates\store\search.html:208
+msgid "Size"
+msgstr "الحجم"
+
+#: .\templates\ajax\cart_emty_aj.html:9 .\templates\cart\cart.html:289
+msgid "Your Shopping Cart Is Empty."
+msgstr "عربة التسوق الخاصة بك فارغة"
+
+#: .\templates\ajax\cart_emty_aj.html:15 .\templates\cart\cart.html:295
+msgid "GO SHOPING"
+msgstr "اذهب للتسوق"
+
+
+#: .\templates\project\error_page.html:13 
+msgid "Page not found"
+msgstr "لم يتم العثور علي الصفحة"
+
+#: .\templates\ajax\products_filter.html:11
+#: .\templates\ajax\products_loadmore.html:11
+#: .\templates\store\favorite.html:57 .\templates\store\products.html:156
+#: .\templates\store\search.html:132
+msgid "QuicK ViEw"
+msgstr "نظرة سريعة"
+
+#: .\templates\ajax\products_filter.html:140
+#: .\templates\ajax\products_loadmore.html:140
+#: .\templates\store\favorite.html:184
+#: .\templates\store\product_details.html:213
+#: .\templates\store\products.html:283 .\templates\store\search.html:259
+msgid "Add to cart"
+msgstr "إضافة الي عربة التسوق"
+
+#: .\templates\ajax\reviews.html:36 .\templates\store\product_details.html:321
+msgid "There are no reviews for this product"
+msgstr "لا توجد مراجعات لهذا المنتج"
+
+#: .\templates\ajax\reviews.html:200 
+msgid "No products found"
+msgstr "لم يتم العثور علي منتجات"
+
+#: .\templates\base.html:61 .\templates\home.html:52
 msgid "A gift upon delivery for a purchaser of more than $200"
 msgstr "هدية عند التسليم للمشتري بأكثر من 200 دولار"
 
-#: .\templates\base.html:61 .\templates\base.html:322 .\templates\home.html:57
-#: .\templates\home.html:303
-msgid "Help & FAQs"
-msgstr "المساعدة والأسئلة الشائعة"
-
-#: .\templates\base.html:66 .\templates\base.html:326 .\templates\home.html:62
-#: .\templates\home.html:307
-msgid "My Account"
-msgstr "حسابي"
-
-#: .\templates\base.html:69
-msgid "log out"
-msgstr "تسجيل خروج"
-
-#: .\templates\base.html:74 .\templates\home.html:67
+#: .\templates\base.html:74 .\templates\base.html:330 .\templates\home.html:67
 msgid "Register"
 msgstr "تسجيل"
 
-#: .\templates\base.html:109 .\templates\base.html:351
-#: .\templates\blog\blog-detail.html:11 .\templates\cart\cart.html:29
+#: .\templates\base.html:109 .\templates\base.html:355
+#: .\templates\blog\blog-detail.html:31 .\templates\cart\cart.html:83
 #: .\templates\home.html:102 .\templates\home.html:332
-#: .\templates\store\product_details.html:13
+#: .\templates\registration\edit_profile.html:16
+#: .\templates\registration\user_profile.html:14
+#: .\templates\store\product_details.html:75
 msgid "Home"
 msgstr "الرئيسية"
 
-#: .\templates\base.html:117 .\templates\base.html:355
+#: .\templates\base.html:117 .\templates\base.html:359
 #: .\templates\home.html:106 .\templates\home.html:336
 msgid "Shop"
 msgstr "المتجر"
 
-#: .\templates\base.html:125 .\templates\base.html:360
+#: .\templates\base.html:125 .\templates\base.html:364
 #: .\templates\cart\cart.html:6 .\templates\home.html:110
 #: .\templates\home.html:341
 msgid "Shopping Cart"
 msgstr "عربة التسوق"
 
-#: .\templates\base.html:133 .\templates\base.html:364
-#: .\templates\blog\blog-detail.html:16 .\templates\blog\blog.html:5
-#: .\templates\blog\blog.html:10 .\templates\home.html:114
+#: .\templates\base.html:133 .\templates\base.html:368
+#: .\templates\blog\blog-detail.html:36 .\templates\blog\blog.html:5
+#: .\templates\blog\blog.html:21 .\templates\home.html:114
 #: .\templates\home.html:345
 msgid "Blog"
 msgstr "المدونه"
 
-#: .\templates\base.html:137 .\templates\base.html:368
+#: .\templates\base.html:141 .\templates\base.html:373
 #: .\templates\home.html:118 .\templates\home.html:349
+#: .\templates\project\about.html:6 .\templates\project\about.html:9
 msgid "About"
 msgstr "عنا"
 
-#: .\templates\base.html:141 .\templates\base.html:372
-#: .\templates\home.html:122 .\templates\home.html:353
-msgid "Contact"
-msgstr "التواصل"
-
-#: .\templates\base.html:401 .\templates\home.html:382
+#: .\templates\base.html:423 .\templates\home.html:382
 msgid "Your Cart"
 msgstr "عربتك"
 
-#: .\templates\base.html:464 .\templates\blog\blog-detail.html:134
-#: .\templates\blog\blog.html:112 .\templates\home.html:708
-#: .\templates\includes\filter.html:6
+#: .\templates\base.html:489 .\templates\blog\blog-detail.html:235
+#: .\templates\blog\blog.html:154 .\templates\home.html:708
+#: .\templates\includes\filter.html:51
 msgid "Categories"
 msgstr "الفئات"
 
-#: .\templates\base.html:486 .\templates\home.html:724
+#: .\templates\base.html:511 .\templates\home.html:724
 msgid "Help"
 msgstr "المساعدة"
 
-#: .\templates\base.html:492 .\templates\home.html:730
+#: .\templates\base.html:517 .\templates\home.html:730
+#: .\templates\project\help.html:11
 msgid "Track Order"
 msgstr "تتبع طلبك"
 
-#: .\templates\base.html:498 .\templates\home.html:736
+#: .\templates\base.html:523 .\templates\home.html:736
+#: .\templates\project\help.html:13
 msgid "Returns"
 msgstr "المرجوعات"
 
-#: .\templates\base.html:504 .\templates\home.html:742
+#: .\templates\base.html:529 .\templates\home.html:742
+#: .\templates\project\help.html:9
 msgid "Shipping"
 msgstr "التسوق"
 
-#: .\templates\base.html:510 .\templates\home.html:748
+#: .\templates\base.html:535 .\templates\home.html:748
+#: .\templates\project\help.html:15
 msgid "FAQs"
 msgstr "الأسئلة الشائعة"
 
-#: .\templates\base.html:518 .\templates\home.html:756
+#: .\templates\base.html:543 .\templates\home.html:756
 msgid "GET IN TOUCH"
 msgstr "ابقى على تواصل"
 
-#: .\templates\base.html:522 .\templates\home.html:760
-#, fuzzy
-#| msgid ""
-#| "Any questions? Let us know in store at 8th floor, 379 Hudson St, New York,"
-#| "NY 10018 or call us on (+1) 96 716 6879"
+#: .\templates\base.html:547 .\templates\home.html:760
 msgid ""
 "Any questions? Let us know in store at 8th floor, 379 Hudson St, New York, "
 "NY 10018 or call us on (+1) 96 716 6879"
 msgstr ""
-"أي أسئلة؟ أخبرنا بذلك في المتجر الواقع في الطابق الثامن، 379 Hudson St ,"
-"نيويورك,NY 10018 أو اتصل بنا على (+1) 96 716 6879"
+"أي أسئلة؟ أخبرنا بذلك في المتجر الواقع في الطابق الثامن، 379 شارع هدسون,أو "
+"اتصل بنا على 100 716 879"
 
-#: .\templates\base.html:543 .\templates\home.html:781
+#: .\templates\base.html:568 .\templates\home.html:781
 msgid "Newsletter"
 msgstr "النشرة الإخبارية"
 
-#: .\templates\base.html:555 .\templates\home.html:793
+#: .\templates\base.html:580 .\templates\home.html:793
 msgid "Subscribe"
 msgstr "الاشتراك"
 
-#: .\templates\blog\ajax\blog-ajax.html:50 .\templates\blog\blog-detail.html:67
-#: .\templates\blog\blog.html:69
+#: .\templates\blog\ajax\blog-ajax.html:50 .\templates\blog\blog-detail.html:91
+#: .\templates\blog\blog.html:90
 msgid "Comments"
 msgstr "تعليقات"
 
-#: .\templates\blog\ajax\blog-ajax.html:55 .\templates\blog\blog.html:74
+#: .\templates\blog\ajax\blog-ajax.html:55 .\templates\blog\blog.html:95
 msgid "Continue Reading"
 msgstr "أكمل القراءة"
+
+#: .\templates\blog\ajax\comments.html:17
+#: .\templates\blog\ajax\comments.html:39
+#: .\templates\blog\ajax\comments.html:54
+#: .\templates\blog\ajax\comments.html:70
+#: .\templates\blog\ajax\load_comments.html:16
+#: .\templates\blog\ajax\load_comments.html:41
+#: .\templates\blog\ajax\load_comments.html:57
+#: .\templates\blog\ajax\load_comments.html:76
+#: .\templates\blog\ajax\replys.html:12 .\templates\blog\ajax\replys.html:28
+#: .\templates\blog\blog-detail.html:152 .\templates\blog\blog-detail.html:174
+#: .\templates\blog\blog-detail.html:189 .\templates\blog\blog-detail.html:205
+msgid "reply"
+msgstr "رد"
+
+#: .\templates\blog\ajax\comments.html:18
+#: .\templates\blog\ajax\load_comments.html:17
+#: .\templates\blog\blog-detail.html:153
+msgid "replays"
+msgstr "ردود"
+
+#: .\templates\blog\ajax\comments.html:20
+#: .\templates\blog\ajax\comments.html:56
+#: .\templates\blog\ajax\load_comments.html:19
+#: .\templates\blog\ajax\load_comments.html:59
+#: .\templates\blog\ajax\replys.html:14 .\templates\blog\blog-detail.html:155
+#: .\templates\blog\blog-detail.html:191
+msgid "Delete"
+msgstr "حذف"
+
+#: .\templates\blog\ajax\comments.html:38
+#: .\templates\blog\ajax\comments.html:69
+#: .\templates\blog\ajax\load_comments.html:40
+#: .\templates\blog\ajax\load_comments.html:75
+#: .\templates\blog\ajax\replys.html:27 .\templates\blog\blog-detail.html:133
+#: .\templates\blog\blog-detail.html:204
+msgid "cancel"
+msgstr "الغاء"
+
+#: .\templates\blog\ajax\comments.html:87 .\templates\blog\blog-detail.html:220
+msgid "There are no comments for this post"
+msgstr "لا يوجد تعليقات لهذا المنشور"
 
 #: .\templates\blog\blog-detail.html:5
 msgid "Blog Detail"
 msgstr "تفاصيل التدوينة"
 
-#: .\templates\blog\blog-detail.html:90 .\templates\blog\blog-detail.html:190
-#: .\templates\blog\blog.html:130
-msgid "Tags"
-msgstr "العلامات"
+#: .\templates\blog\blog-detail.html:134
+msgid "comment"
+msgstr "تعليقات"
 
-#: .\templates\blog\blog-detail.html:110
-msgid "Leave a Comment"
-msgstr "أترك تعليق"
-
-#: .\templates\blog\blog-detail.html:114
-msgid "Make your comment constructive"
-msgstr "أجعل تعليقك بناء"
-
-#: .\templates\blog\blog-detail.html:119
-msgid "Write..."
-msgstr "أكتب"
-
-#: .\templates\blog\blog-detail.html:123
-msgid "Post"
-msgstr "نشر"
-
-#: .\templates\blog\blog-detail.html:155
+#: .\templates\blog\blog-detail.html:256
 msgid "Products Mentioned"
 msgstr "منتجات تم ذكرها"
 
-#: .\templates\blog\blog-detail.html:215 .\templates\blog\blog.html:155
+#: .\templates\blog\blog-detail.html:281
+msgid "No product mentioned"
+msgstr "منتجات تم ذكرها"
+
+#: .\templates\blog\blog-detail.html:291 .\templates\blog\blog.html:172
+msgid "Tags"
+msgstr "العلامات"
+
+#: .\templates\blog\blog-detail.html:303 .\templates\blog\blog.html:184
 msgid "Archive"
 msgstr "الأرشيف"
 
-#: .\templates\cart\cart.html:34
+#: .\templates\blog\blog.html:31
+msgid "The Page Is Tagged With"
+msgstr "الصفحه موسومة بى"
+
+#: .\templates\blog\blog.html:36
+msgid "loding..."
+msgstr "...جاري التحميل"
+
+#: .\templates\cart\cart.html:88
 msgid "Shoping Cart"
 msgstr "عربة التسوق"
 
-#: .\templates\cart\cart.html:54
-msgid "Product"
-msgstr "المنتج"
-
-#: .\templates\cart\cart.html:57
-msgid "Quantity"
-msgstr "الكمية"
-
-#: .\templates\cart\cart.html:58
-msgid "SubTotal"
-msgstr "المجموع الفرعي"
-
-#: .\templates\cart\cart.html:84 .\templates\store\product_details.html:79
-msgid "Size"
-msgstr "الحجم"
-
-#: .\templates\cart\cart.html:119
+#: .\templates\cart\cart.html:180
 msgid "Discount code"
 msgstr "كود الخصم"
 
-#: .\templates\cart\cart.html:122
+#: .\templates\cart\cart.html:184
 msgid "Use the code"
 msgstr "أستخدم الكود"
 
-#: .\templates\cart\cart.html:127
-msgid "Update Cart"
-msgstr "تحديث العربة"
-
-#: .\templates\cart\cart.html:136
+#: .\templates\cart\cart.html:194
 msgid "Cart Totals"
 msgstr "إجماليات عربة التسوق"
 
-#: .\templates\cart\cart.html:145 .\templates\home.html:415
+#: .\templates\cart\cart.html:201 .\templates\cart\chekout.html:221
+#: .\templates\home.html:415
 msgid "Total"
 msgstr "المجموع"
 
-#: .\templates\cart\cart.html:160
+#: .\templates\cart\cart.html:223 .\templates\cart\chekout.html:246
 msgid "Tax"
-msgstr "التوصيل"
+msgstr "الضريبة"
 
-#: .\templates\cart\cart.html:176
+#: .\templates\cart\cart.html:239 .\templates\cart\chekout.html:262
 msgid "Final Total"
 msgstr "المجموع النهائي"
 
-#: .\templates\cart\cart.html:188
+#: .\templates\cart\cart.html:251
 msgid "Checkout"
 msgstr "الدفع"
 
-#: .\templates\cart\cart.html:203
-msgid "Your shopping cart is Empty."
-msgstr "عربة التسوق الخاصة بك فارغة"
+#: .\templates\cart\cart.html:271
+msgid "warning:"
+msgstr "تحذير:"
 
-#: .\templates\cart\cart.html:206
-msgid "GO SHOPING"
-msgstr "تسوق"
+#: .\templates\cart\cart.html:273
+msgid ""
+"If you do not register, you will lose these orders once the session expires."
+msgstr "إن لم تسجل,فسوف تخسر طلباتك بمجرد انتهاء صلاحية الجلسة"
+
+#: .\templates\cart\chekout.html:51
+msgid "Chekout"
+msgstr "الدفع"
+
+#: .\templates\cart\chekout.html:54
+msgid "Purchase information"
+msgstr "معلومات عن المنتج"
+
+#: .\templates\cart\chekout.html:59
+
+msgid "Enter Your Information"
+msgstr "معلومات عن المنتج"
+
+#: .\templates\cart\chekout.html:66
+msgid "First Name"
+msgstr "الاسم الأول"
+
+#: .\templates\cart\chekout.html:71
+msgid "Last Name"
+msgstr "الاسم الثاني"
+
+#: .\templates\cart\chekout.html:79
+#: .\templates\registration\edit_profile.html:104
+#: .\templates\registration\login.html:17
+#: .\templates\registration\login.html:21
+#: .\templates\registration\reset_pass_email.html:19
+#: .\templates\registration\reset_pass_email.html:23
+#: .\templates\registration\singup.html:34
+#: .\templates\registration\singup.html:38
+msgid "E-mail"
+msgstr "البريدالإلكتروني"
+
+#: .\templates\cart\chekout.html:84
+msgid "Phone Number"
+msgstr "رقم الهاتف"
+
+#: .\templates\cart\chekout.html:92
+#: .\templates\registration\edit_profile.html:74
+#: .\templates\registration\edit_profile.html:75
+msgid "Address Line 1"
+msgstr "العنوان سطر 1"
+
+#: .\templates\cart\chekout.html:97
+#: .\templates\registration\edit_profile.html:79
+#: .\templates\registration\edit_profile.html:80
+msgid "Address Line 2"
+msgstr "العنوان سطر 2"
+
+#: .\templates\cart\chekout.html:105
+#: .\templates\registration\edit_profile.html:88
+#: .\templates\registration\edit_profile.html:89
+msgid "City"
+msgstr "المدينة"
+
+#: .\templates\cart\chekout.html:110
+#: .\templates\registration\edit_profile.html:93
+#: .\templates\registration\edit_profile.html:94
+msgid "State"
+msgstr "الولاية"
+
+#: .\templates\cart\chekout.html:115
+#: .\templates\registration\edit_profile.html:98
+#: .\templates\registration\edit_profile.html:99
+msgid "Country"
+msgstr "الدولة"
+
+#: .\templates\cart\chekout.html:121
+msgid "Order Note"
+msgstr "ملاحظة الطلب"
+
+#: .\templates\cart\chekout.html:123
+msgid "next step"
+msgstr "الخطوة التالية"
+
+#: .\templates\cart\chekout.html:131
+msgid "Which payment method do you prefer?"
+msgstr "اي طريقة دفع تفضل دفع بها المال؟"
+
+#: .\templates\cart\chekout.html:138
+msgid "When Recieving "
+msgstr "عند الاستلام"
+
+#: .\templates\home.html:57 .\templates\home.html:303
+msgid "Help & FAQs"
+msgstr "المساعدة والأسئلة الشائعة"
+
+#: .\templates\home.html:62 .\templates\home.html:307
+msgid "My Account"
+msgstr "حسابي"
+
+#: .\templates\home.html:122 .\templates\home.html:353
+msgid "Contact"
+msgstr "التواصل"
 
 #: .\templates\home.html:421
 msgid "View Cart"
@@ -332,7 +497,7 @@ msgstr "تسوق الأن"
 
 #: .\templates\home.html:470
 msgid "New Men's Season"
-msgstr "موسم رجالي الجديد"
+msgstr "الموسم الرجالي الجديد"
 
 #: .\templates\home.html:477
 msgid "Jackets & Coats"
@@ -382,6 +547,184 @@ msgstr "نظرة سريعة"
 msgid "See More"
 msgstr "رؤية المزيد"
 
+#: .\templates\orders\ajax\order_complete_aj.html:7
+msgid "Your order has been completed"
+msgstr "لقد اكتمل طلبك"
+
+#: .\templates\orders\ajax\order_complete_aj.html:8
+msgid "We will contact you shortly via the phone number or email you provided"
+msgstr ".سوف نتواصل معك قريبا عبر رقم الهاتف او البريد الذي قدمتهم"
+
+#: .\templates\orders\ajax\order_complete_aj.html:93
+msgid "Order Data:"
+msgstr "بيانات الطلب"
+
+#: .\templates\orders\ajax\order_complete_aj.html:115
+msgid "Invoice Date:"
+msgstr "تاريخ الفاتورة"
+
+#: .\templates\orders\ajax\order_complete_aj.html:136
+msgid "Amount Due:"
+msgstr "المبلغ المستحق"
+
+#: .\templates\orders\ajax\order_complete_aj.html:190
+msgid "PRODUCT"
+msgstr "المنتج"
+
+#: .\templates\orders\ajax\order_complete_aj.html:201
+msgid "PRICE"
+msgstr "السعر"
+
+#: .\templates\orders\ajax\order_complete_aj.html:212
+msgid "QTY"
+msgstr "الكمية"
+
+#: .\templates\orders\ajax\order_complete_aj.html:223
+msgid "TOTAL"
+msgstr "المجموع"
+
+#: .\templates\orders\ajax\order_complete_aj.html:312
+msgid "Payment Method:"
+msgstr "طريقة الدفع"
+
+#: .\templates\orders\ajax\order_complete_aj.html:324
+msgid "Subtotal:"
+msgstr "المجموع الفرعي"
+
+#: .\templates\orders\ajax\order_complete_aj.html:324
+msgid "Final Total:"
+msgstr "المجموع النهائي:"
+
+#: .\templates\orders\ajax\order_complete_aj.html:353
+msgid "Download PDF"
+msgstr "تحميل الملف"
+
+#: .\templates\orders\ajax\order_complete_aj.html:387
+msgid "Go shopping"
+msgstr "اذهب للتسوق"
+
+#: .\templates\orders\order_complete.html:5
+msgid "Order completed"
+msgstr "طلب مكتمل"
+
+#: .\templates\project\help.html:5 .\templates\registration\login.html:5
+msgid "LogIn"
+msgstr "تسجيل دخول"
+
+#: .\templates\project\help.html:21
+msgid "Shopping support will be available soon"
+msgstr "سيكون دعم التسوق متاحًا قريبًا"
+
+#: .\templates\project\help.html:23
+msgid "A feature to track your order will be added soon"
+msgstr "ميزة تتبع طلبك سوف تكون متاحة قريبا"
+
+#: .\templates\project\help.html:25
+msgid "There are no returns"
+msgstr "لا توجد مرجوعات"
+
+#: .\templates\project\help.html:27
+msgid "No questions have been asked yet"
+msgstr "لم يتم طرح أي أسئلة حتى الآن"
+
+#: .\templates\registration\change_password.html:5
+#: .\templates\registration\change_password.html:9
+#: .\templates\registration\user_profile.html:41
+msgid "Change Password"
+msgstr "كلمة السر الجديدة"
+
+#: .\templates\registration\change_password.html:13
+#: .\templates\registration\new_password.html:16
+msgid "Enter The New Password, It Must Be At Least 6 Characters"
+msgstr "ادخل كلمة السر الجديدة , يجب ان تكون 6 احرف علي الأقل"
+
+#: .\templates\registration\change_password.html:18
+#: .\templates\registration\change_password.html:22
+msgid "Current Password"
+msgstr "كلمة السر الجديدة"
+
+#: .\templates\registration\change_password.html:28
+#: .\templates\registration\change_password.html:31
+#: .\templates\registration\new_password.html:21
+#: .\templates\registration\new_password.html:24
+msgid "New Password"
+msgstr "كلمة السر الجديدة"
+
+#: .\templates\registration\change_password.html:38
+#: .\templates\registration\change_password.html:41
+#: .\templates\registration\new_password.html:30
+#: .\templates\registration\new_password.html:33
+msgid "Confirm Password"
+msgstr "تأكيد كلمة السر"
+
+#: .\templates\registration\change_password.html:45
+#: .\templates\registration\new_password.html:38
+msgid "Change"
+msgstr "تغيير"
+
+#: .\templates\registration\edit_profile.html:5
+#: .\templates\registration\edit_profile.html:21
+#: .\templates\registration\user_profile.html:39
+msgid "Edit Profile"
+msgstr "تعديل الملف"
+
+#: .\templates\registration\edit_profile.html:32
+msgid "Profile Picture"
+msgstr "صورة الملف"
+
+#: .\templates\registration\edit_profile.html:41
+msgid "Upload new image"
+msgstr "تحميل صورة"
+
+#: .\templates\registration\edit_profile.html:42
+msgid "Remove the picture"
+msgstr "ازالة الصورة"
+
+#: .\templates\registration\edit_profile.html:50
+msgid "Account Details"
+msgstr "تفاصيل المنتج"
+
+#: .\templates\registration\edit_profile.html:58
+#: .\templates\registration\singup.html:17
+#: .\templates\registration\singup.html:20
+msgid "First name"
+msgstr "الاسم الأول"
+
+#: .\templates\registration\edit_profile.html:59
+msgid "Enter your first name"
+msgstr "ادخل اسمك الاول"
+
+#: .\templates\registration\edit_profile.html:63
+#: .\templates\registration\singup.html:25
+#: .\templates\registration\singup.html:28
+msgid "Last name"
+msgstr "الاسم الثاني"
+
+#: .\templates\registration\edit_profile.html:64
+msgid "Enter your last name"
+msgstr "ادخل اسمك الثاني"
+
+#: .\templates\registration\edit_profile.html:68
+#: .\templates\registration\user_profile.html:84
+msgid "Phone"
+msgstr "رقم الهاتف"
+
+#: .\templates\registration\edit_profile.html:69
+msgid "Enter your phone number"
+msgstr "ادخل رقم هاتفك"
+
+#: .\templates\registration\edit_profile.html:104
+msgid "Please check your email carefully"
+msgstr "يرجي التحقق من البريد بحذر"
+
+#: .\templates\registration\edit_profile.html:105
+msgid "Enter your e-mail"
+msgstr "ادخل بريدك الالكتروني"
+
+#: .\templates\registration\edit_profile.html:110
+msgid "Save changes"
+msgstr "حفظ التغييرات"
+
 #: .\templates\registration\inbut_num_pass.html:23
 #: .\templates\registration\new_password.html:8
 #: .\templates\registration\reset_pass_email.html:5
@@ -393,26 +736,15 @@ msgid "Recovery code"
 msgstr "رمز الإسترداد"
 
 #: .\templates\registration\inbut_num_pass.html:32
-#: .\templates\registration\input_numbers.html:33
 msgid "Your Password Reset Code Has Been Sent To Your Email"
 msgstr "تم إرسال رمز إعادة تعيين كلمة المرور الخاصة بك إلى بريدك الإلكتروني"
 
 #: .\templates\registration\inbut_num_pass.html:35
-#: .\templates\registration\input_numbers.html:37
-msgid "You Have"
-msgstr "لديك"
-
-#: .\templates\registration\inbut_num_pass.html:35
-#: .\templates\registration\input_numbers.html:37
-msgid "Attempts Left"
-msgstr "محاولات باقية"
-
-#: .\templates\registration\inbut_num_pass.html:36
 msgid "Enter The Code "
 msgstr "ادخل الرمز"
 
-#: .\templates\registration\inbut_num_pass.html:47
-#: .\templates\registration\input_numbers.html:49
+#: .\templates\registration\inbut_num_pass.html:46
+#: .\templates\registration\input_numbers.html:48
 msgid "Send again"
 msgstr "أعد الإرسال"
 
@@ -424,13 +756,13 @@ msgstr "تفعيل"
 msgid "Activation code"
 msgstr "رمز التفعيل"
 
-#: .\templates\registration\input_numbers.html:38
-msgid "Enter The Code"
-msgstr "ادخل الروز"
+#: .\templates\registration\input_numbers.html:33
+msgid "Your Account Activation Code Has Been Sent To Your Email"
+msgstr "تم إرسال رمز إعادة تعيين كلمة المرور الخاصة بك إلى بريدك الإلكتروني"
 
-#: .\templates\registration\login.html:5
-msgid "LogIn"
-msgstr "تسجيل دخول"
+#: .\templates\registration\input_numbers.html:37
+msgid "Enter The Code"
+msgstr "ادخل الرمز"
 
 #: .\templates\registration\login.html:8 .\templates\registration\login.html:40
 msgid "log in"
@@ -440,19 +772,10 @@ msgstr "تسجيل دخول"
 msgid "LOG IN WITH EMAIL ADDRESS"
 msgstr "تسجيل دخول بالبريدالإلكتروني"
 
-#: .\templates\registration\login.html:17
-#: .\templates\registration\login.html:21
-#: .\templates\registration\reset_pass_email.html:19
-#: .\templates\registration\reset_pass_email.html:23
-#: .\templates\registration\singup.html:34
-#: .\templates\registration\singup.html:38
-msgid "E-mail"
-msgstr "البريدالإلكتروني"
-
 #: .\templates\registration\login.html:34
 #: .\templates\registration\login.html:37
-#: .\templates\registration\singup.html:60
-#: .\templates\registration\singup.html:64
+#: .\templates\registration\singup.html:53
+#: .\templates\registration\singup.html:57
 msgid "Password"
 msgstr "كلمة السر"
 
@@ -484,24 +807,6 @@ msgstr "سجل من هنا"
 msgid "New password"
 msgstr "كلمة السر الجديدة"
 
-#: .\templates\registration\new_password.html:16
-msgid "Enter The New Password, It Must Be At Least 6 Characters"
-msgstr "ادخل كلمة السر الجديدة , يجب ان تكون 6 احرف علي الأقل"
-
-#: .\templates\registration\new_password.html:21
-#: .\templates\registration\new_password.html:24
-msgid "New Password"
-msgstr "كلمة السر الجديدة"
-
-#: .\templates\registration\new_password.html:30
-#: .\templates\registration\new_password.html:33
-msgid "Confirm Password"
-msgstr "تأكيد كلمة السر"
-
-#: .\templates\registration\new_password.html:38
-msgid "Change"
-msgstr "تغيير"
-
 #: .\templates\registration\reset_pass_email.html:9
 msgid "Find Your Account"
 msgstr "ابحث عن حسابك"
@@ -511,7 +816,6 @@ msgid "ENTER YOUR ACCOUNT EMAIL"
 msgstr "أدخل البريد الإلكتروني الخاص بحسابك"
 
 #: .\templates\registration\reset_pass_email.html:35
-
 msgid "search"
 msgstr "بحث"
 
@@ -527,94 +831,229 @@ msgstr "انشئ حساب"
 msgid "SIGN UP WITH EMAIL ADDRESS"
 msgstr "سجل بالبريد الإلكتروني"
 
-#: .\templates\registration\singup.html:17
-#: .\templates\registration\singup.html:20
-msgid "First name"
-msgstr "الاسم الأول"
-
-#: .\templates\registration\singup.html:25
-#: .\templates\registration\singup.html:28
-msgid "Last name"
-msgstr "الاسم الثاني"
-
-#: .\templates\registration\singup.html:52
-#: .\templates\registration\singup.html:55
-msgid "Username"
-msgstr "اسم المستخدم"
-
-#: .\templates\registration\singup.html:77
+#: .\templates\registration\singup.html:70
 msgid "create an account"
 msgstr "انشئ حساب"
 
-#: .\templates\registration\singup.html:82
+#: .\templates\registration\singup.html:75
 msgid "SIGN UP WITH SOCIAL MEDIA"
 msgstr "سجل عن طريق برامج التواصل الاجتماعي"
 
-#: .\templates\registration\singup.html:84
+#: .\templates\registration\singup.html:77
 msgid "singup with facebook"
 msgstr "سجل بالفيسبوك"
 
-#: .\templates\registration\singup.html:86
+#: .\templates\registration\singup.html:79
 msgid "singup with Google"
 msgstr "سجل بحساب جوجل"
 
-#: .\templates\registration\singup.html:88
+#: .\templates\registration\singup.html:81
 msgid "ALREADY HAVE AN ACCOUNT?"
 msgstr "هل لديك حساب بالفعل ؟"
 
-#: .\templates\registration\singup.html:89
+#: .\templates\registration\singup.html:82
 msgid "login here"
 msgstr "سجل دخول"
 
-#: .\templates\store\product_details.html:8
+#: .\templates\registration\user_profile.html:7
+#: .\templates\registration\user_profile.html:19
+msgid "Profile"
+msgstr "الملف الشخصي"
+
+#: .\templates\registration\user_profile.html:53
+msgid "logout"
+msgstr "تسجيل خروج"
+
+#: .\templates\registration\user_profile.html:66
+msgid "Full Name"
+msgstr "الأسم الكامل"
+
+#: .\templates\registration\user_profile.html:75
+msgid "Email"
+msgstr "البريدالإلكتروني"
+
+#: .\templates\registration\user_profile.html:90
+msgid "No phone number added"
+msgstr "لم يتم اضافة رقم هاتف"
+
+#: .\templates\registration\user_profile.html:98
+msgid "Address"
+msgstr "العنوان"
+
+#: .\templates\registration\user_profile.html:104
+msgid "No address added"
+msgstr "لم يتم اضافة عنوان"
+
+#: .\templates\registration\user_profile.html:115
+msgid "Your Orders"
+msgstr "تتبع طلبك"
+
+#: .\templates\registration\user_profile.html:120
+msgid "order#"
+msgstr "#الطلب"
+
+#: .\templates\registration\user_profile.html:121
+msgid "date"
+msgstr "التاريخ"
+
+#: .\templates\registration\user_profile.html:123
+msgid "status"
+msgstr "الحالة"
+
+#: .\templates\registration\user_profile.html:137
+msgid "Delivered"
+msgstr "تم التوصيل"
+
+#: .\templates\registration\user_profile.html:139
+msgid "Delivery is in progress"
+msgstr "جاري التوصيل"
+
+#: .\templates\store\favorite.html:6 .\templates\store\favorite.html:43
+msgid "Favorite"
+msgstr "المفضلة"
+
+#: .\templates\store\favorite.html:254
+msgid "Your Favorites List Is Empty"
+msgstr "عربة التسوق الخاصة بك فارغة"
+
+#: .\templates\store\favorite.html:260
+msgid "BROWSE PRODUCTS"
+msgstr "تصفح المنتجات"
+
+#: .\templates\store\product_details.html:7
 msgid "Product Detail"
 msgstr "تفاصيل المنتج"
 
-#: .\templates\store\product_details.html:18
+#: .\templates\store\product_details.html:80
 msgid "Products"
 msgstr "المنتجات"
 
-#: .\templates\store\product_details.html:85
+#: .\templates\store\product_details.html:162
 msgid "Choose a size"
 msgstr "أختر الحجم"
 
-#: .\templates\store\product_details.html:103
-msgid "Choose a color"
-msgstr "أختر اللون"
-
-#: .\templates\store\product_details.html:128
-msgid "Add to cart"
-msgstr "إضافة الي عربة التسوق"
-
-#: .\templates\store\product_details.html:166
+#: .\templates\store\product_details.html:255
 msgid "Description"
 msgstr "الوصف"
 
-#: .\templates\store\product_details.html:170
-msgid "Product information"
-msgstr "معلومات عن المنتج"
-
-#: .\templates\store\product_details.html:174
+#: .\templates\store\product_details.html:259
 msgid "Reviews"
 msgstr "المراجعات"
 
-#: .\templates\store\product_details.html:208
+#: .\templates\store\product_details.html:282
+msgid "Edit Review"
+msgstr "تعديل المراجعة"
+
+#: .\templates\store\product_details.html:282
 msgid "Add Review"
 msgstr "اضافة مراجعة"
 
-#: .\templates\store\product_details.html:307
+#: .\templates\store\product_details.html:285
+msgid "Register to submit your review"
+msgstr "سجل لتقديم مراجعتك"
+
+#: .\templates\store\product_details.html:345
+msgid "EDIT"
+msgstr "تعديل"
+
+#: .\templates\store\product_details.html:346
+msgid "POST"
+msgstr "نشر"
+
+#: .\templates\store\product_details.html:388
+msgid "DELETE"
+msgstr "حذف"
+
+#: .\templates\store\product_details.html:409
 msgid "Category"
 msgstr "الفئة"
 
-#: .\templates\store\product_details.html:318
+#: .\templates\store\product_details.html:420
 msgid "Related Products"
 msgstr "منتجات ذات صلة"
 
-#: .\templates\store\search.html:7
-#, fuzzy
-#| msgid "Search"
+#: .\templates\store\product_details.html:434
+msgid "More Details"
+msgstr "تفاصيل التدوينة"
+
+#: .\templates\store\products.html:39 .\templates\store\search.html:42
+msgid "Sort by :"
+msgstr "ترتيب حسب :"
+
+#: .\templates\store\products.html:40 .\templates\store\products.html:557
+#: .\templates\store\search.html:43
+msgid "default"
+msgstr "افتراضي"
+
+#: .\templates\store\products.html:50 .\templates\store\products.html:551
+#: .\templates\store\search.html:53
+msgid "Alphabet A to Z"
+msgstr "أبجديا من أ الي ي"
+
+#: .\templates\store\products.html:62 .\templates\store\products.html:552
+msgid "Alphabet Z to A"
+msgstr "أبجديا من ي الي أ"
+
+#: .\templates\store\products.html:73 .\templates\store\products.html:553
+#: .\templates\store\search.html:76
+msgid "Highest rating"
+msgstr "الأعلى تقييما"
+
+#: .\templates\store\products.html:84 .\templates\store\products.html:554
+#: .\templates\store\search.html:87
+msgid "The newest"
+msgstr "الأحدث"
+
+#: .\templates\store\products.html:95 .\templates\store\products.html:555
+#: .\templates\store\search.html:98
+msgid "Price ascending"
+msgstr "السعر تصاعدي"
+
+#: .\templates\store\products.html:106 .\templates\store\products.html:556
+#: .\templates\store\search.html:109
+msgid "Price descending"
+msgstr "السعر تنازلي"
+
+#: .\templates\store\search.html:38
 msgid "Search Result"
-msgstr "بحث"
+msgstr "نتائج البحث"
+
+#: .\templates\store\search.html:65
+msgid "Alphabet z to a"
+msgstr "أبجديا من أ الي ي"
+
+#~ msgid "replay"
+#~ msgstr "ردود"
+
+#~ msgid "log out"
+#~ msgstr "تسجيل خروج"
+
+#~ msgid "Leave a Comment"
+#~ msgstr "أترك تعليق"
+
+#~ msgid "Make your comment constructive"
+#~ msgstr "أجعل تعليقك بناء"
+
+#~ msgid "Write..."
+#~ msgstr "أكتب"
+
+#~ msgid "Post"
+#~ msgstr "نشر"
+
+#~ msgid "Update Cart"
+#~ msgstr "تحديث العربة"
+
+#~ msgid "You Have"
+#~ msgstr "لديك"
+
+#~ msgid "Attempts Left"
+#~ msgstr "محاولات باقية"
+
+#~ msgid "Username"
+#~ msgstr "اسم المستخدم"
+
+#~ msgid "Choose a color"
+#~ msgstr "أختر اللون"
 
 #~ msgid "By"
 #~ msgstr "بواسطة"

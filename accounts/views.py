@@ -1,5 +1,3 @@
-import random
-import string
 from django.shortcuts import render,redirect
 from django.http import JsonResponse
 from django.contrib import messages,auth
@@ -7,16 +5,21 @@ from cart.models import Cart,CartItem
 from cart.views import _cart_id
 from store.models import Product
 from accounts.models import Accounts,UserProfile
-from .forms import SingupForm
-from django.conf import settings
-from django.utils.html import strip_tags
+from .forms import SingupForm,EditAccountsForm,EditProfileForm
 from django.contrib.auth.decorators import login_required
 
-from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import EmailMultiAlternatives
+from orders.models import Order
+from django.contrib.auth import update_session_auth_hash
+import requests
+from .tasks import send_activation_code,send_passwordreset_code,send_welcome_msg
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from orders.models import Order,OrderProduct
+
+
 
 def SINGUP (request):
     if request.method == 'POST':
@@ -28,9 +31,8 @@ def SINGUP (request):
             first_name=form.cleaned_data['first_name']
             last_name=form.cleaned_data['last_name']
             email=form.cleaned_data['email']
-            username=form.cleaned_data['username']
             password=form.cleaned_data['password']
-            user=Accounts.objects.create_user(first_name=first_name,last_name=last_name,email=email,username=username,password=password)
+            user=Accounts.objects.create_user(first_name=first_name,last_name=last_name,email=email,password=password)
             user.is_active=False
             user.right_send=True
             user.is_manual=True
@@ -87,36 +89,16 @@ def activation_account (request):
 #=========
     uid=urlsafe_base64_decode(pibszzzz).decode()
     user=Accounts._default_manager.get(pk=uid)
+    if '/en/' in request.path:lang='en'
+    else:lang='ar'
     if user.is_active==True:
         return redirect ('home')
     else:
         if user is not None and default_token_generator.check_token(user,tivk) and user.right_send == True and user.sending_count > 0:
-            numbers = string.digits 
-            serial_list = [random.choice(numbers) for _ in range(6)]
-            serial_string = ''.join(serial_list)
-            mail_supject='code activation'
-            message=render_to_string('messeges/code_activation.html',{
-                'user':user,
-                'email':email,
-                'serial_string':serial_string,
-            })
-            platn=strip_tags(message)
-            to_email=email 
-            from_email=settings.EMAIL_HOST_USER
-
-            mess=EmailMultiAlternatives(subject=mail_supject,body=platn,from_email=from_email,to=[to_email])
-            mess.attach_alternative(message,'text/html')
-            # mess.send()
-
-            user.validation_code=serial_string
-            user.sending_count-=1
-            user.right_send= False
-            user.save()
-            
+            send_activation_code.delay(uid,email,lang)
         else:
             pass
-        sendeng_cocunt=user.sending_count
-        return render(request,'registration/input_numbers.html',{'sendeng_cocunt':sendeng_cocunt,'email':email})
+        return render(request,'registration/input_numbers.html',{'email':email})
 
 
 
@@ -164,34 +146,13 @@ def resend_msg_active(request):
     uid=urlsafe_base64_decode(pibszzzz).decode()
     user=Accounts._default_manager.get(pk=uid)
     lang=None
-    if '/en/' in request.path:
-        lang='en'
-    else:
-        lang='ar'
+    if '/en/' in request.path:lang='en'
+    else:lang='ar'
     if user.is_active==True:
         return redirect ('home')
     else:
         if user is not None and default_token_generator.check_token(user,tivk)  and user.sending_count > 0:
-            numbers = string.digits 
-            serial_list = [random.choice(numbers) for _ in range(6)]
-            serial_string = ''.join(serial_list)
-            mail_supject='code activation'
-            message=render_to_string('messeges/code_activation.html',{
-                'user':user,
-                'email':email,
-                'serial_string':serial_string,
-            })
-            platn=strip_tags(message)
-            to_email=email 
-            from_email=settings.EMAIL_HOST_USER
-
-            mess=EmailMultiAlternatives(subject=mail_supject,body=platn,from_email=from_email,to=[to_email])
-            mess.attach_alternative(message,'text/html')
-            # mess.send()
-            user.validation_code=serial_string
-            user.sending_count-=1
-            user.right_send= False
-            user.save()
+            send_activation_code.delay(uid,email,lang)
         else:
             pass
     sendeng_cocunt=user.sending_count
@@ -242,7 +203,15 @@ def LOGIN (request):
             except:
                 pass
             auth.login(request,user)
-            return redirect('home')
+            url=request.META.get('HTTP_REFERER')
+            try:
+                query=requests.utils.urlparse(url).query
+                parmas=dict(x.split('=')for x in query.split('&') )
+                if 'next' in parmas:
+                    nextPage=parmas['next']
+                    return redirect(nextPage)
+            except: 
+                return redirect('home')
         else:
             if '/en/' in request.path:
                 messages.error(request,'The password is incorrect, If you forgot it click "Forgot password ?"')
@@ -296,6 +265,8 @@ def reset_passowrd(request):
     aw=request.GET.get('aw')
     uid=urlsafe_base64_decode(fseq).decode()
     user=Accounts._default_manager.get(pk=uid)
+    if '/en/' in request.path:lang='en'
+    else:lang='ar'
 #=========
     if user.is_active==False:
         pibszzzz=urlsafe_base64_encode(force_bytes(user.pk))
@@ -307,37 +278,10 @@ def reset_passowrd(request):
         return redirect('/accounts/active/?command=activation&email='+email+'&pibszzzz='+pibszzzz+'&tivk='+tivk)
     else:
         if user is not None and default_token_generator.check_token(user,aw) and user.right_send == True and user.sending_count > 0:
-            numbers = string.digits 
-            serial_list = [random.choice(numbers) for _ in range(6)]
-            serial_string = ''.join(serial_list)
-            if '/en/' in request.path:
-                mail_supject='Password Reset'
-                message=render_to_string('messeges/code_reset_pass.html',{
-                    'user':user,
-                    'email':email,
-                    'serial_string':serial_string,
-                })
-            else:
-                mail_supject='اعادة تعيين كلمة المرور'
-                message=render_to_string('messeges/code_reset_pass_ar.html',{
-                    'user':user,
-                    'email':email,
-                    'serial_string':serial_string,
-                })
-            platn=strip_tags(message)
-            to_email=email 
-            from_email=settings.EMAIL_HOST_USER
-            mess=EmailMultiAlternatives(subject=mail_supject,body=platn,from_email=from_email,to=[to_email])
-            mess.attach_alternative(message,'text/html')
-            # mess.send()
-            user.validation_code=serial_string
-            user.sending_count-=1
-            user.right_send= False
-            user.save()
+            send_passwordreset_code.delay(uid,email,lang)
         else:
             pass
-        sendeng_cocunt=user.sending_count
-        return render(request,'registration/inbut_num_pass.html',{'sendeng_cocunt':sendeng_cocunt,'email':email})
+        return render(request,'registration/inbut_num_pass.html',{'email':email})
 
 
 def verification_code (request):
@@ -388,33 +332,7 @@ def resend_msg_password(request):
         lang='ar'
 #=========
     if user is not None and default_token_generator.check_token(user,aw)  and user.sending_count > 0:
-        numbers = string.digits 
-        serial_list = [random.choice(numbers) for _ in range(6)]
-        serial_string = ''.join(serial_list)
-        if '/en/' in request.path:
-            mail_supject='Password Reset'
-            message=render_to_string('messeges/code_reset_pass.html',{
-                'user':user,
-                'email':email,
-                'serial_string':serial_string,
-            })
-        else:
-            mail_supject='اعادة تعيين كلمة المرور'
-            message=render_to_string('messeges/code_reset_pass_ar.html',{
-                'user':user,
-                'email':email,
-                'serial_string':serial_string,
-            })
-        platn=strip_tags(message)
-        to_email=email 
-        from_email=settings.EMAIL_HOST_USER
-        mess=EmailMultiAlternatives(subject=mail_supject,body=platn,from_email=from_email,to=[to_email])
-        mess.attach_alternative(message,'text/html')
-        # mess.send()
-        user.validation_code=serial_string
-        user.sending_count-=1
-        user.right_send= False
-        user.save()
+        send_passwordreset_code.delay(uid,email,lang)
     else:
         pass
     sendeng_cocunt=user.sending_count
@@ -490,3 +408,111 @@ def is_popup(request):
     }
     return JsonResponse(data)
 
+
+
+def USER_PROFILE(request,id,slug):
+    user=request.user
+    if user.id == id and user.slug == slug:
+        userprofile=UserProfile.objects.get(user=user)
+        orders=Order.objects.filter(user=user,is_order=True)
+    else:
+        raise FileNotFoundError
+
+    context={
+        'user':user,
+        'userprofile':userprofile,
+        'orders':orders,
+    }
+    return render(request,'registration/user_profile.html',context)
+
+
+def EDIT_PROFILE (request,id,slug):
+    user=request.user
+    if user.id == id and user.slug == slug:
+        userprofile=UserProfile.objects.get(user=user)
+        if request.method == 'POST':
+            
+            account=EditAccountsForm(request.POST,instance=request.user)
+            profile=EditProfileForm(request.POST,request.FILES,instance=userprofile)
+            if account.is_valid() and profile.is_valid():
+                account.save()
+                profile.save()
+                if request.POST['img-status'] == 'delete':
+                    userprofile.profile_pictuer ='userprofile/av12154.png'
+                    userprofile.save()
+                try:
+                    email=request.POST['email']
+                    user.email=email
+                    user.save()
+                except:
+                    pass
+                if '/en/' in request.path:
+                    messages.success(request,'Your data has been successfully changed')
+                else:
+                    messages.success(request,'تم تغيير بياناتك بنجاح')
+
+                return redirect(f'/accounts/profile/{user.id}/{user.slug}/')
+    else:
+        raise FileNotFoundError
+    return render(request,'registration/edit_profile.html',{'user':user,'userprofile':userprofile})
+
+def CHANGE_PASSWORD(request,id,slug):
+    user=request.user
+    if user.id == id and user.slug == slug:
+        if request.method == 'POST':
+            current_password=request.POST['current_password']
+            new_password=request.POST['new_password']
+            conf_password=request.POST['conf_password']
+            if new_password == conf_password :
+                success=user.check_password(current_password)
+                if success:
+                    user.set_password(new_password)
+                    user.save()
+                    update_session_auth_hash(request, user)
+                    if '/en/' in request.path:
+                        messages.success(request,'The password has been changed successfully')
+                    else:
+                        messages.success(request,'تم تغيير كلمة السر بنجاح')
+                    return redirect(f'/accounts/profile/{user.id}/{user.slug}/')
+                else:
+                    if '/en/' in request.path:
+                        messages.error(request,'The old password is incorrect')
+                    else:
+                        messages.error(request,'كلمة السر القديمة غير صحيحة')
+                    return redirect(f'/accounts/change_password/{user.id}/{user.slug}/')
+            else:
+                if '/en/' in request.path:
+                    messages.error(request,'Passwords do not match')
+                else:
+                    messages.error(request,'كلمات السر غير متطابقة')
+                return redirect(f'/accounts/change_password/{user.id}/{user.slug}/')
+    else:
+        raise FileNotFoundError
+    return render(request,'registration/change_password.html')
+
+
+def YOUR_ORDERS(request,num):
+    user=request.user
+    order=Order.objects.get(user=user,order_numper=num,is_order=True)
+    order_products=OrderProduct.objects.filter(order__id=order.id)
+    context={
+        'order':order,
+        'order_products':order_products,
+        'num':num,
+        }
+    return render(request,'registration/your_orders.html',context)
+
+
+
+
+@receiver(post_save,sender=UserProfile)
+def welcome_msg(*args,**kwargs):
+    # import locale
+    # default_lang = locale.getdefaultlocale()
+    # if 'en' in str (default_lang):
+    #     lang='en'
+    # else:
+    #     lang='ar'
+    if not '@mkusr.net' in str (kwargs['instance'].user.email) and kwargs['created'] == True:
+        id=kwargs['instance'].user.id
+        send_welcome_msg.delay(id)

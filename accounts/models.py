@@ -9,17 +9,22 @@ from django.apps import apps
 from django.contrib.auth.hashers import make_password
 from django.utils.html import mark_safe
 from django.contrib import auth
+from django.urls import reverse
+import os
+import secrets
+import random
+import string
+
 
 # Create your models here.
 
 class MyAccountsManager (BaseUserManager):
 
-    def _create_user(self, username, email, password, **extra_fields):
+    def _create_user(self, email, password, **extra_fields):
         """
         Create and save a user with the given username, email, and password.
         """
-        if not username:
-            raise ValueError("The given username must be set")
+        
         email = self.normalize_email(email)
         # Lookup the real model class from the global app registry so this
         # manager method can be used in migrations. This is fine because
@@ -27,13 +32,12 @@ class MyAccountsManager (BaseUserManager):
         GlobalUserModel = apps.get_model(
             self.model._meta.app_label, self.model._meta.object_name
         )
-        username = GlobalUserModel.normalize_username(username)
-        user = self.model(username=username, email=email, **extra_fields)
+        user = self.model( email=email, **extra_fields)
         user.password = make_password(password)
         user.save(using=self._db)
         return user
 
-    def create_user(self, username, email=None, password=None, **extra_fields):
+    def create_user(self,  email=None, password=None, **extra_fields):
         if email:
             pass
         else:
@@ -44,14 +48,13 @@ class MyAccountsManager (BaseUserManager):
 
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
-        return self._create_user(username, email, password, **extra_fields)
+        return self._create_user( email, password, **extra_fields)
     
 
 
-    def create_superuser (self,first_name,last_name,username,email,password):
+    def create_superuser (self,first_name,last_name,email,password):
         user=self.create_user(
             email=self.normalize_email(email),
-            username=username,
             password=password,
             first_name=first_name,
             last_name=last_name,
@@ -75,7 +78,8 @@ def _user_get_permissions(user, obj, from_name):
 class Accounts(AbstractBaseUser):
     first_name =models.CharField(max_length=50)
     last_name =models.CharField(max_length=50)
-    username =models.CharField(max_length=50,unique=True)
+    slug = models.CharField(max_length=200,unique=False,null=True,blank=True)
+    username =models.CharField(max_length=50,null=True,blank=True)
     email=models.EmailField(max_length=50,unique=True)
     
 
@@ -94,7 +98,7 @@ class Accounts(AbstractBaseUser):
     is_superuser=models.BooleanField(default=False)
 
     USERNAME_FIELD='email'
-    REQUIRED_FIELDS=['username','first_name','last_name',]
+    REQUIRED_FIELDS=['first_name','last_name',]
     objects=MyAccountsManager()
     
 
@@ -114,18 +118,26 @@ class Accounts(AbstractBaseUser):
     def get_all_permissions(self, obj=None):
         return _user_get_permissions(self, obj, "all")
     
+    def get_absolute_url(self):
+        return reverse("profile", args=[self.id,self.slug])
+    def save (self,*args,**kwarges):
+        if not self.slug:
+            self.slug= secrets.token_hex(7).title().swapcase()
+        super(Accounts,self).save(*args,**kwarges)
+
+    
 
 
 
 def image_upload (instance,filename):
     random_namper=random.randint(0,10000000)
-    return f"userprofile/ {random_namper}.jpg"
+    return f"userprofile/ {random_namper}.png"
 class UserProfile (models.Model):
     user=models.OneToOneField(Accounts,on_delete=models.CASCADE)
     phone_numper=models.CharField(max_length=50,null=True,blank=True)
     address_line_1=models.CharField(max_length=100,blank=True)
     address_line_2=models.CharField(max_length=100,blank=True)
-    profile_pictuer=models.ImageField(upload_to=image_upload,null=True,blank=True,default='userprofile/7603668.jpg')
+    profile_pictuer=models.ImageField(upload_to=image_upload,null=True,blank=True,default='userprofile/av12154.png')
     city=models.CharField(max_length=20,blank=True)
     state=models.CharField(max_length=20,blank=True)
     country=models.CharField(max_length=20,blank=True)
@@ -138,11 +150,30 @@ class UserProfile (models.Model):
     def image_tag(self):
         return mark_safe(f'<img src="{self.profile_pictuer.url}" width="30" style="border-radius:50%;/>"')
     
-    def save (self,*args,**kwargs): 
-        super().save(*args,**kwargs)
-        pict=Image.open(self.profile_pictuer.path)
-        pict=pict.resize((960,960))
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        max_size = (1164, 1158) 
+        pict = Image.open(self.profile_pictuer.path)
+        size_mb = os.path.getsize(self.profile_pictuer.path) / (1024 * 1024)
+        if size_mb > 1:
+            pict.thumbnail(max_size)
+            print('resisze done')
+        dpi_default = 72
+        width_cm = (pict.width / dpi_default) * 2.54
+        height_cm = (pict.height / dpi_default) * 2.54
+        if not round(width_cm)  >=  round (height_cm) - 4:
+            pict = pict.crop((0,130,pict.width,pict.height-165))
+            print('cut done .....')
+            print(round (height_cm))
+            print(round(width_cm))
+        else:
+            print('cut no')
+            print(round (height_cm))
+            print(round(width_cm))
         pict.save(self.profile_pictuer.path)
 
     def full_address (self):
         return f'{self.address_line_1} {self.address_line_2}'
+    
+
+

@@ -22,12 +22,18 @@ class ProductAdmin (admin.ModelAdmin):
 class ReviewRatingAdmin (admin.ModelAdmin):
     list_display=['user','product','rating','status','updated_at']
 
+class ColorAdmin (admin.ModelAdmin):
+    list_display=['color_bg','color_name','color_name_ar']
+
+
+class CategoryAdmin (admin.ModelAdmin):
+    list_display=['category_name','category_name_ar']
 
 admin.site.register(Product,ProductAdmin)
 admin.site.register(ProductGallery)
 admin.site.register(Customizations,CustomizationsAdmin)
-admin.site.register(Category)
+admin.site.register(Category,CategoryAdmin)
 admin.site.register(ReviewRating,ReviewRatingAdmin)
-admin.site.register(Color_List)
+admin.site.register(Color_List,ColorAdmin)
 admin.site.register(Size_List)
 

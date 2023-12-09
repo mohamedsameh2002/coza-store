@@ -6,6 +6,7 @@ import uuid
 from accounts.models import Accounts,UserProfile
 from ckeditor.fields import RichTextField
 from django.db.models import Avg
+from django.utils.html import mark_safe
 
 
 # from specifications.models import Category
@@ -40,6 +41,8 @@ class Color_List (models.Model):
     status=models.BooleanField(default=True)
     def __str__(self):
         return self.color_name
+    def color_bg(self):
+        return mark_safe(f'<div style="width:15px; height:15px; background-color:{self.color_code}"></div>')
 
 class Size_List (models.Model):
     size_name=models.CharField(max_length=50)
@@ -58,10 +61,8 @@ class Product (models.Model):
     description = RichTextField(null=True)
     description_ar = RichTextField(null=True)
 
-    information=RichTextField(null=True)
-    information_ar=RichTextField(null=True)
 
-    favorits=models.ManyToManyField(Accounts)
+    favorits=models.ManyToManyField(Accounts,null=True,blank=True)
 
     price = models.IntegerField()
 

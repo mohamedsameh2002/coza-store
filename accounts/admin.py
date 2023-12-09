@@ -1,18 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import *
-from django.utils.html import format_html
 
 # Register your models here.
 
-class AccountsAdmin (UserAdmin):
-    list_display=['email','username','first_name','last_name','last_login','dete_joined','is_active']
-    list_display_links=['email','first_name','last_name']
-    readonly_fields=['last_login','dete_joined']
+class AccountsAdmin (admin.ModelAdmin):
     ordering=['-dete_joined']
-    filter_horizontal=[]
-    list_filter=[]
-    fieldsets=[]
+    list_display=['full_name','email','last_login','is_active']
+    search_fields=['email','username']
 
 class UserProfileAdmin (admin.ModelAdmin):
     

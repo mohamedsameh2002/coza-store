@@ -1,6 +1,6 @@
 {% load static %}
-
-
+{% load i18n %}
+{% if reviews %}
 {% for review in reviews %}
     <div class="sengle-review">
         <a class="image" href="">
@@ -31,3 +31,9 @@
         </div>
     </div>
     {% endfor %}
+    {% else %}
+    <div class="if-no-comments">
+        <h1>{% trans "There are no reviews for this product" %}</h1>
+        <img style="margin-top: 16px;" src="{% static 'images/86541.png' %}" alt="">
+    </div>
+    {% endif %}

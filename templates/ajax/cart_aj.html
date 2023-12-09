@@ -17,12 +17,9 @@
             <div style="position: relative; ">
                 <a href="{% url 'product_details' item.product.id %}">
                     <img src="{{item.product.image.url}}" alt="IMG" width="90" height="105" class="move-right"></a>
-                    <br>
-                    <div>
-                        <br>
-
-                        <button class="delete-button-iTem" data-product-id-delete="{{item.product.id}}"  data-color="{{item.color}}" data-size="{{item.size}}" type="button"><img src="{% static 'images/icons/468545.png' %}" alt=""></button>
-                    </div>
+                    <div class="clas-dlet-item">
+						<button class="delete-button-iTem" data-product-id-delete="{{item.product.id}}"  data-color="{{item.color}}" data-size="{{item.size}}" type="button"><img src="{% static 'images/icons/468545.png' %}" alt=""></button>
+					</div>
                 </div>
             </td>
             <td class="column-2">
@@ -172,7 +169,25 @@
 				$('.FinaL-ToTal').text('$ ' + data['grand_total'].toFixed(1));
 				$('#sidE-Cart').html(data.templ_side_cart);
 				if ($('.pRodUct-Qty[data-qty="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').val() < 1) {
-                    $("#caRT-tabLe").html(data.template);
+                    $("#caRT-tabLe").hide().html(data.template).fadeIn(500);
+					if (data.lang == 'en'){
+						$.toast({
+							heading: 'Success',
+							text: 'Removed from your cart',
+							showHideTransition: 'slide',
+							icon: 'success',
+							position: 'top-left',
+						})
+					}
+					else{
+						$.toast({
+						heading: 'نجاح',
+						text: 'تمت الازالة من عربيتك',
+						showHideTransition: 'slide',
+						icon: 'success',
+						position: 'top-right',
+					})
+					}
 				}
 				if ($('.ConTent').length == 0) {
 					$("#conTen-caRT").html(data.template_2);
@@ -195,16 +210,6 @@
 		var color =$(this).data('color');
 		var size =$(this).data('size');
 
-		var mytoast=$.toast({
-			heading: 'Success',
-			text: 'The product has been removed successfully',
-			showHideTransition: 'slide',
-			icon: 'success',
-			position: {
-				top: 60,
-				left: 10,
-			}
-		})
 
 		$.ajax({
 
@@ -233,9 +238,8 @@
 				$('.Tax-toTal').text('$ ' + data['tax'].toFixed(1));
 				$('.FinaL-ToTal').text('$ ' + data['grand_total'].toFixed(1));
                 // remove action
-				$("#caRT-tabLe").html(data.template);
+				$("#caRT-tabLe").hide().html(data.template).fadeIn(500);
 				$('#sidE-Cart').html(data.templ_side_cart);
-				mytoast;
 				if ($('.ConTent').length == 0) {
 					$("#conTen-caRT").html(data.template_2);
 				}
@@ -243,6 +247,24 @@
 				$('.bg3.bor14.hov-btn3').removeClass('dis-chickaout')
 				$('.loader-check-btn').hide()
 				$('.delete-button-iTem').attr('disabled',false);
+				if (data.lang == 'en'){
+					$.toast({
+						heading: 'Success',
+						text: 'Removed from your cart',
+						showHideTransition: 'slide',
+						icon: 'success',
+						position: 'top-left',
+					})
+				}
+				else{
+					$.toast({
+					heading: 'نجاح',
+					text: 'تمت الازالة من عربيتك',
+					showHideTransition: 'slide',
+					icon: 'success',
+					position: 'top-right',
+				})
+				}
 				
 				
 				

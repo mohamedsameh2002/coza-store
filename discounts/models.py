@@ -12,8 +12,8 @@ def random_code ():
 class Discount_codes (models.Model):
     code=models.CharField(max_length=10,default=random_code)
     discount=models.IntegerField(max_length=100)
-    validate_from=models.DateTimeField()
-    validate_to=models.DateTimeField()
+    validate_from=models.DateTimeField(null=True,blank=True)
+    validate_to=models.DateTimeField(null=True,blank=True)
     active=models.BooleanField(default=True)
     def __str__(self) -> str:
         return self.code

@@ -2,7 +2,6 @@ from django.shortcuts import render,redirect
 from cart.models import CartItem
 from orders.models import Order,Payment,OrderProduct
 import datetime
-import time
 from store.models import Customizations
 from django.template.loader import render_to_string
 from django.http import JsonResponse,HttpResponse
@@ -14,10 +13,7 @@ from paypal.standard.forms import PayPalPaymentsForm
 from django.conf import settings
 import uuid
 from django.urls import reverse
-from django.core.mail import EmailMultiAlternatives
-from django.utils.html import strip_tags
-
-
+from .tasks import order_completion_message
 
 
 def MK_ORDER (request,total=0,quantity=0,grand_total=0,tax=0):
@@ -172,6 +168,8 @@ def CHECK_ORDER (request):
     order_number=request.GET.get('order_number')
     user=request.user
     template=False
+    if '/en/' in request.path:lang='en'
+    else:lang='ar'
     if pyment_method == 'online':
         invoice=request.GET.get('invoice')
         payerID=request.GET.get('payerID')
@@ -189,22 +187,9 @@ def CHECK_ORDER (request):
             order_products=OrderProduct.objects.filter(order__id=order.id)
             payment=None
             #start send th messge
-            if '/en/' in request.path:
-                mail_supject='Your order has been completed'
-                message=render_to_string('messeges/order_completed.html',{
-                    'user':user,
-                })
-            else:
-                mail_supject='تم اكتمال طلبك'
-                message=render_to_string('messeges/order_completed_ar.html',{
-                    'user':user,
-                    })
-            platn=strip_tags(message)
-            to_email=order.email 
-            from_email=settings.EMAIL_HOST_USER
-            mess=EmailMultiAlternatives(subject=mail_supject,body=platn,from_email=from_email,to=[to_email])
-            mess.attach_alternative(message,'text/html')
-            # mess.send()
+            if order.order_E_mesg == False:
+                id=user.id
+                order_completion_message.delay(id,order_number,lang)
             # end send the mesgge
         except:
             return redirect('home')
@@ -218,6 +203,7 @@ def CHECK_ORDER (request):
         'order_number':order_number,
         'subtotal':subtotal,
         'payment':payment,
+        'lang':lang,
     }
     template=render_to_string('orders/ajax/order_complete_aj.html',context)
         
@@ -288,9 +274,9 @@ def GENERATE_INVOICE (request,order_number):
 
     # create a pdf
     pisa_status = pisa.CreatePDF(
-       html, dest=response)
+        html, dest=response)
     # if error then show some funny view
     if pisa_status.err:
-       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 

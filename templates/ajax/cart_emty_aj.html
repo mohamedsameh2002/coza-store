@@ -1,15 +1,18 @@
 {% load static %}
-
+{% load i18n %}
 <form class="bg0 p-t-75 p-b-85">
     <div class="container">
         <div class="row">
             <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
                 <div class="m-l-25 m-r--38 m-lr-0-xl">
 
-                        <h2 class="text-center">Your shopping cart is Empty.</h2>
+                        <h2 style="font-weight: 400;" class="text-center">{% trans "Your Shopping Cart Is Empty." %}</h2>
                         <br>
-                        <div class="text-center">
-                            <a href="{% url 'store' %}" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">GO SHOPING</a>
+                        <div style="display:flex;justify-content: center;">
+                            <img style="width: 250px;" src="{% static 'images/6842386.png' %}" alt="">
+                        </div>
+                        <div style="display: flex;justify-content: center;" class="text-center">
+                            <a style="width: 520px;" href="{% url 'store' %}" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">{% trans "GO SHOPING" %}</a>
                             <br>
                             <br>
                             <br>

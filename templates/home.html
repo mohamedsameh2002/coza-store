@@ -1,16 +1,18 @@
-{% load static %}
 {% load i18n %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<title>Home</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{% trans "Home" %}</title>
+	
 	<!--===============================================================================================-->
 	<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}" />
 	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
 	<!--===============================================================================================-->
@@ -36,13 +38,42 @@
 	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'jquery.toast.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/edit.css' %}">
+	{% if LANGUAGE_CODE == 'ar' %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/rtl.css' %}">
+	{% endif %}
+    
 	<!--===============================================================================================-->
 </head>
+<style>
+	body{direction: ltr;}
+	.rating-group {position: relative;top: -28px;left: 90px;}
+	.stext-105.cl3 .rating__label{cursor: initial !important;font-size: 17px;}
+</style>
+
+
+{% if LANGUAGE_CODE == 'en' %}
+<style>
+	
+	.checkmark{position: relative;left: -7px;top: -4px;}
+</style>
+{% else %}
+<style>
+	.jq-toast-wrap{direction: rtl;}
+	.checkmark{position: relative;left: 7px;top: -4px;}
+	.block2-txt-child1.flex-col-l a p{font: menu;font-size: 18px;font-weight: 500;}
+	.row.isotope-grid{direction: rtl;}
+	.dis-none.panel-filter{direction: rtl;}
+	.flex-w.flex-sb-m.p-b-52{direction: rtl;}
+	.loder-products{direction: rtl;}
+</style>
+{% endif %}
 
 <body class="animsition">
 
 	<!-- Header -->
-	<header>
+	<header {% if LANGUAGE_CODE == 'ar' %} style="direction: rtl;" {% endif %}>
 		<!-- Header desktop -->
 		<div class="container-menu-desktop">
 			<!-- Topbar -->
@@ -53,17 +84,15 @@
 					</div>
 
 					<div class="right-top-bar flex-w h-full">
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							{% trans 'Help & FAQs' %}
-						</a>
-
-						{% if request.user.is_authenticated %}
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							{% trans 'My Account' %}
+						
+                        {% if request.user.is_authenticated %}
+						<a href="{{request.user.get_absolute_url}}" style="gap: 7px;" class="flex-c-m trans-04 p-lr-25">
+							<img class="user-profile-img-base" src="{{userprofile.profile_pictuer.url}}" >
+							<p class="user-profile-name-base">{{request.user.full_name}}</p>
 						</a>
 						{% else %}
 						
-						<a href="{% url 'login' %}" class="flex-c-m trans-04 p-lr-25">
+						<a href="{% url 'singup' %}"  style="font-size: 14px;" class="flex-c-m trans-04 p-lr-25">
 							{% trans 'Register' %}
 						</a>
 						{% endif %}
@@ -72,13 +101,13 @@
 							{% get_current_language as LANGUAGE_CODE %}
 							<input name="next" type="hidden" value="{{ redirect_to }}">
 							{% if LANGUAGE_CODE == 'ar' %}
-							<button type="submit" name="language" value="en" class="flex-c-m trans-04 p-lr-25"
-								style="background-color: #222221; color: rgb(177, 177, 177); padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+							<button type="submit" name="language" value="en" class="change-lang-btn"
+								style="border-left: 1px solid #616161;">
 								<span class="label"></span> English
 							</button>
 							{% else %}
-							<button type="submit" name="language" value="ar" class="flex-c-m trans-04 p-lr-25"
-								style="background-color: #222221; color: rgb(177, 177, 177); padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+							<button type="submit" name="language" value="ar" class="change-lang-btn"
+								style="border-right: 1px solid #616161;">
 								<span class="label"></span> عربي
 							</button>
 							{% endif %}
@@ -87,39 +116,51 @@
 				</div>
 			</div>
 
-			<div class="wrap-menu-desktop">
+			<div style="z-index: 99;" class="wrap-menu-desktop">
 				<nav class="limiter-menu-desktop container">
 
 					<!-- Logo desktop -->
-					<a href="#" class="logo">
-						<img src="{% static 'images/icons/sahar1.png' %}" alt="IMG-LOGO">
+					<a href="/" class="logo">
+						<img  src="{% static 'images/icons/sahar1.png' %}"alt="IMG-LOGO">
 					</a>
 
 					<!-- Menu desktop -->
 					<div class="menu-desktop">
 						<ul class="main-menu">
-							<li class="active-menu">
+							<li>
 								<a href="/">{% trans 'Home' %}</a>
 							</li>
 
-							<li>
+							{% if '/products/' in request.path %}
+							<li class="active-menu">
+								{% else %}
+								<li class="menu">
+							{% endif %}
 								<a href="{% url 'store' %}">{% trans 'Shop' %}</a>
 							</li>
 
-							<li >
-								<a href="{% url 'cart' %}">{% trans 'Shopping Cart' %}</a>
+							{% if '/cart/' in request.path %}
+							<li class="active-menu">
+								{% else %}
+								<li class="menu">
+							{% endif %}
+							<a href="{% url 'cart' %}">{% trans 'Shopping Cart' %}</a>
+						</li>
+						
+								{% if '/blog/' in request.path %}
+							<li class="active-menu">
+									{% else %}
+							<li class="menu">
+								{% endif %}
+								<a href="{% url "blog" %}">{% trans 'Blog' %}</a>
 							</li>
 
-							<li>
-								<a href="blog.html">{% trans 'Blog' %}</a>
-							</li>
-
-							<li>
-								<a href="">{% trans 'About' %}</a>
-							</li>
-
-							<li>
-								<a href="">{% trans 'Contact' %}</a>
+							{% if '/about/' in request.path %}
+								<li class="active-menu">
+								{% else %}
+								<li class="menu">
+								{% endif %}
+								<a href="{% url "about" %}">{% trans 'About' %}</a>
 							</li>
 						</ul>
 					</div>
@@ -140,7 +181,7 @@
 							font-weight: bold;
 							position: absolute;
 							top: -28px;
-							left: -250px;
+							left: -170px;
 							}
 							</style>
 						</head>
@@ -213,9 +254,9 @@
 
 		<!-- Header Mobile -->
 		<div class="wrap-header-mobile">
-			<!-- Logo moblie -->
+			<!-- Logo moblie -->		
 			<div class="logo-mobile">
-				<a href="index.html"><img src="{% static 'images/icons/sahar1.png' %}" alt="IMG-LOGO"></a>
+				<img src="{% static 'images/icons/sahar1.png' %}" alt="IMG-LOGO">
 			</div>
 
 			<!-- Icon header -->
@@ -293,36 +334,40 @@
 			<ul class="topbar-mobile">
 				<li>
 					<div class="left-top-bar">
-						Free shipping for standard order over $100
+						{% trans "A gift upon delivery for a purchaser of more than $200" %}
 					</div>
 				</li>
 
 				<li>
 					<div class="right-top-bar flex-w h-full">
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							{% trans "Help & FAQs" %}
+						
+                        {% if request.user.is_authenticated %}
+						<a href="#" style="gap: 7px;" class="flex-c-m trans-04 p-lr-25">
+							<img class="user-profile-img-base" src="{{userprofile.profile_pictuer.url}}" >
+							<p class="user-profile-name-base">{{request.user.full_name}}</p>
 						</a>
-
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							{% trans "My Account" %}
+						{% else %}
+						
+						<a href="{% url 'singup' %}" style="font-size: 14px;" class="flex-c-m trans-04 p-lr-25">
+							{% trans 'Register' %}
 						</a>
-
+						{% endif %}
+						
 						<form action="{% url 'set_language' %}" method="post">{% csrf_token %}
 							{% get_current_language as LANGUAGE_CODE %}
 							<input name="next" type="hidden" value="{{ redirect_to }}">
 							{% if LANGUAGE_CODE == 'ar' %}
-							<button type="submit" name="language" value="en" class="flex-c-m trans-04 p-lr-25"
-								style="background-color: #222221; color: rgb(177, 177, 177); padding: 0px 20px; border: none; border-radius: 5px; cursor: pointer;">
+							<button type="submit" name="language" value="en" class="change-lang-btn"
+								style="border-left: 1px solid #616161;">
 								<span class="label"></span> English
 							</button>
 							{% else %}
-							<button type="submit" name="language" value="ar" class="flex-c-m trans-04 p-lr-25"
-								style="background-color: #222221; color: rgb(177, 177, 177); padding: 0px 20px; border: none; border-radius: 5px; cursor: pointer;">
+							<button type="submit" name="language" value="ar" class="change-lang-btn"
+								style="border-right: 1px solid #616161;">
 								<span class="label"></span> عربي
 							</button>
 							{% endif %}
-						</form>
-
+						</form> 
 					</div>
 				</li>
 			</ul>
@@ -338,19 +383,16 @@
 				
 
 				<li>
-					<a href="{% url 'cart' %}" class="label1 rs1" data-label1="{{cart_count}}">{% trans "Shopping Cart" %}</a>
+					<a href="{% url 'cart' %}" >{% trans "Shopping Cart" %}</a>
 				</li>
 
 				<li>
-					<a href="blog.html">{% trans "Blog" %}</a>
+					<a href="{% url "blog" %}">{% trans "Blog" %}</a>
 				</li>
 
+				
 				<li>
-					<a href="about.html">{% trans "About" %}</a>
-				</li>
-
-				<li>
-					<a href="contact.html">{% trans "Contact" %}</a>
+					<a href="{% url "about" %}">{% trans "About" %}</a>
 				</li>
 			</ul>
 		</div>
@@ -373,56 +415,78 @@
 	</header>
 
 	<!-- Cart -->
-	<div class="wrap-header-cart js-panel-cart">
+	{% if LANGUAGE_CODE == 'en' %}
+<style>
+	.header-cart {
+		right: -400px;
+	}
+	.show-header-cart .header-cart {
+		right: 0;
+	}
+</style>
+
+	{% else %}
+<style>
+	.header-cart {
+		left: -400px;
+	}
+	.show-header-cart .header-cart {
+		left: 0;
+	}
+</style>
+	{% endif %}
+	<div  class="wrap-header-cart js-panel-cart">
 		<div class="s-full js-hide-cart"></div>
 
-		<div class="header-cart flex-col-l p-l-65 p-r-25">
-			<div class="header-cart-title flex-w flex-sb-m p-b-8">
+		<div class="header-cart flex-col-l p-l-65 p-r-25 body-sidcart">
+			<div style="width: 100%;" class="header-cart-title flex-w flex-sb-m p-b-8">
 				<span class="mtext-103 cl2">
-					{% trans 'Your Cart' %}
+					{% trans "Your Cart" %}
 				</span>
 
 				<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
 					<i class="zmdi zmdi-close"></i>
 				</div>
 			</div>
-
-			<div class="header-cart-content flex-w js-pscroll">
-				<ul class="header-cart-wrapitem w-full">
-
+			
+			<div {% if LANGUAGE_CODE == 'ar' %}style="direction:rtl;"{% endif %}class="header-cart-content flex-w js-pscroll">
+				<ul class="header-cart-wrapitem w-full" id="sidE-Cart">
                     {% for item in cart_items %}
 					<li class="header-cart-item flex-w flex-t m-b-12">
-						<div class="header-cart-item-img">
-							<img src="{{item.product.image.url}}" alt="IMG">
-						</div>
+						<a href="{% url 'product_details' item.product.id %}"  class="header-cart-item-img rtl">
+							<img src="{{item.product.image.url}}" >
+						</a>
 
 						<div class="header-cart-item-txt p-t-8">
-							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+							
+							<a  href="{% url 'product_details' item.product.id %}" class="header-cart-item-name edit m-b-18 hov-cl1 trans-04">
 								{{item.product.product_name}}
 							</a>
-
-							<span class="header-cart-item-info">
+							<div class="cls-color-size-base">
+								<p>{{item.size}}</p>
+								<p>{{item.color}}</p>
+							</div>
+							
+							
+							<span style="direction: ltr;" class="header-cart-item-info">
 								{{item.quantity}} x ${{item.product.price}}
 							</span>
 						</div>
 					</li>
 					{% endfor %}
-
 				</ul>
-
+				
 				<div class="w-full">
 					<div class="header-cart-total w-full p-tb-40">
-						{% trans "Total" %}: $ {{total}}
+						{% trans "Total" %}: ${{total}}
 					</div>
 
-					<div class="header-cart-buttons flex-w w-full">
-						<a href="{% url 'cart' %}"
-							class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+					<div {% if LANGUAGE_CODE == 'ar' %}style="gap:15px;"{% endif %} class="header-cart-buttons flex-w w-full">
+						<a href="{% url 'cart' %}" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
 							{% trans "View Cart" %}
 						</a>
 
-						<a href="shoping-cart.html"
-							class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+						<a href="shoping-cart.html" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
 							{% trans "Check Out" %}
 						</a>
 					</div>
@@ -430,6 +494,7 @@
 			</div>
 		</div>
 	</div>
+	
 
 
 
@@ -437,12 +502,12 @@
 	<section class="section-slide">
 		<div class="wrap-slick1">
 			<div class="slick1">
-				<div class="item-slick1" style="background-image: url({% static 'images/slide-01.jpg' %});">
+				<div class="item-slick1" style="background-image: url({% static 'images/slide-02.jpg' %});">
 					<div class="container h-full">
 						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
 							<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
 								<span class="ltext-101 cl2 respon2">
-									{% trans "Women Collection 2023" %}
+									{% trans "New Men's Season" %}
 								</span>
 							</div>
 
@@ -462,7 +527,7 @@
 					</div>
 				</div>
 
-				<div class="item-slick1" style="background-image: url({% static 'images/slide-02.jpg' %});">
+				<div class="item-slick1" style="background-image: url({% static 'images/slide-03.jpg' %});">
 					<div class="container h-full">
 						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
 							<div class="layer-slick1 animated visible-false" data-appear="rollIn" data-delay="0">
@@ -488,7 +553,7 @@
 					</div>
 				</div>
 
-				<div class="item-slick1" style="background-image: url({% static 'images/slide-03.jpg' %});">
+				<div class="item-slick1" style="background-image: url({% static 'images/4168439.jpg' %});">
 					<div class="container h-full">
 						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
 							<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft"
@@ -528,7 +593,7 @@
 					<div class="block1 wrap-pic-w">
 						<img src="{% static 'images/banner-01.jpg' %}" alt="IMG-BANNER">
 
-						<a href="product.html"
+						<a href="/products/?hochozq={% if LANGUAGE_CODE == 'en' %}Dresses{% else %}فساتين نسائي{% endif %}"
 							class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
@@ -554,7 +619,7 @@
 					<div class="block1 wrap-pic-w">
 						<img src="{% static 'images/banner-02.jpg' %}" alt="IMG-BANNER">
 
-						<a href="/products/?hochozq=7"
+						<a href="/products/?hochozq={% if LANGUAGE_CODE == 'en' %}Men's classic{% else %}رجالي كلاسيكي{% endif %}"
 							class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
@@ -580,7 +645,7 @@
 					<div class="block1 wrap-pic-w">
 						<img src="{% static 'images/banner-03.jpg' %}" alt="IMG-BANNER">
 
-						<a href="product.html"
+						<a href="/products/?hochozq={% if LANGUAGE_CODE == 'en' %}Accessories{% else %}اكسسوارات{% endif %}"
 							class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 							<div class="block1-txt-child1 flex-col-l">
 								<span class="block1-name ltext-102 trans-04 p-b-8">
@@ -620,7 +685,7 @@
 				<div class="flex-w flex-c-m m-tb-10">
 
 					<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
-						<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
+						<i style="margin: 6px;" class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
 						<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
 						{% trans "Search" %}
 					</div>
@@ -645,43 +710,191 @@
 
 			<div class="row isotope-grid">
 				{% for product in products %}
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item {{product.category}} product-box">
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item  product-box">
 					<!-- Block2 -->
 					<div class="block2">
-						<div class="block2-pic hov-img0 " >
+						<div class="block2-pic hov-img0 label-new"  {% if LANGUAGE_CODE == 'en' %}data-label="{{product.category.category_name}}" {% else %} data-label="{{product.category.category_name_ar}}" {% endif %} >
+							
 							<img src= "{{product.image.url}}" alt="IMG-PRODUCT" class="ImgPROd" >
-
-							<button class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1 qicK-home" data-quick-id="{{product.id}}">
-								{% trans "Quick View" %}
-							</button>
+							<button class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1 QuicK-ViEw" data-link-action="quickview" title="Quick view" data-quick-id="{{product.id}}">{% trans "QuicK ViEw" %}</button>
 						</div>
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="{% url 'product_details' product.id %}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6" >
-									<p class="NeamPROd" data-name="{{product.id}}">{{product.product_name}}</p>
+								
+								<a href="{{product.get_absolute_url}}" class="mtext-102 cl2  p-b-14" >
+									<p>{% if LANGUAGE_CODE == 'en' %}{{product.product_name}} {% else %} {{product.product_name_ar}} {% endif %}</p>
 								</a>
-
+								
 								<span class="stext-105 cl3">
-									<p class="PriCEPROd" data-price="{{product.id}}">${{product.price}}</p>
+									<p class="mtext-104 cl2" data-price="{{product.id}}">${{product.price}}</p>
+									<div id="half-stars-example">
+										<div  style="direction: ltr;" class="rating-group">
+											<label aria-label="0 stars" class="rating__label" for="rating2-0">&nbsp;</label>
+											<label aria-label="0.5 stars" class="rating__label rating__label--half" for="rating2-05"><i {% if product.avg_rate < 0.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+											<label aria-label="1 star" class="rating__label" for="rating2-10"><i {% if product.avg_rate < 1 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+											<label aria-label="1.5 stars" class="rating__label rating__label--half" for="rating2-15"><i {% if product.avg_rate < 1.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+											<label aria-label="2 stars" class="rating__label" for="rating2-20"><i {% if product.avg_rate < 2 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+											<label aria-label="2.5 stars" class="rating__label rating__label--half" for="rating2-25"><i {% if product.avg_rate < 2.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+											<label aria-label="3 stars" class="rating__label" for="rating2-30"><i {% if product.avg_rate < 3 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+											<label aria-label="3.5 stars" class="rating__label rating__label--half" for="rating2-35"><i {% if product.avg_rate < 3.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+											<label aria-label="4 stars" class="rating__label" for="rating2-40"><i {% if product.avg_rate < 4 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star"></i></label>
+											<label aria-label="4.5 stars" class="rating__label rating__label--half" for="rating2-45"><i {% if product.avg_rate < 4.5 %}style="color: #ddd;"{% endif %} class="rating__icon rating__icon--star fa fa-star-half"></i></label>
+											<label aria-label="5 stars" class="rating__label" for="rating2-50"><i {% if product.avg_rate < 5 %}style="color: #ddd;"{% endif %}  class="rating__icon rating__icon--star fa fa-star"></i></label>
+										</div>
+									</div>
 								</span>
 							</div>
 
-							<input type="hidden" id="prod-id-Ou" value="{{product.id}}">
+							<!-- Start Popup -->
+							<input class="modal-btn" type="checkbox" id="modal-btn-{{product.id}}" name="modal-btn"/>
+							<label id="lbl-popup" data-popup="{{product.id}}" for="modal-btn-{{product.id}}"></label> 		
+							<div style="direction: ltr;" class="modal">		
+								<div class="container">
+									<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
+										<div class="row">
+											<div class="col-md-6 col-lg-7 p-b-30">
+												<div class="p-l-25 p-r-30 p-lr-0-lg">
+													<div class="wrap-slick3 flex-sb flex-w">
+														<div class="wrap-slick3-dots"></div>
+														<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+														<div class="slick3 gallery-lb">
+															{% for i in product.productgallery_set.all %}
+															<div class="item-slick3" data-thumb="{{i.img.url}}">
+																<div class="wrap-pic-w pos-relative">
+																	<img src="{{i.img.url}}" alt="IMG-PRODUCT">
+																	<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="{{i.img.url}}">
+																		<i class="fa fa-expand"></i>
+																	</a>
+																</div>
+															</div>
+															{% endfor %}
+														</div>
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-md-6 col-lg-5 p-b-30">
+												<div {% if LANGUAGE_CODE == 'ar' %} style="direction: rtl;" {% endif %} class="p-r-50 p-t-5 p-lr-0-lg">
+													<h4 class="mtext-105 cl2 js-name-detail p-b-14">
+														{% if LANGUAGE_CODE == 'en' %}{{product.product_name}} {% else %} {{product.product_name_ar}} {% endif %}
+													</h4>
+													
+													<span class="mtext-106 cl2">
+														$ {{product.price}}
+													</span>
+						
+													<p class="stext-102 cl3 p-t-23">
+														{% if LANGUAGE_CODE == 'en' %}{{product.description|safe|truncatechars:140}} {% else %} {{product.description_ar|safe|truncatechars:140}} {% endif %}
+													</p>
+													
+													<!--  -->
+													<div class="p-t-33">
+														<div class="flex-w flex-r-m p-b-10">
+															<div class="size-203 flex-c-m respon6">
+																{% trans "Size" %}
+															</div>
+						
+															<div class="size-204 respon6-next">
+																<div class="rs1-select2 bor8 bg0">
+																	<select data-id="{{product.id}}" class="js-select2-size" name="time" id="SizE-cHo-mODal" data-size="{{product.id}}">
+																		<option>Choose an option</option>
+																		<option>Size S</option>
+																		<option>Size M</option>
+																		<option>Size L</option>
+																		<option>Size XL</option>
+																	</select>
+																	<div class="dropDownSelect2"></div>
+																</div>
+															</div>
+														</div>
+						
+														<div class="flex-w flex-r-m p-b-10 color-selction disp-none">
+															<div class="size-203 flex-c-m respon6">
+																<span class="color-loader hidden"></span>
+																<span class="color-text">{% trans "Color" %}</span>
+															</div>
+															<div class="size-204 respon6-next">
+																<div class="rs1-select2 bor8 bg0">
+																	<select class="js-select2-color" name="time" id="coLOr-CHo-MOdal" data-color="{{product.id}}">
+																		<option>Choose an option</option>
+																		<option>Red</option>
+																		<option>Blue</option>
+																		<option>White</option>
+																		<option>Grey</option>
+																	</select>
+																	<div class="dropDownSelect2"></div>
+																</div>
+															</div>
+														</div>
+						
+														<div class="flex-w flex-r-m p-b-10">
+															<div  class="size-204 flex-w flex-m respon6-next">
+																<div style="direction: ltr;" class="wrap-num-product flex-w m-r-20 m-tb-10">
+																	<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+																		<i class="fs-16 zmdi zmdi-minus"></i>
+																	</div>
+						
+																	<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" id="modal-Qty" data-p-qty="{{product.id}}" value="1" readonly>
+						
+																	<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+																		<i class="fs-16 zmdi zmdi-plus"></i>
+																	</div>
+																</div>
+						
+																<button {% if LANGUAGE_CODE == 'ar' %} style="margin-right: 15px" {% endif %} class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail add-TOcarT-MOdAL" data-modal-id="{{product.id}}">
+																	{% trans "Add to cart" %}
+																</button>
+															</div>
+														</div>	
+													</div>
+						
+													<!--  -->
+													<div style="justify-content: center;" class="flex-w flex-m p-l-100 p-t-40 respon7">
+
+														<div class="block2-txt-child2 flex-r p-t-3">
+															<label class="hartcont">
+																<input class="aDdTofavEOu" data-product-id-fav="{{product.id}}"  type="checkbox" {% if product in all_favorit  %} checked="checked" {% endif %}>
+																<div class="checkmark">
+																	<svg class="hart-popup" viewBox="0 0 256 256">
+																	<rect fill="none" height="256" width="256"></rect>
+																	<path d="M224.6,51.9a59.5,59.5,0,0,0-43-19.9,60.5,60.5,0,0,0-44,17.6L128,59.1l-7.5-7.4C97.2,28.3,59.2,26.3,35.9,47.4a59.9,59.9,0,0,0-2.3,87l83.1,83.1a15.9,15.9,0,0,0,22.6,0l81-81C243.7,113.2,245.6,75.2,224.6,51.9Z" stroke-width="20px" stroke="#bfbfbf" fill="none"></path></svg>
+																</div>
+															</label>
+														</div>
+
+														<div class="breck-popup-active"></div>
+						
+														<button id="facebook-socila-share" data-porduct="{{product.id}}" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+															<i class="fa fa-facebook"></i>
+														</button>
+							
+														<button id="twitter-socila-share" data-porduct="{{product.id}}" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="X-Twitter">
+															<i class="fa-brands fa-x-twitter"></i>
+														</button>
+							
+														<button id="whatsapp-socila-share" data-porduct="{{product.id}}" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Whatsapp">
+															<i class="fa-brands fa-whatsapp fa-lg"></i>
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>			          		
+							</div>	
+							<!-- End Popup -->
 
 							<div class="block2-txt-child2 flex-r p-t-3">
-                                {% if product.id in id_products_list  %}
-								<button  class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 DisADdfaV"  data-product-id-dis="{{product.id}}" value="on">
-									<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-								</button>
-								{% else %}
-								<button  class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 aDdTofavEOu"  data-product-id-fav="{{product.id}}" value="off">
-									<img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-								</button>
-								{% endif %}
-
+								<h2 class="counTfaVE-dis" data-like-text-id="{{product.id}}">{{product.all_likes}}</h2>
+								<label class="hartcont">
+									<input class="aDdTofavEOu" data-product-id-fav="{{product.id}}"  type="checkbox" {% if product in all_favorit  %} checked="checked" {% endif %}>
+									<div class="checkmark">
+										<svg viewBox="0 0 256 256">
+										<rect fill="none" height="256" width="256"></rect>
+										<path d="M224.6,51.9a59.5,59.5,0,0,0-43-19.9,60.5,60.5,0,0,0-44,17.6L128,59.1l-7.5-7.4C97.2,28.3,59.2,26.3,35.9,47.4a59.9,59.9,0,0,0-2.3,87l83.1,83.1a15.9,15.9,0,0,0,22.6,0l81-81C243.7,113.2,245.6,75.2,224.6,51.9Z" stroke-width="20px" stroke="#bfbfbf" fill="none"></path></svg>
+									</div>
+								</label>
 							</div>
 						</div>
 					</div>
@@ -709,11 +922,15 @@
 					</h4>
 
 					<ul>
+						{% for cat in al_cats %}
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Women
-							</a>
+							{% if LANGUAGE_CODE == 'en' %}
+							<a href="/products/?czhoqif={{cat.category_name}}" class="stext-107 cl7 hov-cl1 trans-04">{{cat.category_name}}</a>
+							{% else %}
+							<a href="/products/?czhoqif={{cat.category_name_ar}}" class="stext-107 cl7 hov-cl1 trans-04">{{cat.category_name_ar}}</a>
+							{% endif %}
 						</li>
+						{% endfor %}
 
 						
 					</ul>
@@ -726,25 +943,25 @@
 
 					<ul>
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="{% url "help" %}?help=Track-Order" class="stext-107 cl7 hov-cl1 trans-04">
 								{% trans "Track Order" %}
 							</a>
 						</li>
 
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="{% url "help" %}?help=Returns" class="stext-107 cl7 hov-cl1 trans-04">
 								{% trans "Returns" %}
 							</a>
 						</li>
 
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="{% url "help" %}?help=Shipping" class="stext-107 cl7 hov-cl1 trans-04">
 								{% trans "Shipping" %}
 							</a>
 						</li>
 
 						<li class="p-b-10">
-							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="{% url "help" %}?help=FAQs" class="stext-107 cl7 hov-cl1 trans-04">
 								{% trans "FAQs" %}
 							</a>
 						</li>
@@ -781,9 +998,10 @@
 						{% trans "Newsletter" %}
 					</h4>
 
-					<form>
+					<form action="{% url "store" %}" method="post">
+						{% csrf_token %}
 						<div class="wrap-input1 w-full p-b-4">
-							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email"
+							<input class="input1 bg-none plh1 stext-107 cl7" type="email" 
 								placeholder="email@example.com">
 							<div class="focus-input1 trans-04"></div>
 						</div>
@@ -979,6 +1197,7 @@
 		</div>
 	</div>
 
+	
 	<!--===============================================================================================-->
 	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
 	<!--===============================================================================================-->
@@ -989,13 +1208,60 @@
 	<!--===============================================================================================-->
 	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
 	<script>
-		$(".js-select2").each(function () {
+		$(".js-select2-size").each(function () {
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			}).on('change', function() {
+				$('.color-selction').removeClass('disp-none')
+				var select_val=$(this).val()
+				var id =$(this).data('id');
+				var elmincolor = $('#cOLor-CH');
+				var elmincolor_modal = $('#coLOr-CHo-MOdal');
+				$.ajax({
+					url:'/products/order_selection_filter/',
+					data:{
+						'id':id,
+						'select_val':select_val,
+					},
+					beforeSend:function(){
+						$('.color-text').addClass('disp-none')
+						$('.color-loader').removeClass('hidden')
+					},
+					dataType:'json',
+					success: function(data){
+						elmincolor.empty();
+						elmincolor_modal.empty();
+						$.each(data.edit_action, function(index, color) {
+							var capitalizedColor = color.charAt(0).toUpperCase() + color.slice(1);
+							elmincolor.append($('<option>', {
+								text: capitalizedColor
+							}));
+						});
+						$.each(data.edit_action, function(index, color) {
+							var capitalizedColor = color.charAt(0).toUpperCase() + color.slice(1);
+							elmincolor_modal.append($('<option>', {
+								text: capitalizedColor
+							}));
+						});
+
+						$('.color-text').removeClass('disp-none')
+						$('.color-loader').addClass('hidden')
+					}
+				});
+			});
+		});
+
+		
+
+		$(".js-select2-color").each(function () {
 			$(this).select2({
 				minimumResultsForSearch: 20,
 				dropdownParent: $(this).next('.dropDownSelect2')
 			});
 		})
 	</script>
+	
 	<!--===============================================================================================-->
 	<script src="{% static 'vendor/daterangepicker/moment.min.js' %}"></script>
 	<script src="{% static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
@@ -1021,12 +1287,34 @@
 			});
 		});
 	</script>
+
+	<script>
+		/*==================================================================
+    [ Cart ]*/
+    $('.js-show-cart').on('click',function(){
+        $('.js-panel-cart').addClass('show-header-cart');
+    });
+
+    $('.js-hide-cart').on('click',function(){
+        $('.js-panel-cart').removeClass('show-header-cart');
+    });
+
+    /*==================================================================
+    [ Cart ]*/
+    $('.js-show-sidebar').on('click',function(){
+        $('.js-sidebar').addClass('show-sidebar');
+    });
+
+    $('.js-hide-sidebar').on('click',function(){
+        $('.js-sidebar').removeClass('show-sidebar');
+    });
+	</script>
 	<!--===============================================================================================-->
 	<script src="{% static 'vendor/isotope/isotope.pkgd.min.js' %}"></script>
 	<!--===============================================================================================-->
 	<script src="{% static 'vendor/sweetalert/sweetalert.min.js' %}"></script>
 	<script>
-		$('.js-addwish-b2').on('click', function (e) {
+		$('.js-addwish-b2, .js-addwish-detail').on('click', function (e) {
 			e.preventDefault();
 		});
 
@@ -1053,12 +1341,7 @@
 
 		/*---------------------------------------------*/
 
-		$('.js-addcart-detail').each(function () {
-			var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-			$(this).on('click', function () {
-				swal(nameProduct, "is added to cart !", "success");
-			});
-		});
+		
 
 	</script>
 	<!--===============================================================================================-->
@@ -1077,133 +1360,257 @@
 				ps.update();
 			})
 		});
-	
-	
-		/*==================================================================
-    [ Show modal1 ]
-    $('.js-show-modal1').on('click',function(e){
-		var id = $(this).data('quick-id');
-		var name = $('.NeamPROd[data-name="' + id + '"]').html();
-		var price = $('.PriCEPROd[data-price="' + id + '"]').html();
-		e.preventDefault();
-		$('.js-modal1').addClass('show-modal1');
-		$('.Qick-NamE').html(name); 
-		$('.QiCK-Price').html(price);
 
-    });
 
-    $('.js-hide-modal1').on('click',function(){
-        $('.js-modal1').removeClass('show-modal1');
+			
+	
+		$('.hamburger--squeeze').on('click', function(e) {
+			if ($('.conTEnt-storBy .text').hasClass('hidden')) {
+				setTimeout(function() {
+					$('.conTEnt-storBy .text').removeClass('hidden');
+				}, 470);
+			} else {
+				$('.conTEnt-storBy .text').addClass('hidden');
+			}
+		});
+
 		
-    });*/
 
-	
+
+		$(document).ready(function(){
+			$.ajax({
+				url:'/products/check_lang/',
+				data:{},
+				dataType:'json',
+				success: function(data){
+					if (data.url){
+						window.location.href=data.url
+					}
+				}
+			});
+		});
 
 	</script>
+
+	
+	<script src="https://www.paypal.com/sdk/js?client-id=AeH_YgTQzhm0M0dKUwxWOxJ0QidAbQiCflAETTINU5gSdwO5mdFZcSvk-LGmWXtiQqrd-UvLTHllJ5vn&currency=USD"></script>
+	<script type="text/javascript" src="{% static 'ajax-work.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/Emoji.js' %}"></script>
+
+
 	<!--===============================================================================================-->
 	<script src="{% static 'Js/main.js' %}"></script>
+	<script src="{% static 'js/vendor.min.js' %}"></script>
+	<script src="{% static 'jquery.toast.js' %}"></script>
 	
-<!--===============================================================================================-->
 
 
-<script>
 
 
-	$('.aDdTofavEOu').click(function(){    
-		var id =$(this).data('product-id-fav');
-		var x ='<img class="icon-heart1 dis-block trans-04" src="{% static "images/icons/icon-heart-02.png" %}" alt="ICON">'
-		var newButton = $('<button class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 DisADdfaV" data-product-id-dis="' + id + '"><img class="icon-heart1 dis-block trans-04" src="{% static "images/icons/icon-heart-02.png" %}" alt="ICON"><img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static "images/icons/icon-heart-01.png" %}" alt="ICON"></button>');
-		var f =$(this).val()
-		console.log(f)
-		
-		
-		$.ajax({
+	<script>
+
+		$('.aDdTofavEOu').click(function(){    
+			var id =$(this).data('product-id-fav');
 	
-			url:'/products/add_favorite/',
-			data:{
-				'id':id,
-				
-			},
-			dataType:'json',
-			success: function(data){
-				
-				$('.square-FaVE-Pc').text(Object.values(data)); 
-				$('.square-FaVE-PhoNe').text(Object.values(data));
-				$('.aDdTofavEOu[data-product-id-fav="' + id + '"]').replaceWith(newButton);
-				
+			
+			$.ajax({
 		
+				url:'/products/add_favorite/',
+				data:{
+					'id':id,
+				},
+				dataType:'json',
+				success: function(data){
+					if (data.likes != null){
+						$('.square-FaVE-PhoNe').text(data.count);
+						$('.square-FaVE-Pc').text(data.count);
+						$('.counTfaVE-dis[data-like-text-id="' + id + '"]').text(data.likes); 
+					}
+					else{
+						
+						
+						if (data.lang == 'en'){
+							$.toast({
+								heading: 'Error',
+								text: 'Register first from here <a href="{% url 'singup' %} ">Register</a>',
+								showHideTransition: 'fade',
+								icon: 'error',
+								position: 'top-left',
+							})
+						}
+						else{
+							$.toast({
+								heading: 'Error',
+								text: 'سجل اولا من هنا <a href="{% url 'singup' %} ">تسجيل</a>',
+								showHideTransition: 'fade',
+								icon: 'error',
+								position: 'top-right',
+								})
+						}
+						
+						
+					}
+					
+				}
+			});
+		});
+	
+	
+	
+		$('.QuicK-ViEw').click(function(){
+			var id =$(this).data('quick-id');
+			$('#lbl-popup[data-popup="' + id + '"]').click()
+			var selectElement = $('#coLOr-CHo-MOdal[data-color="' + id + '"]');
+			var elmintsize = $('#SizE-cHo-mODal[data-size="' + id + '"]');
+			$('.color-selction').addClass('disp-none')
+			
+			$.ajax({
+				url: '/products/quick/',
+				data: {
+					'id': id,
+				},
+				dataType: 'json',
+				success: function(data) {
+					selectElement.empty();   
+					elmintsize.empty(); 
+					
+					$.each(data.colors, function(index, color) {
+						// تحويل الحرف الأول إلى حرف كبير باستخدام toUpperCase()
+						var capitalizedColor = color.charAt(0).toUpperCase() + color.slice(1);
+						selectElement.append($('<option>', {
+							text: capitalizedColor
+						}));
+					});
+					$.each(data.sizes, function(index, size) {
+						var capitalizedSize = size.charAt(0).toUpperCase() + size.slice(1);
+						elmintsize.append($('<option>', {
+							text: capitalizedSize
+						}));
+					});
+					if (data.lang == 'en'){elmintsize.prepend('<option selected disabled>Choose a size</option>')}
+					else{elmintsize.prepend('<option selected disabled>أختر حجم</option>')}
+					if (!data.is_have_coustm){
+						$('.add-TOcarT-MOdAL[data-modal-id="'+id+'"]').addClass('addcart-null')
+						$('.add-TOcarT-MOdAL[data-modal-id="'+id+'"]').attr('disabled',true);
+						if (data.lang == 'en'){$('.add-TOcarT-MOdAL[data-modal-id="'+id+'"]').text('unavailable');}
+						else{$('.add-TOcarT-MOdAL[data-modal-id="'+id+'"]').text('غير متوفر');}
+					}
+				}
+			});
+			
+		});
+			
+	
+	
+
+
+
+
+		$('.add-TOcarT-MOdAL').click(function(){
+			var id =$(this).data('modal-id');
+			var color=$('#coLOr-CHo-MOdal[data-color="' + id + '"]').val()
+			var size=$('#SizE-cHo-mODal[data-size="' + id + '"]').val()
+			var qty=$('#modal-Qty[data-p-qty="' + id + '"]').val()
+			var lang ='{{lang}}'
+	
+			if (size == null) {
+				if (lang == 'en'){
+					var en_toast=$.toast({
+						heading: 'Error',
+						text: 'Please select a size.',
+						showHideTransition: 'fade',
+						icon: 'error',
+						position: 'top-left',
+						})
+					}
+					else{
+					var en_toast=$.toast({
+						heading: 'خطأ',
+						text: 'يرجي اختيار حجم',
+						showHideTransition: 'fade',
+						icon: 'error',
+						position: 'top-right',
+						})
+					}
+	
+			}
+			else {
+				
+	
+			$.ajax({
+	
+				url:'/cart/add_cart/',
+				data:{
+					'id':id,
+					'size':size,
+					'color':color,
+					'qty':qty,
+				},
+				dataType:'json',
+				success: function(data){
+					$('.square-CarT-Pc').text(data['cart_count']); 
+					$('.square-CarT-PhoNE').text(data['cart_count']);
+					$('.Noti-ShopCart-PC').text(data['cart_count']);
+					$('#sidE-Cart').html(data.templ_side_cart);
+	
+					if (lang == 'en'){
+						var en_toast=$.toast({
+						heading: 'Success',
+						text: 'Added to cart',
+						showHideTransition: 'plain',
+						icon: 'success',
+						position: 'top-left',
+						})
+						}
+						else{
+						var en_toast=$.toast({
+						heading: 'نجاح',
+						text: 'تمت الاضافة الي العربة',
+						showHideTransition: 'plain',
+						icon: 'success',
+						position: 'top-right',
+						})
+					}
+				}
+		
+			});
+		}
+		});
+
+
+
+
+		
+		$('#facebook-socila-share,#whatsapp-socila-share,#twitter-socila-share').click(function(){
+			var id =$(this).data('porduct')
+			var link= encodeURI(window.location.href + id)
+			var type=$(this).data('tooltip')
+			
+			const msg=encodeURIComponent(',worled')
+			const title=encodeURIComponent(document.querySelector('title').textContent)
+			if (type == 'Facebook'){
+				window.open(`https://www.facebook.com/share.php?u=${link}`, '_blank');
+			}
+			else if (type == 'X-Twitter'){
+				window.open(`http://twitter.com/share?url=${link}`, '_blank');
 			}
 	
-		});
-	});
-
-
-
-	
-	$('.DisADdfaV').click(function(){
-		var id =$(this).data('product-id-dis');                                                                                          
-		var x ='<img class="icon-heart1 dis-block trans-04" src="{% static "images/icons/icon-heart-01.png" %}" alt="ICON">'
-		var newButton = $('<button class="btn-addwish-b2 dis-block pos-relative js-addwish-b1 aDdTofavEOu" data-product-id-fav="' + id + '"><img class="icon-heart1 dis-block trans-04" src="{% static "images/icons/icon-heart-01.png" %}" alt="ICON"><img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static "images/icons/icon-heart-02.png" %}" alt="ICON"></button>');
-		var f =$(this).val()
-		console.log(f)
-
-
-		$.ajax({
-	
-			url:'/products/add_favorite/',
-			data:{
-				'id':id,
-				
-			},
-			dataType:'json',
-			success: function(data){
-				
-				$('.square-FaVE-Pc').text(Object.values(data)); 
-				$('.square-FaVE-PhoNe').text(Object.values(data));
-				$('.DisADdfaV[data-product-id-dis="' + id + '"]').replaceWith(newButton);
-				
-		
+			else{
+				window.open(`https://api.whatsapp.com/send?text=${link}`, '_blank');
 			}
+			
 	
 		});
-	});
-
-
-
 	
-	$('#loadMore').click(function(){
-		var _cuttentproducts=$('.product-box').length
-		var _limit =$(this).attr('data-limit')
-		var _total =$(this).attr('data-total')
-
-		$.ajax({
 	
-			url:'/products/load/',
-			data:{
-				'id':id,
-				'limit':_limit,
-				'offist':_cuttentproducts,
-				
-			},
-			dataType:'json',
-			beforeSend: function(){
-				$('#loadMore').attr('disabled',true);
-
-			},
-
-			success: function(data){
-				
-				$('#loadMore').attr('disabled',false);
-				
 		
-			}
-	
-		});
-		
-	});
+	</script>
 
 
-</script>
+
+
+
+
 
 
 </body>

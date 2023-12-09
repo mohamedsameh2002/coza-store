@@ -86,7 +86,7 @@
             <input  class="value" type="nupmer" onkeyup="rangeInput.value=this.value" id="maxPrice" min="{{minMaxPrice.price__min}}" max="{{minMaxPrice.price__max}}" value="{{minMaxPrice.price__max}}"/>&nbsp;
             <input type="range" id="rangeInput" min="{{minMaxPrice.price__min}}" max="{{minMaxPrice.price__max}}" oninput="maxPrice.value=this.value" step="1" value="{{minMaxPrice.price__max}}">
             <p class="number-prises">{{minMaxPrice.price__min}} - {{minMaxPrice.price__max}}</p>
-            <button id="priceFilterBtn" class="price-flter-btn">Filter</button>
+            <button id="priceFilterBtn" class="price-flter-btn">{% trans "Filter" %}</button>
         </div>
         
 

@@ -1,17 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 {% block content %}
+<title>{% trans "Order completed" %}</title>
 <style>
-    html{
-        background-color: #fbfbfb;
+    html{background-color: #fbfbfb;}
+    body{background-color: #fbfbfb;}
+    .loder-contet{
+        padding: 15% 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
-    body{
-        background-color: #fbfbfb;
-    }
+    p,span,strong,div,h1{font-family: system-ui;font-weight: 500;}
 </style>
 <div  id="Data-Chek">
-    <h2>loding</h2>
+    <div class="loder-contet">
+        <div class="spinner">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
 </div>
+
 {% endblock content %}
 {% block scripts %}
 <script>
@@ -23,7 +36,6 @@
         var timeout = setTimeout(function() {
             window.location.href = '/';
         }, 30000); 
-        
         var interval = setInterval(function() {
             $.ajax({
                 url:'/orders/check_order/',
@@ -34,8 +46,6 @@
                     'payerID':payerID,
                 },
                 dataType:'json',
-                beforeSend:function(){
-                },
                 success:function(data){
                     if (data.template != false ){
                         clearInterval(interval);
@@ -48,5 +58,3 @@
     });
 </script>
 {% endblock scripts %}
-
-

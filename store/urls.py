@@ -14,5 +14,6 @@ urlpatterns = [
     path('satve-review/<uuid:id>/',views.SAVE_REVIEW,name='satve-review'),
     path('load_review/',views.LOAD_REVIEW,name='satve-review'),
     path('check_lang/',views.check_lang,name='check_lang'),
+    path('load_faveorits/',views.LOAD_FAVORITS,name='load_faveorits'),
 
 ]

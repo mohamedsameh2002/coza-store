@@ -90,7 +90,10 @@
             dataType:'json',
             success: function(data){
               if (data.popup === true){
-                  window.location.href='/'
+                var next = new URLSearchParams(window.location.search).get('next');
+                if (next){window.location.href=next}
+                else(window.location.href='/')
+                  
               }
             }
           });
@@ -109,7 +112,9 @@
             dataType:'json',
             success: function(data){
               if (data.popup === true){
-                  window.location.href='/'
+                var next = new URLSearchParams(window.location.search).get('next');
+                if (next){window.location.href=next}
+                else(window.location.href='/')
               }
             }
           });

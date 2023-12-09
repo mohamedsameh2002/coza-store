@@ -9,6 +9,14 @@
 	body{direction: ltr;}
 	.rating-group {position: relative;top: -28px;left: 90px;}
 	.stext-105.cl3 .rating__label{cursor: initial !important;font-size: 17px;}
+	.loader{
+		left: 50% !important;
+		width: 35px;
+		height: 35px;
+		border-width: 3px;
+		border-color: #6d6d6dc7;
+		border-bottom-color: transparent;
+	}
 </style>
 
 
@@ -38,9 +46,9 @@
 			
         {% if products %}
 		<div id="fave-PagE-coNtent">
-			<div class="row infinite-container" id="faveorIT-content">
-                {% for product in product_list %}
-				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item  product-box infinite-item">
+			<div class="row" id="faveorIT-content">
+                {% for product in products %}
+				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item  product-box">
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-pic hov-img0 label-new" data-label="{{product.product_name}}">
@@ -230,11 +238,8 @@
 					</div>
 				</div>
                 {% endfor %}
-				{% if page_obj.has_next %}
-				<a class="infinite-more-link" href="?page={{page_obj.next_page_number}}">More</a>
-				{% endif %}
 			</div>
-			
+			<span class="loader"></span>
 			<!-- Load more -->
 		</div>
 	</div>
@@ -246,10 +251,13 @@
 				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
 					<div class="m-l-25 m-r--38 m-lr-0-xl">
 
-                            <h2 class="text-center">Your favorites list is empty.</h2>
+                            <h2 style="font-weight: 400;" class="text-center">{% trans "Your Favorites List Is Empty" %}</h2>
                             <br>
-                            <div class="text-center">
-                                <a href="{% url 'store' %}" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">Browse Products</a>
+							<div style="display:flex;justify-content: center;">
+								<img style="width: 250px;" src="{% static 'images/8769452.png' %}" alt="">
+							</div>
+                            <div style="display: flex;justify-content: center;" class="text-center">
+                                <a style="width: 520px;" href="{% url 'store' %}" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">{% trans "BROWSE PRODUCTS" %}</a>
                                 <br>
                                 <br>
                                 <br>
@@ -286,7 +294,6 @@
 
 	$('.aDdTofavEOu').click(function(){    
 		var id =$(this).data('product-id-fav');
-		console.log(id)
 		$.ajax({
 	
 			url:'/products/add_favorite/',
@@ -297,11 +304,7 @@
 			success: function(data){
 				$('.square-FaVE-Pc').text(data.count); 
 				$('.square-FaVE-PhoNe').text(data.count);
-				$('#faveorIT-content').html(data.template);
-				if(data.count == 0){
-					$('#fave-PagE-coNtent').html(data.template_2);
-				}
-				
+				$('.counTfaVE-dis[data-like-text-id="' + id + '"]').text(data.likes); 
 			}
 		});
 	});
@@ -429,13 +432,56 @@
 		});
 	}
 	});
+
+
+	$('#facebook-socila-share,#whatsapp-socila-share,#twitter-socila-share').click(function(){
+		var id =$(this).data('porduct')
+		var link= encodeURI(window.location.href + id)
+		var type=$(this).data('tooltip')
+		
+		const msg=encodeURIComponent(',worled')
+		const title=encodeURIComponent(document.querySelector('title').textContent)
+		if (type == 'Facebook'){
+			window.open(`https://www.facebook.com/share.php?u=${link}`, '_blank');
+		}
+		else if (type == 'X-Twitter'){
+			window.open(`http://twitter.com/share?url=${link}`, '_blank');
+		}
+
+		else{
+			window.open(`https://api.whatsapp.com/send?text=${link}`, '_blank');
+		}
 		
 
-	var infinite = new Waypoint.Infinite({
-		element: $('.infinite-container')[0]
-	  })
-	
-	</script>
+	})
 
+
+	</script>
+	<script>
+		$('.loader').hide()
+		var loading = false;
+		var page = 1;  
+		$(window).scroll(function() {
+			if($(window).scrollTop() + $(window).height() >= $("#faveorIT-content").height() && !loading && page != 0) {
+				loading = true;
+				var lent=$('.product-box').length
+				$.ajax({
+					url: '/products/load_faveorits/',  
+					data: {'page': page,'lent':lent},
+					beforeSend:function(){
+						$('.loader').show()
+					},
+					success: function(data) {
+						$("#faveorIT-content").append(data.html);
+						loading = false;
+						if (data.count > lent){page += 1;}
+						else{page = 0; }
+						$('.loader').hide()
+						
+					}
+				});
+			}
+		});
+		</script>
 
 {% endblock scripts %}

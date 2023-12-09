@@ -13,9 +13,7 @@
 </style>
 {% else %}
 <style>
-  .jq-toast-wrap{
-    direction: rtl;
-  }
+  .jq-toast-wrap{direction: rtl;}
 </style>
 {% endif %}
 
@@ -32,7 +30,6 @@
         <h3>{% trans 'Your Password Reset Code Has Been Sent To Your Email' %}</h3>
         <h3>"{{email}}"</h3>
         <form class="code-form">
-          <h3 class="valdition-info"><span class="text">{% trans "You Have" %} <span class="count-sending">{{ sendeng_cocunt }}</span> {% trans "Attempts Left" %}</span></h3>
           <h4 class="text-center mb-4">{% trans "Enter The Code " %}</h4>
           <div class="d-flex mb-3">
               <input name='code' id="one-inp" class='form-control' required/>
@@ -44,7 +41,7 @@
             </div>
             <span class="loader-validation"></span>
           </form>
-          <button class="resend-btn hedden-btn" id="agane-pass-MEssge"><span class="text-vaild">{% trans "Send again" %}</span><span class="valid-span-btn "></span></button>
+          <button class="resend-btn" id="agane-pass-MEssge"><span class="text-vaild">{% trans "Send again" %}</span><span class="valid-span-btn "></span></button>
       </div>
     </div>
   </div>
@@ -70,9 +67,6 @@
       dataType:'json',
       
       success: function(data){
-        if (data.sendeng_cocunt < 4){
-          $('.resend-btn').removeClass('hedden-btn')
-        }
 
         if (data.sendeng_cocunt < 1){
           $('.resend-btn').addClass('resend-btn-dis')
@@ -143,7 +137,6 @@ $('#agane-pass-MEssge').click(function(){
         $(".resend-btn").attr('disabled',false);
         $('.resend-btn').removeClass('resend-btn-dis')
       }
-      $('.count-sending').text(data.sendeng_cocunt)
       $('.text-vaild').text('Resend')
       $('.valid-span-btn').removeClass('loader-btn-valid')
 
@@ -228,7 +221,6 @@ sixField.addEventListener('input', function() {
           window.location.href='/accounts/new_password/'
         }
         else{
-          $('.resend-btn').removeClass('hedden-btn').hide().fadeIn(500);
           $('.code-form').addClass('vibration')
 
           var inputFields = document.querySelectorAll('.form-control');

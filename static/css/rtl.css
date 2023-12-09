@@ -44,7 +44,7 @@ body{
 
 
 .Noti-ShopCart-PC{
-    left: 240px !important;
+    left: 160px !important;
 }
 
 
@@ -203,8 +203,10 @@ body{
 /* stars  */
 
 /* Start sidbar cart  */
-
-
+.header-cart-item-img.rtl{
+    margin: 0;
+    margin-left: 20px;
+}
 
 /* End sidbar cart  */
 
@@ -216,3 +218,8 @@ body{
 #lod-more-rev{left: -55px;}
 
 /* end product ditail  */
+
+
+.label-reply4comment{
+    left: -20px;
+}

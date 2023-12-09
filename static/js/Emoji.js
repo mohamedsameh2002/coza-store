@@ -231,20 +231,12 @@ const EmojiPicker = function(options) {
                 "title": "Kissing Face"
             },
             {
-                "emoji": "☺️",
-                "title": "Smiling Face"
-            },
-            {
                 "emoji": "😚",
                 "title": "Kissing Face with Closed Eyes"
             },
             {
                 "emoji": "😙",
                 "title": "Kissing Face with Smiling Eyes"
-            },
-            {
-                "emoji": "🥲",
-                "title": "Smiling Face with Tear"
             },
             {
                 "emoji": "😋",
@@ -409,10 +401,6 @@ const EmojiPicker = function(options) {
             {
                 "emoji": "🥳",
                 "title": "Partying Face"
-            },
-            {
-                "emoji": "🥸",
-                "title": "Disguised Face"
             },
             {
                 "emoji": "😎",
@@ -797,14 +785,6 @@ const EmojiPicker = function(options) {
             {
                 "emoji": "🧠",
                 "title": "Brain"
-            },
-            {
-                "emoji": "🫀",
-                "title": "Anatomical Heart"
-            },
-            {
-                "emoji": "🫁",
-                "title": "Lungs"
             },
             {
                 "emoji": "🦷",

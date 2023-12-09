@@ -6,16 +6,7 @@
 <title> {% trans "Shopping Cart" %}</title>
 
 <style>
-	.move-right {
-		margin: 0 20px 0 0; 
-	}
-    .delete-button-iTem {
-		position: absolute;
-		width: 20px;
-		height: 20px;
-		left: 660px;
-		top: 4px;
-}
+	.move-right {margin: 0 20px 0 0; }
 .mtext-110.cl2 p {
 	font-size: 16px;
     width: 90px;
@@ -27,10 +18,27 @@
     top: 8px;
     line-height: 1.4;
     color: #ebe6e6;
-    border: 1px dashed #262525;
+    border: 2px dashed #000000;
     border-radius: 50%;
     background-color: #a99676;
+	transform: rotate(349deg);
 }
+
+.clas-dlet-item{
+	width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.clas-dlet-item button{
+	margin-bottom: -35px;
+	margin-left: -20px;
+}
+.clas-dlet-item button img{
+	width: 22px;
+	
+}
+
+
 .mtext-110.cl2 p span{
 	color: #a85a13;
     font: inherit;
@@ -38,10 +46,7 @@
     font-size: 16px;
 }
 
-.delete-button-iTem img {width:20px;}
-@media (max-width:1601px) {
-	.delete-button-iTem{left: 552px;}
-}
+
 @media (max-width:1199px) {
 	.mtext-110.cl2 p{left: 520px;}
 }
@@ -51,15 +56,15 @@
 </style>
 {% if LANGUAGE_CODE == 'ar' %}
 <style>
-	.delete-button-iTem{left: -598px;}
-	.mtext-110.cl2 p{left: 85px;font-size: 22px;}
+	.mtext-110.cl2 p{left: 85px;font-size: 18px;}
 	.flex-c-m.stext-101.cl2.size-118.bg8{margin: 0 40px;}
+	.jq-toast-wrap{direction: rtl;}
+
+	
 	.mtext-110.cl2 p span{font-size: 23px;}
 	.price-td{text-align: start;}
 	.produ-td{text-align: center;}
-	@media (max-width:1601px) {
-		.delete-button-iTem{left: -511px;}
-	}
+
 	@media (max-width:1199px) {
 		.mtext-110.cl2 p{left: 80px;}
 	}
@@ -88,7 +93,6 @@
 	
 	
     {% if cart_items %}
-	
 	<!-- Shoping Cart -->
 	<form class="bg0 p-t-75 p-b-85" id="conTen-caRT" method="post">
 		{% csrf_token %}
@@ -115,10 +119,7 @@
 										<div style="position: relative; ">
 											<a href="{% url 'product_details' item.product.id %}">
 												<img src="{{item.product.image.url}}" alt="IMG" width="90" height="105" class="move-right"></a>
-												<br>
-												<div>
-													<br>
-
+												<div class="clas-dlet-item">
 													<button class="delete-button-iTem" data-product-id-delete="{{item.product.id}}"  data-color="{{item.color}}" data-size="{{item.size}}" type="button"><img src="{% static 'images/icons/468545.png' %}" alt=""></button>
 												</div>
 											</div>
@@ -264,6 +265,15 @@
 								<div class="bar12"></div>
 							</div>
 						</a>
+						{% if not request.user.is_authenticated %}
+						<div class="warning-cart-messg">
+							<div >
+								<img src="{% static "images/icons/786445.png" %}" >
+								<h2>{% trans "warning:" %}</h2>
+							</div>
+							<p>{% trans "If you do not register, you will lose these orders once the session expires." %}</p>
+						</div>
+						{% endif %}
 					</div>
 				</div>
 			</div>
@@ -277,10 +287,13 @@
 				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
 					<div class="m-l-25 m-r--38 m-lr-0-xl">
 
-                            <h2 class="text-center">{% trans "Your shopping cart is Empty." %}</h2>
+                            <h2 style="font-weight: 400;" class="text-center">{% trans "Your Shopping Cart Is Empty." %}</h2>
                             <br>
-                            <div class="text-center">
-                                <a href="{% url 'store' %}" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">{% trans "GO SHOPING" %}</a>
+							<div style="display:flex;justify-content: center;">
+								<img style="width: 250px;" src="{% static 'images/6842386.png' %}" alt="">
+							</div>
+                            <div style="display: flex;justify-content: center;" class="text-center">
+                                <a style="width: 520px;" href="{% url 'store' %}" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">{% trans "GO SHOPING" %}</a>
                                 <br>
                                 <br>
                                 <br>
@@ -391,7 +404,25 @@
 				$('.FinaL-ToTal').text('$ ' + data['grand_total'].toFixed(1));
 				$('#sidE-Cart').html(data.templ_side_cart);
 				if ($('.pRodUct-Qty[data-qty="' + id + '"][data-color="' + color + '"][data-size="' + size + '"]').val() < 1) {
-                    $("#caRT-tabLe").html(data.template);
+                    $("#caRT-tabLe").hide().html(data.template).fadeIn(500);
+					if (data.lang == 'en'){
+						$.toast({
+							heading: 'Success',
+							text: 'Removed from your cart',
+							showHideTransition: 'slide',
+							icon: 'success',
+							position: 'top-left',
+						})
+					}
+					else{
+						$.toast({
+						heading: 'نجاح',
+						text: 'تمت الازالة من عربيتك',
+						showHideTransition: 'slide',
+						icon: 'success',
+						position: 'top-right',
+					})
+					}
 				}
 				if ($('.ConTent').length == 0) {
 					$("#conTen-caRT").html(data.template_2);
@@ -414,16 +445,6 @@
 		var color =$(this).data('color');
 		var size =$(this).data('size');
 
-		var mytoast=$.toast({
-			heading: 'Success',
-			text: 'The product has been removed successfully',
-			showHideTransition: 'slide',
-			icon: 'success',
-			position: {
-				top: 60,
-				left: 10,
-			}
-		})
 
 		$.ajax({
 
@@ -452,9 +473,8 @@
 				$('.Tax-toTal').text('$ ' + data['tax'].toFixed(1));
 				$('.FinaL-ToTal').text('$ ' + data['grand_total'].toFixed(1));
                 // remove action
-				$("#caRT-tabLe").html(data.template);
+				$("#caRT-tabLe").hide().html(data.template).fadeIn(500);
 				$('#sidE-Cart').html(data.templ_side_cart);
-				mytoast;
 				if ($('.ConTent').length == 0) {
 					$("#conTen-caRT").html(data.template_2);
 				}
@@ -464,7 +484,24 @@
 				$('.delete-button-iTem').attr('disabled',false);
 				
 				
-				
+				if (data.lang == 'en'){
+					$.toast({
+						heading: 'Success',
+						text: 'Removed from your cart',
+						showHideTransition: 'slide',
+						icon: 'success',
+						position: 'top-left',
+					})
+				}
+				else{
+					$.toast({
+					heading: 'نجاح',
+					text: 'تمت الازالة من عربيتك',
+					showHideTransition: 'slide',
+					icon: 'success',
+					position: 'top-right',
+				})
+				}
 			}
 		});
 

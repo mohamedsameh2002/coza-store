@@ -2,20 +2,22 @@
 
 {% for item in cart_items %}
     <li class="header-cart-item flex-w flex-t m-b-12">
-        <div class="header-cart-item-img">
-            <img src="{{item.product.image.url}}" alt="IMG">
-        </div>
+        <a href="{% url 'product_details' item.product.id %}"  class="header-cart-item-img rtl">
+            <img src="{{item.product.image.url}}" >
+        </a>
 
         <div class="header-cart-item-txt p-t-8">
             
-            <a href="{% url 'product_details' item.product.id %}" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+            <a  href="{% url 'product_details' item.product.id %}" class="header-cart-item-name edit m-b-18 hov-cl1 trans-04">
                 {{item.product.product_name}}
             </a>
-            {{item.color}}
-            {{item.size}}
+            <div class="cls-color-size-base">
+                <p>{{item.size}}</p>
+                <p>{{item.color}}</p>
+            </div>
             
-
-            <span class="header-cart-item-info">
+            
+            <span style="direction: ltr;" class="header-cart-item-info">
                 {{item.quantity}} x ${{item.product.price}}
             </span>
         </div>

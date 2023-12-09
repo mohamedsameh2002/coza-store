@@ -277,10 +277,15 @@
 						<div class="tab-pane fade" id="reviews" role="tabpanel">
 							<div class="container">
 								<div class="reviews-list">
+									{% if request.user.is_authenticated %}
 									<button type="button" class="ADD-reVEw-Btn">
 										{% if rating %}{% trans "Edit Review" %}{% else %}{% trans "Add Review" %}{% endif %}
 									</button>
+									{% else %}
+									<h1 class="pls-rgstr-revewis">{% trans "Register to submit your review" %}</h1>
+									{% endif %}
 									<div id="review-LIst">
+									{% if reviews %}
 									{% for review in reviews %}
 									<div class="sengle-review">
 										<a class="image" href="">
@@ -311,6 +316,12 @@
 										</div>
 									</div>
 									{% endfor %}
+									{% else %}
+									<div class="if-no-comments">
+										<h1>{% trans "There are no reviews for this product" %}</h1>
+										<img style="margin-top: 16px;" src="{% static 'images/86541.png' %}" alt="">
+									</div>
+									{% endif %}
 								</div>
 							</div>
 							<button id="lod-more-rev" data-limit="2" data-total="{{count_reviews}}">
@@ -331,8 +342,8 @@
 										
 										<div style="direction: ltr;" class="input-rev">
 											<div class="modal-footer">
-												<button type="submit" class="edIT-BTn" id="ediT-REviW" value="edit">EDIT <i class="fa-solid fa-pen"></i></button>
-												<button type="submit" class=" submMIt-bTN" id="supMIT-reVIW" value="post">POST<img src="{% static 'images/icons/75846.png' %}"></button>
+												<button type="submit" class="edIT-BTn" id="ediT-REviW" value="edit">{% trans "EDIT" %} <i class="fa-solid fa-pen"></i></button>
+												<button type="submit" class=" submMIt-bTN" id="supMIT-reVIW" value="post">{% trans "POST" %}<img src="{% static 'images/icons/75846.png' %}"></button>
 											</div>
 											<input type="hidden" value="{{valeue}}" id="reVew-vaL">
 											<div class="textar-sec">
@@ -374,7 +385,7 @@
 											</div>
 										</div>
 										
-										<button type="submit" class="DelETE-Btn" id="DleTE-reviw" value="delete">DELETE <i class="fa-solid fa-trash"></i></button>
+										<button type="submit" class="DelETE-Btn" id="DleTE-reviw" value="delete">{% trans "DELETE" %} <i class="fa-solid fa-trash"></i></button>
 									</div>
 									</div>
 									</form>
@@ -420,7 +431,7 @@
 							<div class="block2-pic hov-img0">
 								<img src="{{product.image.url}}" alt="IMG-PRODUCT">
 
-								<a href="{% url "product_details" product.id %}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04" >More Details</a>
+								<a href="{% url "product_details" product.id %}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04" >{% trans "More Details" %}</a>
 							</div>
 							<div class="block2-txt flex-w flex-t p-t-14">
 								<div class="block2-txt-child1 flex-col-l ">
@@ -452,7 +463,7 @@
 								<div  class="block2-txt-child2 flex-r p-t-3">
 									<h2 {% if LANGUAGE_CODE == 'en' %} style="margin-right: -6px;" {% else %} style="margin-left: -10px;" {% endif %} class="counTfaVE-dis" data-like-text-id="{{product.id}}">{{product.all_likes}}</h2>
 									<label class="hartcont">
-										<input class="DisADdfaV-ns-dait" data-product-id-fav="{{product.id}}"  type="checkbox" {% if product.id in id_products_list  %} checked="checked" {% endif %}>
+										<input class="DisADdfaV-ns-dait" data-product-id-fav="{{product.id}}"  type="checkbox" {% if product in all_favorit  %} checked="checked" {% endif %}>
 										<div class="checkmark">
 											<svg style="width: 24px;" viewBox="0 0 256 256">
 											<rect fill="none" height="256" width="256"></rect>
@@ -782,11 +793,7 @@ $('.DisADdfaV-ns-dait').click(function(){
 
 
 
-$('#selction-colors').click(function() {
-	if ($('#SizE-CH').val() == null){
-		console.log('xxxxxxx')
-	}
-});
+
 
 function autoResizeAndScroll() {
 	var textarea = document.getElementById("myTextarea");

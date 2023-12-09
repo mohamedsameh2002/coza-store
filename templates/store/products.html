@@ -4,7 +4,7 @@
 
 
 {% block content %}
-<title>Products</title>
+<title>{% trans "Products" %}</title>
 
 
 <style>
@@ -27,6 +27,7 @@
 	#filterProducts{direction: rtl;}
 	.dis-none.panel-filter{direction: rtl;}
 	.flex-w.flex-sb-m.p-b-52{direction: rtl;}
+	.loder-products{direction: rtl;}
 </style>
 {% endif %}
 	<!-- Product -->
@@ -35,8 +36,8 @@
 			<div class="flex-w flex-sb-m p-b-52">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10 conTEnt-storBy">
 					<div class="text">
-						<h2>Sort by :</h2>
-						<h2>default</h2>
+						<h2>{% trans "Sort by :" %}</h2>
+						<h2>{% trans "default" %}</h2>
 					</div>
 					
 					<div class="checkbox">
@@ -46,7 +47,7 @@
 								<span class="checkbox-icon">
 									<img class="spetcila"  src="{% static 'images/icons/6482.png' %}" alt="">
 								</span>
-								<span class="checkbox-label">Alphabet A to Z</span>
+								<span class="checkbox-label">{% trans "Alphabet A to Z" %}</span>
 							</span>
 						</label>
 					</div>
@@ -58,7 +59,7 @@
 								<span class="checkbox-icon">
 									<img class="spetcila" src="{% static 'images/icons/4864.png' %}" alt="">
 								</span>
-								<span class="checkbox-label">Alphabet z to a</span>
+								<span class="checkbox-label">{% trans "Alphabet Z to A" %}</span>
 							</span>
 						</label>
 					</div>
@@ -69,7 +70,7 @@
 								<span class="checkbox-icon">
 									<img   src="{% static 'images/icons/3658.png' %}" alt="">
 								</span>
-								<span class="checkbox-label">Highest rating</span>
+								<span class="checkbox-label">{% trans "Highest rating" %}</span>
 							</span>
 						</label>
 					</div>
@@ -80,7 +81,7 @@
 								<span class="checkbox-icon">
 									<img class="spetcila" src="{% static 'images/icons/5465.png' %}" alt="">
 								</span>
-								<span class="checkbox-label">The newest</span>
+								<span class="checkbox-label">{% trans "The newest" %}</span>
 							</span>
 						</label>
 					</div>
@@ -91,7 +92,7 @@
 								<span class="checkbox-icon">
 									<img src="{% static 'images/icons/6984.png' %}" alt="">
 								</span>
-								<span class="checkbox-label">Price ascending</span>
+								<span class="checkbox-label">{% trans "Price ascending" %}</span>
 							</span>
 						</label>
 					</div>
@@ -102,7 +103,7 @@
 								<span class="checkbox-icon">
 									<img src="{% static 'images/icons/4695.png' %}" alt="">
 								</span>
-								<span class="checkbox-label">Price descending</span>
+								<span class="checkbox-label">{% trans "Price descending" %}</span>
 							</span>
 						</label>
 					</div>
@@ -141,13 +142,15 @@
 					{% include 'includes/filter.html' %}
 				</div>
 			</div>
-			<span class="ajaxLoader"></span>
+			<div class="loder-products">
+				<span class="ajaxLoader"></span>
+			</div>
 			<div class="row" id="filterProducts">
                 {% for product in products %}
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item  product-box">
 					<!-- Block2 -->
 					<div class="block2">
-						<div class="block2-pic hov-img0 label-new" data-label="{{product.product_name}}">
+						<div class="block2-pic hov-img0 label-new" {% if LANGUAGE_CODE == 'en' %}data-label="{{product.category.category_name}}" {% else %} data-label="{{product.category.category_name_ar}}" {% endif %}>
 							
 							<img src= "{{product.image.url}}" alt="IMG-PRODUCT" class="ImgPROd" >
 							<button class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1 QuicK-ViEw" data-link-action="quickview" title="Quick view" data-quick-id="{{product.id}}">{% trans "QuicK ViEw" %}</button>
@@ -288,7 +291,7 @@
 
 														<div class="block2-txt-child2 flex-r p-t-3">
 															<label class="hartcont">
-																<input class="aDdTofavEOu" data-product-id-fav="{{product.id}}"  type="checkbox" {% if product.id in id_products_list  %} checked="checked" {% endif %}>
+																<input class="aDdTofavEOu" data-product-id-fav="{{product.id}}"  type="checkbox" {% if product in all_favorit  %} checked="checked" {% endif %}>
 																<div class="checkmark">
 																	<svg class="hart-popup" viewBox="0 0 256 256">
 																	<rect fill="none" height="256" width="256"></rect>
@@ -371,7 +374,7 @@
 			$('input[type="checkbox"][id="' + chioes + '"]').click();
 		}
 		if (home_chioes){
-			$('input[type="checkbox"][itemid="' + home_chioes + '"]').click();
+			$('input[type="checkbox"][id="' + home_chioes + '"]').click();
 		}
 	});
 </script>
@@ -389,9 +392,36 @@
 			},
 			dataType:'json',
 			success: function(data){
-				$('.square-FaVE-PhoNe').text(data.count);
-                $('.square-FaVE-Pc').text(data.count);
-				$('.counTfaVE-dis[data-like-text-id="' + id + '"]').text(data.likes); 
+				if (data.likes != null){
+					
+					$('.square-FaVE-PhoNe').text(data.count);
+					$('.square-FaVE-Pc').text(data.count);
+					$('.counTfaVE-dis[data-like-text-id="' + id + '"]').text(data.likes); 
+				}
+				else{
+					
+					if (data.lang == 'en'){
+						$.toast({
+							heading: 'Error',
+							text: 'Register first from here <a href="{% url 'singup' %} ">Register</a>',
+							showHideTransition: 'fade',
+							icon: 'error',
+							position: 'top-left',
+						})
+					}
+					else{
+						$.toast({
+							heading: 'Error',
+							text: 'سجل اولا من هنا <a href="{% url 'singup' %} ">تسجيل</a>',
+							showHideTransition: 'fade',
+							icon: 'error',
+							position: 'top-right',
+							})
+					}
+					
+					
+				}
+				
 			}
 		});
 	});
@@ -518,7 +548,13 @@
 
 
 
-
+var atz='{% trans "Alphabet A to Z" %}'
+var zta='{% trans "Alphabet Z to A" %}'
+var hir='{% trans "Highest rating" %}'
+var thenew='{% trans "The newest" %}'
+var pricasc='{% trans "Price ascending" %}'
+var pricdis='{% trans "Price descending" %}'
+var deful='{% trans "default" %}'
 
 	$('input[type="checkbox"][id="stoR-By"]').click(function() {
         $('input[type="checkbox"]').not(this).prop('checked', false);
@@ -527,26 +563,26 @@
 		checkbox.addEventListener('change', function() {
 			if (this.checked) {
 				if ($(this).val() == 2){
-					$('.conTEnt-storBy .text h2:nth-child(2)').text('Alphabet A to Z');
+					$('.conTEnt-storBy .text h2:nth-child(2)').text(atz);
 				}
 				else if ($(this).val() == 3){
-					$('.conTEnt-storBy .text h2:nth-child(2)').text('Alphabet Z to A');
+					$('.conTEnt-storBy .text h2:nth-child(2)').text(zta);
 				}
 				else if ($(this).val() == 4){
-					$('.conTEnt-storBy .text h2:nth-child(2)').text('Highest rating');
+					$('.conTEnt-storBy .text h2:nth-child(2)').text(hir);
 				}
 				else if ($(this).val() == 5){
-					$('.conTEnt-storBy .text h2:nth-child(2)').text('The newest');
+					$('.conTEnt-storBy .text h2:nth-child(2)').text(thenew);
 				}
 				else if ($(this).val() == 6){
-					$('.conTEnt-storBy .text h2:nth-child(2)').text('Price ascending');
+					$('.conTEnt-storBy .text h2:nth-child(2)').text(pricasc);
 				}
 				else if ($(this).val() == 7){
-					$('.conTEnt-storBy .text h2:nth-child(2)').text('Price descending');
+					$('.conTEnt-storBy .text h2:nth-child(2)').text(pricdis);
 				}
 			}
 			else{
-				$('.conTEnt-storBy .text h2:nth-child(2)').text('default');
+				$('.conTEnt-storBy .text h2:nth-child(2)').text(deful);
 			}
 		});
 		});
@@ -588,6 +624,9 @@
 
 	});
 
+
+	//$('.product-box').slice(1).hide()
+	//console.log($('.product-box').length)
 
 	
 </script>

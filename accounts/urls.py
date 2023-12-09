@@ -1,6 +1,5 @@
 from django.urls import path
 from . import views
-from django.conf import settings
 urlpatterns = [
     path('login/',views.LOGIN,name='login'),
     path('login-function/',views.login_fuction,name='login-function'),
@@ -27,6 +26,10 @@ urlpatterns = [
 
     path('on_popup/',views.on_popup,name='on_popup'),
     path('is_popup/',views.is_popup,name='is_popup'),
+    path('profile/<int:id>/<str:slug>/',views.USER_PROFILE,name='profile'),
+    path('edit_profile/<int:id>/<str:slug>/',views.EDIT_PROFILE,name='edit_profile'),
+    path('change_password/<int:id>/<str:slug>/',views.CHANGE_PASSWORD,name='change_password'),
+    path('your_orders/<int:num>/',views.YOUR_ORDERS,name='your_orders'),
 
 
 ]

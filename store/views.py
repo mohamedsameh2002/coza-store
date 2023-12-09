@@ -6,19 +6,36 @@ from django.db.models import Q
 import secrets
 from accounts.models import UserProfile
 from django.views.generic.list import ListView
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
+from django.dispatch import receiver
+from django.db.models.signals import post_save,post_delete
 # Create your views here.
-
 
 def PRODUCTS (request):
     if '/en/' in request.path:lang='en'
     else:lang='ar'
-        
-    products=Product.objects.filter(is_available=True).order_by('-update_date')[:1]
-    category=Category.objects.all()
-    sizes=Customizations.objects.filter(status=True).values('sizes__size_name','sizes__size_name_ar','sizes__id').distinct()
-    colors=Customizations.objects.filter(status=True).values('colors__color_name','colors__color_code','colors__id').distinct()
+    if cache.get_many(['products','category','colors','sizes']):
+        products=cache.get('products')
+        category=cache.get('category')
+        colors=cache.get('colors')
+        sizes=cache.get('sizes')
+    else:
+        products=Product.objects.filter(is_available=True).order_by('-created_date')[:1]
+        category=Category.objects.all()
+        sizes=Customizations.objects.filter(status=True).values('sizes__size_name','sizes__size_name_ar','sizes__id').distinct()
+        colors=Customizations.objects.filter(status=True).values('colors__color_name','colors__color_code','colors__id').distinct()
+        cache.set_many({'products':products,'sizes':sizes,'colors':colors,'category':category},7000)
     count_products=Product.objects.count()
-    all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
+    if request.user.is_authenticated:
+        if cache.get('all_favorit'):
+            all_favorit=cache.get('all_favorit')
+        else:
+            all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
+            cache.set('all_favorit',all_favorit,7000)
+    else:
+        all_favorit=[]
+    
 
     context={
         'products':products,
@@ -54,15 +71,15 @@ def QUICK_VIEW (request):
     }
     return JsonResponse(data)
 
-
+@cache_page(4000)
 def LOAD_MORE(request):
     colors=request.GET.getlist('_filterObj[color][]')
     sizes=request.GET.getlist('_filterObj[size][]')
     categorys=request.GET.getlist('_filterObj[category][]')
     offset=int(request.GET['offset'])#اللي موجود دلوقت ف الصفحه
     limit=int(request.GET['limit'])# اللي انا عينته عند الزرار 
-    minPrice=request.GET['_filterObj[minPrice]']
-    maxPrice=request.GET['_filterObj[maxPrice]']
+    minPrice=request.GET.get('_filterObj[minPrice]')
+    maxPrice=request.GET.get('_filterObj[maxPrice]')
     storby=request.GET.getlist('_filterObj[storby][]')
     search_kewrd=request.GET.get('search_kewrd')
     # creat random class
@@ -87,55 +104,55 @@ def LOAD_MORE(request):
 
     if search_kewrd:
         if '/en/' in request.path:
-            products=Product.objects.filter(Q(description__icontains=search_kewrd) | Q(product_name__icontains=search_kewrd)).order_by('-update_date')
+            products=Product.objects.filter(Q(description__icontains=search_kewrd) | Q(product_name__icontains=search_kewrd)| Q(category__category_name__icontains=search_kewrd,is_available=True )).order_by('-created_date')
         else:
-            products=Product.objects.filter(Q(description_ar__icontains=search_kewrd) | Q(product_name_ar__icontains=search_kewrd)).order_by('-update_date')
+            products=Product.objects.filter(Q(description_ar__icontains=search_kewrd) | Q(product_name_ar__icontains=search_kewrd)| Q(category__category_name_ar__icontains=search_kewrd,is_available=True )).order_by('-created_date')
     else:
-        products=Product.objects.filter(is_available=True).order_by('-update_date').distinct()
+        products=Product.objects.filter(is_available=True).order_by('-created_date').distinct()
         products=products.filter(price__gte=minPrice,price__lte=maxPrice)
     
 
     if colors or sizes or categorys:
         if len(colors) > 0 and len(sizes) > 0 and len(categorys) > 0 :
-            x=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-update_date').distinct().count()  
+            x=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-created_date').distinct().count()  
             count=x
-            products=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-update_date').distinct()[offset:offset+limit]
+            products=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-created_date').distinct()[offset:offset+limit]
 
 
         elif  len(colors) > 0 and len(sizes) > 0 :
-            x=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes).order_by('-update_date').distinct().count()  
+            x=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes).order_by('-created_date').distinct().count()  
             count=x
-            products=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes).order_by('-update_date').distinct()[offset:offset+limit]
+            products=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes).order_by('-created_date').distinct()[offset:offset+limit]
 
 
 
         elif len(colors) > 0  and len(categorys) > 0 :
-            x=products.filter(customizations__colors__id__in=colors,category__id__in=categorys).order_by('-update_date').distinct().count()  
+            x=products.filter(customizations__colors__id__in=colors,category__id__in=categorys).order_by('-created_date').distinct().count()  
             count=x
-            products=products.filter(customizations__colors__id__in=colors,category__id__in=categorys).order_by('-update_date').distinct()[offset:offset+limit]
+            products=products.filter(customizations__colors__id__in=colors,category__id__in=categorys).order_by('-created_date').distinct()[offset:offset+limit]
 
 
         elif  len(sizes) > 0 and len(categorys) > 0 :
-            x=products.filter(customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-update_date').distinct().count()  
+            x=products.filter(customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-created_date').distinct().count()  
             count=x
-            products=products.filter(customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-update_date').distinct()[offset:offset+limit]
+            products=products.filter(customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-created_date').distinct()[offset:offset+limit]
 
             
         else  :
             if len(colors) > 0:
-                x=products.filter(customizations__colors__id__in=colors).order_by('-update_date').distinct().count()  
+                x=products.filter(customizations__colors__id__in=colors).order_by('-created_date').distinct().count()  
                 count=x
-                products=products.filter(customizations__colors__id__in=colors).order_by('-update_date').distinct()[offset:offset+limit]
+                products=products.filter(customizations__colors__id__in=colors).order_by('-created_date').distinct()[offset:offset+limit]
 
             elif len(sizes) > 0:
-                x=products.filter(customizations__sizes__id__in=sizes).order_by('-update_date').distinct().count()  
+                x=products.filter(customizations__sizes__id__in=sizes).order_by('-created_date').distinct().count()  
                 count=x
-                products=products.filter(customizations__sizes__id__in=sizes).order_by('-update_date').distinct()[offset:offset+limit]
+                products=products.filter(customizations__sizes__id__in=sizes).order_by('-created_date').distinct()[offset:offset+limit]
 
             elif  len(categorys) > 0:
-                x=products.filter(category__id__in=categorys).order_by('-update_date').distinct().count()  
+                x=products.filter(category__id__in=categorys).order_by('-created_date').distinct().count()  
                 count=x
-                products=products.filter(category__id__in=categorys).order_by('-update_date').distinct()[offset:offset+limit]
+                products=products.filter(category__id__in=categorys).order_by('-created_date').distinct()[offset:offset+limit]
 
     else:
         count=products.filter(is_available=True).distinct().count()
@@ -156,23 +173,28 @@ def LOAD_MORE(request):
             elif storby == ['4']:
                 products=products.filter(is_available=True).order_by('-avg_rate').distinct()[offset:offset+limit]
             elif storby == ['5']:
-                products=products.filter(is_available=True).order_by('created_date').distinct()[offset:offset+limit]
+                products=products.filter(is_available=True).order_by('-created_date').distinct()[offset:offset+limit]
             elif storby == ['6']:
                 products=products.filter(is_available=True).order_by('price').distinct()[offset:offset+limit]
             elif storby == ['7']:
                 products=products.filter(is_available=True).order_by('-price').distinct()[offset:offset+limit]
         else:
-            products=products.filter(is_available=True).order_by('-update_date').distinct()[offset:offset+limit]
+            products=products.filter(is_available=True).order_by('-created_date').distinct()[offset:offset+limit]
 
+    if request.user.is_authenticated:
+        all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
+    else:
+        all_favorit=[]
+    # if cache.get(f'products{offset}'):
+    #     products=cache.get(f'products{offset}')
+    #     for i in products:
+    #         print(f'products{offset}')
+    # else:
+    #     print('from sql')
+    #     cache.set(f'products{offset}',products,150)
 
-
-
-
-
-
-    all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
 #==============================================================
-    
+
     context={
         'products':products,
         'random_1_fvort':random_1_fvort,
@@ -189,11 +211,12 @@ def LOAD_MORE(request):
     return JsonResponse({'data':t,'count':count})
 
 
+
+
 def PRODUCT_DETAILS (request,id):
     product=Product.objects.get(id=id)
     catigory=product.category
-    #products=Product.objects.filter(is_available=True,category=catigory).exclude(id=id).order_by('-update_date')
-    products=Product.objects.all()
+    products=Product.objects.filter(is_available=True,category=catigory).exclude(id=id).order_by('-created_date')
     product_gallery=ProductGallery.objects.filter(product__id=product.id)
 
     sizes=Customizations.objects.filter(status=True,product=product).values('sizes__size_name','sizes__size_name_ar').distinct()
@@ -211,9 +234,11 @@ def PRODUCT_DETAILS (request,id):
         valeue=None
         rating=None
     
-
-    
-
+    is_fav=product.favorits.filter(email__iexact=request.user.email).exists()
+    if request.user.is_authenticated:
+        all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
+    else:
+        all_favorit=[]
     #==========
     
     lang=None
@@ -234,6 +259,8 @@ def PRODUCT_DETAILS (request,id):
         'valeue':valeue,
         'rating':rating,
         'lang':lang,
+        'is_fav':is_fav,
+        'all_favorit':all_favorit,
     }
     return render(request,'store/product_details.html',context)
 
@@ -269,10 +296,9 @@ def order_selection_filter(request):
 
 
 def ADD_FAVORITE (request):
-    if '/en/' in request.path:
-        lang='en'
-    else:
-        lang='ar'
+    if '/en/' in request.path:lang='en'
+    else:lang='ar'
+
     id=request.GET.get('id')
     if request.user.is_authenticated:
         product=Product.objects.get(id=id)
@@ -281,38 +307,72 @@ def ADD_FAVORITE (request):
             product.favorits.remove(request.user)
         else:
             product.favorits.add(request.user)
+        likes=product.favorits.count()
+        count=Product.objects.filter(favorits__email__iexact=request.user.email).count()
+        favorite=Product.objects.filter(favorits__email__iexact=request.user.email)
+        
     else:
-        pass
-    likes=product.favorits.count()
-    count=Product.objects.filter(favorits__email__iexact=request.user.email).count()
-    favorite=Product.objects.filter(favorits__email__iexact=request.user.email)
-    template=render_to_string('ajax/favorit_aj.html',{'products':favorite,'lang':lang})
-    template_2=render_to_string('ajax/favorit_imty_aj.html')
+        likes=None
+        count=0
     data={
-        'template':template,
-        'template_2':template_2,
         'likes':likes,
         'count':count,
+        'lang':lang,
     }
     return JsonResponse(data)
-
-
-
-# def FAVORITE_PAGE (request):
-#     products=Product.objects.filter(favorits__email__iexact=request.user.email)
-#     return render (request,'store/favorite.html',{'products':products})
-
-
 
 
 
 
 class Favorite_Scroll(ListView):
     model=Product
-    paginate_by=4
     template_name='store/favorite.html'
+    context_object_name='products'
     ordering='created_date'
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return Product.objects.filter(favorits__email__iexact=self.request.user.email,is_available=True).order_by('-favorits')[:1]
+        return None
+    
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     print(context)
+    #     return context
 
+
+def LOAD_FAVORITS(request):
+    if '/en/' in request.path:lang='en'
+    else:lang='ar'
+    page=int( request.GET.get('page'))
+    lent=int( request.GET.get('lent'))
+    products=Product.objects.filter(favorits__email__iexact=request.user.email).order_by('-favorits')[lent:lent+page]
+    count=Product.objects.filter(favorits__email__iexact=request.user.email).count()
+    random_1_fvort = secrets.token_hex(4).title().swapcase()
+    random_2_qick = secrets.token_hex(4).title().swapcase()
+    random_3_addmodal = secrets.token_hex(4).title().swapcase()
+    random_4_select_size = secrets.token_hex(4).title().swapcase()
+    random_5_color_cho = secrets.token_hex(4).title().swapcase()
+    random_6_js_color = secrets.token_hex(4).title().swapcase()
+    random_7_wrap_slik = secrets.token_hex(4).title().swapcase()
+    if request.user.is_authenticated:
+        all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
+    else:
+        all_favorit=[]
+    context={
+        'products':products,
+        'random_1_fvort':random_1_fvort,
+        'random_2_qick':random_2_qick,
+        'random_3_addmodal':random_3_addmodal,
+        'random_4_select_size':random_4_select_size,
+        'random_5_color_cho':random_5_color_cho,
+        'random_6_js_color':random_6_js_color,
+        'random_7_wrap_slik':random_7_wrap_slik,
+        'lang':lang,
+        'all_favorit':all_favorit,
+    }
+    html=render_to_string('ajax/products_loadmore.html',context)
+    data={'html':html,'count':count}
+    return JsonResponse(data)
 
 
 
@@ -324,12 +384,10 @@ def SEARCH (request):
         search=request.GET['search']
         if search:
             if '/en/' in request.path:
-                products=Product.objects.filter(Q(description__icontains=search) | Q(product_name__icontains=search)).order_by('-update_date')[:1]
+                products=Product.objects.filter(Q(description__icontains=search) | Q(product_name__icontains=search) | Q(category__category_name__icontains=search ) ).order_by('-created_date')[:2]
             else:
-                products=Product.objects.filter(Q(description_ar__icontains=search) | Q(product_name_ar__icontains=search)).order_by('-update_date')[:1]
+                products=Product.objects.filter(Q(description_ar__icontains=search) | Q(product_name_ar__icontains=search ) | Q(category__category_name_ar__icontains=search ) ).order_by('-created_date')[:2]
             count_products=Product.objects.count()
-            
-
     context={
         'products':products,
         'count_products':count_products,
@@ -337,15 +395,15 @@ def SEARCH (request):
     return render (request,'store/search.html',context)
 
 
+@cache_page(4500)
 def FILTER(request):
     colors=request.GET.getlist('_filterObj[color][]')
     sizes=request.GET.getlist('_filterObj[size][]')
     categorys=request.GET.getlist('_filterObj[category][]')
-    minPrice=request.GET['_filterObj[minPrice]']
-    maxPrice=request.GET['_filterObj[maxPrice]']
+    minPrice=request.GET.get('_filterObj[minPrice]')
+    maxPrice=request.GET.get('_filterObj[maxPrice]')
     storby=request.GET.getlist('_filterObj[storby][]')
     search_kewrd=request.GET.get('search_kewrd')
-
     if '/en/' in request.path:
         lang='en'
     else:
@@ -353,57 +411,56 @@ def FILTER(request):
 
     if search_kewrd:
         if '/en/' in request.path:
-            products=Product.objects.filter(Q(description__icontains=search_kewrd) | Q(product_name__icontains=search_kewrd)).order_by('-update_date')
+            products=Product.objects.filter(Q(description__icontains=search_kewrd) | Q(product_name__icontains=search_kewrd)| Q(category__category_name__icontains=search_kewrd,is_available=True )).order_by('-created_date')
         else:
-            products=Product.objects.filter(Q(description_ar__icontains=search_kewrd) | Q(product_name_ar__icontains=search_kewrd)).order_by('-update_date') 
+            products=Product.objects.filter(Q(description_ar__icontains=search_kewrd) | Q(product_name_ar__icontains=search_kewrd)| Q(category__category_name_ar__icontains=search_kewrd,is_available=True )).order_by('-created_date') 
     else:
-        products=Product.objects.filter(is_available=True).order_by('-update_date').distinct()
+        products=Product.objects.filter(is_available=True).order_by('-created_date').distinct()
         products=products.filter(price__gte=minPrice,price__lte=maxPrice)
         
-    custom=Customizations.objects.filter(status=True)
 
 
     if colors or sizes or categorys:
         if len(colors) > 0 and len(sizes) > 0 and len(categorys) > 0 :
-            x=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-update_date').distinct().count()  
+            x=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-created_date').distinct().count()  
             count=x
-            products=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-update_date').distinct()[:1]
+            products=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-created_date').distinct()[:1]
 
 
         elif  len(colors) > 0 and len(sizes) > 0 :
-            x=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes).order_by('-update_date').distinct().count()  
+            x=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes).order_by('-created_date').distinct().count()  
             count=x
-            products=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes).order_by('-update_date').distinct()[:1]
+            products=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes).order_by('-created_date').distinct()[:1]
 
 
 
         elif len(colors) > 0  and len(categorys) > 0 :
-            x=products.filter(customizations__colors__id__in=colors,category__id__in=categorys).order_by('-update_date').distinct().count()  
+            x=products.filter(customizations__colors__id__in=colors,category__id__in=categorys).order_by('-created_date').distinct().count()  
             count=x
-            products=products.filter(customizations__colors__id__in=colors,category__id__in=categorys).order_by('-update_date').distinct()[:1]
+            products=products.filter(customizations__colors__id__in=colors,category__id__in=categorys).order_by('-created_date').distinct()[:1]
 
 
         elif  len(sizes) > 0 and len(categorys) > 0 :
-            x=products.filter(customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-update_date').distinct().count()  
+            x=products.filter(customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-created_date').distinct().count()  
             count=x
-            products=products.filter(customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-update_date').distinct()[:1]
+            products=products.filter(customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-created_date').distinct()[:1]
 
             
         else  :
             if len(colors) > 0:
-                x=products.filter(customizations__colors__id__in=colors).order_by('-update_date').distinct().count()  
+                x=products.filter(customizations__colors__id__in=colors).order_by('-created_date').distinct().count()  
                 count=x
-                products=products.filter(customizations__colors__id__in=colors).order_by('-update_date').distinct()[:1] 
+                products=products.filter(customizations__colors__id__in=colors).order_by('-created_date').distinct()[:1] 
 
             elif len(sizes) > 0:
-                x=products.filter(customizations__sizes__id__in=sizes).order_by('-update_date').distinct().count()  
+                x=products.filter(customizations__sizes__id__in=sizes).order_by('-created_date').distinct().count()  
                 count=x
-                products=products.filter(customizations__sizes__id__in=sizes).order_by('-update_date').distinct()[:1] 
+                products=products.filter(customizations__sizes__id__in=sizes).order_by('-created_date').distinct()[:1] 
 
             elif  len(categorys) > 0:
-                x=products.filter(category__id__in=categorys).order_by('-update_date').distinct().count()  
+                x=products.filter(category__id__in=categorys).order_by('-created_date').distinct().count()  
                 count=x
-                products=products.filter(category__id__in=categorys).order_by('-update_date').distinct()[:1] 
+                products=products.filter(category__id__in=categorys).order_by('-created_date').distinct()[:1] 
 
     else:
         count=products.filter(is_available=True).distinct().count()
@@ -424,14 +481,18 @@ def FILTER(request):
             elif storby == ['4']:
                 products=products.filter(is_available=True).order_by('-avg_rate').distinct()[:1]
             elif storby == ['5']:
-                products=products.filter(is_available=True).order_by('created_date').distinct()[:1]
+                products=products.filter(is_available=True).order_by('-created_date').distinct()[:1]
             elif storby == ['6']:
                 products=products.filter(is_available=True).order_by('price').distinct()[:1]
             elif storby == ['7']:
                 products=products.filter(is_available=True).order_by('-price').distinct()[:1]
         else:
-            products=products.filter(is_available=True).order_by('-update_date').distinct()[:1]
-    all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
+            products=products.filter(is_available=True).order_by('-created_date').distinct()[:1]
+
+    if request.user.is_authenticated:
+        all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
+    else:
+        all_favorit=[]
 #=============================================
     
 
@@ -514,4 +575,22 @@ def check_lang(request):
             url=request.META.get('HTTP_REFERER').replace("/en/", "/")
     data={'url':url}
     return JsonResponse(data)
+
+
+
+@receiver(post_save,sender=Product)
+def clear_cache_post_save(*args,**kwargs):
+    cache.clear()
+@receiver(post_delete,sender=Product)
+def clear_cache_post_delete(*args,**kwargs):
+    cache.clear()
+
+
+
+
+
+
+
+
+
 

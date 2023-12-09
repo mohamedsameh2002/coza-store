@@ -36,7 +36,7 @@ $(document).ready(function(){
 			},
 			success:function(res){
 				$(".ajaxLoader").hide();
-				$("#filterProducts").hide().html(res.data).fadeIn(500);
+				$("#filterProducts").html(res.data)
 				var _totalShowing=$(".product-box").length;
 				if(_totalShowing<_total){$("#loadMore").show();}
 				if(_totalShowing==res.count){$("#loadMore").hide();}

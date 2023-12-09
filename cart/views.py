@@ -243,7 +243,7 @@ def DECREMENT_CART (request,total=0,cart_items=None):
     template_2=render_to_string('ajax/cart_emty_aj.html')
     templ_side_cart=render_to_string('ajax/sid_cart.html',{'cart_items':cart_items})
 #========
-    data={'total':total,'grand_total':grand_total,'tax':tax,'cart_count':cart_count,'template':template,'template_2':template_2,'templ_side_cart':templ_side_cart}
+    data={'total':total,'grand_total':grand_total,'tax':tax,'cart_count':cart_count,'template':template,'template_2':template_2,'templ_side_cart':templ_side_cart,'lang':lang}
     return JsonResponse(data)
 
 
@@ -332,7 +332,7 @@ def REMOVE_ITEM (request,total=0,cart_items=None):
     templ_side_cart=render_to_string('ajax/sid_cart.html',{'cart_items':cart_items})
 
 #========
-    data={'total':total,'grand_total':grand_total,'tax':tax,'cart_count':cart_count,'template':template,'template_2':template_2,'templ_side_cart':templ_side_cart}
+    data={'total':total,'grand_total':grand_total,'tax':tax,'cart_count':cart_count,'template':template,'template_2':template_2,'templ_side_cart':templ_side_cart,'lang':lang}
     return JsonResponse(data)
 
 
@@ -352,14 +352,28 @@ def CART (request,total=0,quantity=0,cart_items=None):
                 user_profile.discount_cods.add(discount_code)
                 discount_code.active=False
                 discount_code.save()
-                messages.success(request,f'You are now using a discount code worth $ {code_valeu},The code will expire upon completion of payment')
+                
+                if '/en/' in request.path:
+                    messages.success(request,f'You are now using a discount code worth ${code_valeu},The code will expire upon completion of payment')
+                else:
+                    messages.success(request,f'أنت الآن تستخدم كود خصم بقيمة ${code_valeu}، وستنتهي صلاحية الكود عند إتمام الدفع')
             else:
-                messages.warning(request,'You entered the wrong code or it may have expired')
+                if '/en/' in request.path:
+                    messages.error(request,'You entered the wrong code or it may have expired')
+                else:
+                    messages.error(request,'لقد أدخلت كود خاطئًا أو ربما انتهت صلاحيته')
+
         except:
             if request.user.is_authenticated:
-                messages.warning(request,'You entered the wrong code or it may have expired')
+                if '/en/' in request.path:
+                    messages.error(request,'You entered the wrong code or it may have expired')
+                else:
+                    messages.error(request,'لقد أدخلت كود خاطئًا أو ربما انتهت صلاحيته')
             else:
-                messages.warning(request,'Please log in first to use the discount code')
+                if '/en/' in request.path:
+                    messages.warning(request,'Please register first to be able to use discount codes')
+                else:
+                    messages.warning(request,'يرجي التسجيل اولا لكي تتمكن من استخدام اكواد الخصم')
     try:
         tax=0
         grand_total=0
@@ -410,15 +424,16 @@ def CART (request,total=0,quantity=0,cart_items=None):
 
 
 
-@login_required(login_url="login")
+@login_required
 def CHEKOUT (request,total=0,quantity=0,cart_items=None):
     if '/en/' in request.path:
         messages.info(request,'Please ensure that you enter the information through which you will be contacted, and we are not responsible for any error')
     else:
-        messages.warning(request,'يرجي التأكد من بياناتك المدخله التي سوف يتم التواصل معك من خلالها، ونحن غير مسؤولين عن اي خطأ')
+        messages.info(request,'يرجي التأكد من بياناتك المدخله التي سوف يتم التواصل معك من خلالها، ونحن غير مسؤولين عن اي خطأ')
     try:
         tax=0
         grand_total=0
+        user_profile=None
         if request.user.is_authenticated:
             cart_items=CartItem.objects.filter(user=request.user,in_active=True)
         else:
@@ -458,6 +473,7 @@ def CHEKOUT (request,total=0,quantity=0,cart_items=None):
         'grand_total':grand_total,
         'total_discount':total_discount,
         'new_price':new_price,
+        'user_profile':user_profile,
         }
 
     return render (request,'cart/chekout.html',context)
