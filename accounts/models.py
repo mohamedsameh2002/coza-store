@@ -157,19 +157,13 @@ class UserProfile (models.Model):
         size_mb = os.path.getsize(self.profile_pictuer.path) / (1024 * 1024)
         if size_mb > 1:
             pict.thumbnail(max_size)
-            print('resisze done')
         dpi_default = 72
         width_cm = (pict.width / dpi_default) * 2.54
         height_cm = (pict.height / dpi_default) * 2.54
         if not round(width_cm)  >=  round (height_cm) - 4:
             pict = pict.crop((0,130,pict.width,pict.height-165))
-            print('cut done .....')
-            print(round (height_cm))
-            print(round(width_cm))
         else:
-            print('cut no')
-            print(round (height_cm))
-            print(round(width_cm))
+            pass
         pict.save(self.profile_pictuer.path)
 
     def full_address (self):
