@@ -252,7 +252,7 @@ JAZZMIN_UI_TWEAKS = {
 
 #Celery
 
-CELERY_BROKER_URL='redis://127.0.0.1:6379'
+CELERY_BROKER_URL=os.environ.get("REDIS_URL"),
 CELERY_ACCEPT_CONTENT=['application/json']
 CELERY_RESULT_SERIALIZER='json'
 CELERY_TASK_SERIALIZER='json'
@@ -265,7 +265,7 @@ CELERY_RESULT_BACKEND='django-db'
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379",
+        "LOCATION": os.environ.get("REDIS_URL"),
         'OPTION':{
             'CLIENT_CLASS':'django_redis.client.DefaultClinent'
         }
