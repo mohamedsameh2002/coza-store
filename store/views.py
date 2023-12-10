@@ -396,7 +396,6 @@ def SEARCH (request):
     return render (request,'store/search.html',context)
 
 
-@cache_page(4500)
 def FILTER(request):
     colors=request.GET.getlist('_filterObj[color][]')
     sizes=request.GET.getlist('_filterObj[size][]')
@@ -471,7 +470,11 @@ def FILTER(request):
                 products=products.filter(is_available=True).distinct()[:1]
             elif storby == ['2']:
                 if '/en/' in request.path:
-                    products=products.filter(is_available=True).order_by('product_name').distinct()[:1]
+                    if cache.get('products_filte'):
+                        products=cache.get('products_filte')
+                    else:
+                        products=products.filter(is_available=True).order_by('product_name').distinct()[:1]
+                        cache.set('products_filte',products,4000)
                 else:
                     products=products.filter(is_available=True).order_by('product_name_ar').distinct()[:1]
             elif storby == ['3']:
