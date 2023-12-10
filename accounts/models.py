@@ -175,5 +175,5 @@ class UserProfile (models.Model):
 
 @receiver(post_save,sender=Accounts)
 def create_profile(*args,**kwargs):
-    if kwargs['instance'].is_manual == False and kwargs['created'] == True:
+    if kwargs['created'] == True:
         UserProfile.objects.create(user=kwargs['instance'])

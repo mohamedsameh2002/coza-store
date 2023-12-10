@@ -120,8 +120,6 @@ def verif_code_activ (request):
         user.sending_count=5
         user.validation_code=None
         user.save()
-        profile=UserProfile.objects.create(user=user)
-        profile.save
         if '/en/' in request.path:
             messages.success(request,'Your account has been activated successfully')
         else:
