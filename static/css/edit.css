@@ -2964,6 +2964,38 @@ RESET STYLES
 =====
 */
 
+.field__input{
+  box-sizing: border-box;
+  width: var(--fieldWidth, 100%);
+  height: var(--fieldHeight, 3rem);
+  padding: var(--fieldPaddingTop, 1.25rem) var(--uiFieldPaddingRight) var(--fieldPaddingBottom, .5rem) var(--uiFieldPaddingLeft);
+  border-bottom: var(--uiFieldBorderWidth) solid var(--fieldBorderColor, rgba(0, 0, 0, .25));  
+}
+
+.field__input:focus{
+  outline: none;
+}
+
+.field__input::-webkit-input-placeholder{
+  opacity: 0;
+  transition: opacity .2s ease-out;
+}
+
+.field__input::-moz-placeholder{
+  opacity: 0;
+  transition: opacity .2s ease-out;
+}
+
+
+
+
+
+.field__input:not(:placeholder-shown) ~ .field__label-wrap .field__label,
+.field__input:focus ~ .field__label-wrap .field__label{
+  font-size: 5px;
+  top: 100%;
+}
+
 .field__input{ 
   --uiFieldPlaceholderColor: var(--fieldPlaceholderColor, #767676);
   
@@ -2996,27 +3028,6 @@ CORE STYLES
   font-size: var(--fieldFontSize, 1rem);
 }
 
-.field__input{
-  box-sizing: border-box;
-  width: var(--fieldWidth, 100%);
-  height: var(--fieldHeight, 3rem);
-  padding: var(--fieldPaddingTop, 1.25rem) var(--uiFieldPaddingRight) var(--fieldPaddingBottom, .5rem) var(--uiFieldPaddingLeft);
-  border-bottom: var(--uiFieldBorderWidth) solid var(--fieldBorderColor, rgba(0, 0, 0, .25));  
-}
-
-.field__input:focus{
-  outline: none;
-}
-
-.field__input::-webkit-input-placeholder{
-  opacity: 0;
-  transition: opacity .2s ease-out;
-}
-
-.field__input::-moz-placeholder{
-  opacity: 0;
-  transition: opacity .2s ease-out;
-}
 
 /* .field__input:focus::-webkit-input-placeholder{
   opacity: 1;
@@ -3068,11 +3079,7 @@ CORE STYLES
 
   transition: top .2s cubic-bezier(0.9, -0.15, 0.1, 1.15), opacity .2s ease-out, font-size .2s ease-out;
 }
-.field__input:not(:placeholder-shown) ~ .field__label-wrap .field__label,
-.field__input:focus ~ .field__label-wrap .field__label{
-  --fieldHintFontSize: var(--fieldHintFontSizeFocused, .99rem);
-  top: var(--fieldHintTopHover, .65rem);
-}
+
 
 
 /* 
