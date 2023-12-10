@@ -16,27 +16,28 @@ from django.contrib import messages
 
 def BLOG (request,tag_slug=None):
     blogs=Blog.objects.filter(status=True).order_by('-published_at')
-    notifs=Notification.objects.filter(reply_recipient=request.user).exclude(reply_sent=request.user)
-    is_news=Notification.objects.filter(reply_recipient=request.user,seen=False).exclude(reply_sent=request.user).exists()
-    tag=None
-    if tag_slug:
-        tag=get_object_or_404(Tag,slug=tag_slug)
-        blogs=blogs.filter(tags__in=[tag])
-    paginator = Paginator(blogs, 2)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-    categoriys=Category.objects.all()
+    # notifs=Notification.objects.filter(reply_recipient=request.user).exclude(reply_sent=request.user)
+    # is_news=Notification.objects.filter(reply_recipient=request.user,seen=False).exclude(reply_sent=request.user).exists()
+    # tag=None
+    # if tag_slug:
+    #     tag=get_object_or_404(Tag,slug=tag_slug)
+    #     blogs=blogs.filter(tags__in=[tag])
+    # paginator = Paginator(blogs, 2)
+    # page_number = request.GET.get("page")
+    # page_obj = paginator.get_page(page_number)
+    # categoriys=Category.objects.all()
 
-    archive = Blog.objects.annotate(year=ExtractYear('published_at')).values('year').distinct()
-    tags=Tag.objects.all().order_by('-created_date')
+    # archive = Blog.objects.annotate(year=ExtractYear('published_at')).values('year').distinct()
+    # tags=Tag.objects.all().order_by('-created_date')
     context={
-        'blogs':page_obj,
-        'categoriys':categoriys,
-        'archive':archive,
-        'tag':tag,
-        'tags':tags,
-        'notifs':notifs,
-        'is_news':is_news,
+        'blogs':blogs,
+        # 'blogs':page_obj,
+        # 'categoriys':categoriys,
+        # 'archive':archive,
+        # 'tag':tag,
+        # 'tags':tags,
+        # 'notifs':notifs,
+        # 'is_news':is_news,
     }
     return render(request,'blog/blog.html',context)
 
