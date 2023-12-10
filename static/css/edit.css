@@ -3068,15 +3068,12 @@ CORE STYLES
 
   transition: top .2s cubic-bezier(0.9, -0.15, 0.1, 1.15), opacity .2s ease-out, font-size .2s ease-out;
 }
-
+.field__input:not(:placeholder-shown) ~ .field__label-wrap .field__label,
 .field__input:focus ~ .field__label-wrap .field__label{
   --fieldHintFontSize: var(--fieldHintFontSizeFocused, .99rem);
   top: var(--fieldHintTopHover, .65rem);
 }
-.field__input:not(:placeholder-shown) ~ .field__label-wrap .field__label{
-  --fieldHintFontSize: var(--fieldHintFontSizeFocused, .99rem);
-  top: var(--fieldHintTopHover, .65rem);
-}
+
 
 /* 
 effect 1

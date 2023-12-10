@@ -553,7 +553,7 @@ msgstr "لقد اكتمل طلبك"
 
 #: .\templates\orders\ajax\order_complete_aj.html:8
 msgid "We will contact you shortly via the phone number or email you provided"
-msgstr ".سوف نتواصل معك قريبا عبر رقم الهاتف او البريد الذي قدمتهم"
+msgstr "سوف نتواصل معك قريبا عبر رقم الهاتف او البريد الذي قدمتهم."
 
 #: .\templates\orders\ajax\order_complete_aj.html:93
 msgid "Order Data:"
