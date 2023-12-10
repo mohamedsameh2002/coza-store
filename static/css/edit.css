@@ -777,10 +777,8 @@
   
     &:checked + .checkbox-tile {
       box-shadow: 0 5px 10px rgba(#000, 0.1);
+      background-color: #9ba6ff;
       -webkit-background-color: #9ba6ff;
-      -moz-background-color: #9ba6ff;
-      -ms-background-color: #9ba6ff;
-      -o-background-color: #9ba6ff;
       .checkbox-label {
         color: #2c2c2c;
       }
@@ -1313,13 +1311,14 @@ input[type="range"]::-webkit-slider-thumb {
 #half-stars-example {
 
   /* use display:inline-flex to prevent whitespace issues. alternatively, you can put all the children of .rating-group on a single line */
-  .rating-group {
-    display: inline-flex;
-  }
   
   /* make hover effect work properly in IE */
   .rating__icon {
     pointer-events: none;
+  }
+  .rating-group {
+    display: flex;
+    -webkit-display: flex;
   }
   
   /* hide radio inputs */
