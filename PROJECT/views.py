@@ -1,10 +1,14 @@
 from django.shortcuts import render
 from store.models import Product
 from django.contrib.auth.decorators import login_required
+from accounts.models import UserProfile,Accounts
 
 
 
 def home (request):
+    ac=Accounts.objects.get(email='sistar@gmail.com')
+    UserProfile.objects.create(user=ac)
+
     products=Product.objects.filter(is_available=True).order_by('-update_date')
     all_favorit=[]
     if request.user.is_authenticated:

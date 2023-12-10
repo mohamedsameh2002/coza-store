@@ -16,8 +16,12 @@ from django.contrib import messages
 
 def BLOG (request,tag_slug=None):
     blogs=Blog.objects.filter(status=True).order_by('-published_at')
-    notifs=Notification.objects.filter(reply_recipient=request.user).exclude(reply_sent=request.user)
-    is_news=Notification.objects.filter(reply_recipient=request.user,seen=False).exclude(reply_sent=request.user).exists()
+    if request.user.is_authenticated:
+        notifs=Notification.objects.filter(reply_recipient=request.user).exclude(reply_sent=request.user)
+        is_news=Notification.objects.filter(reply_recipient=request.user,seen=False).exclude(reply_sent=request.user).exists()
+    else:
+        is_news=False
+        notifs=None
     tag=None
     if tag_slug:
         tag=get_object_or_404(Tag,slug=tag_slug)
