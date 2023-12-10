@@ -2947,8 +2947,24 @@ input[type="range"]::-webkit-slider-thumb {
 
 
 
+.ha-screen-reader{
+  width:  1px;
+  height:  1px;
+  padding:  0;
+  border:  none;
+
+  position:  absolute;
+  clip:  rect(1px, 1px, 1px, 1px);
+  overflow:  hidden;
+}
+
+/*
+=====
+RESET STYLES
+=====
+*/
+
 .field__input{ 
-  --uiFieldPlaceholderColor: var(--fieldPlaceholderColor, #767676);
   
   background-color: transparent;
   border-radius: 0;
@@ -2961,13 +2977,6 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: inherit;
 }
 
-.field__input:focus::-webkit-input-placeholder{
-  color: var(--uiFieldPlaceholderColor);
-}
-
-.field__input:focus::-moz-placeholder{
-  color: var(--uiFieldPlaceholderColor);
-}
 
 /*
 =====
@@ -2976,12 +2985,13 @@ CORE STYLES
 */
 
 
+
 .field__input{
   box-sizing: border-box;
-  width: var(--fieldWidth, 100%);
-  height: var(--fieldHeight, 3rem);
-  padding: var(--fieldPaddingTop, 1.25rem) var(--uiFieldPaddingRight) var(--fieldPaddingBottom, .5rem) var(--uiFieldPaddingLeft);
-  border-bottom: var(--uiFieldBorderWidth) solid var(--fieldBorderColor, rgba(0, 0, 0, .25));  
+  width:  100%;
+  height:  3rem;
+  padding:  1.25rem 1rem  .5rem 1rem;
+  border-bottom: 2px solid rgba(0, 0, 0, .25);  
 }
 
 .field__input:focus{
@@ -3039,56 +3049,38 @@ CORE STYLES
 
 .field__label{
   position: absolute;
-  left: var(--uiFieldPaddingLeft);
-  top: calc(50% - .5em);
+  left: 1rem;
+  top: 50%;
   
 
   line-height: 1;
-  font-size: var(--fieldHintFontSize, inherit);
+  font-size: 15px;
 
   transition: top .2s cubic-bezier(0.9, -0.15, 0.1, 1.15), opacity .2s ease-out, font-size .2s ease-out;
 }
 .field__input:not(:placeholder-shown) ~ .field__label-wrap .field__label,
 .field__input:focus ~ .field__label-wrap .field__label{
-  --fieldHintFontSize: var(--fieldHintFontSizeFocused, .99rem);
-
-  top: var(--fieldHintTopHover, .65rem);
+  font-size:  10px;
+  top: 10%;
 }
+
 
 /* 
 effect 1
 */
 
 .field_v1 .field__label-wrap::after{
-  border-bottom: var(--uiFieldBorderWidth) solid var(--uiFieldBorderColorActive);
+  border-bottom: 2px solid black;
   transition: opacity .2s ease-out;
 }
 
-/* 
-effect 2
-*/
-
-.field_v2 .field__label-wrap{
-  overflow: hidden;
-}
-
-.field_v2 .field__label-wrap::after{
-  border-bottom: var(--uiFieldBorderWidth) solid var(--uiFieldBorderColorActive);
-  transform: translate3d(-105%, 0, 0);
-  transition: transform .285s ease-out .2s, opacity .2s ease-out .2s;
-}
-
-.field_v2 .field__input:focus ~ .field__label-wrap::after{
-  transform: translate3d(0, 0, 0);
-  transition-delay: 0;
-}
 
 /*
 effect 3
 */
 
 .field_v3 .field__label-wrap::after{
-  border: var(--uiFieldBorderWidth) solid var(--uiFieldBorderColorActive);
+  border: 2px solid black;
   transition: height .2s ease-out, opacity .2s ease-out;
 }
 
@@ -3098,7 +3090,7 @@ effect 3
 
 
 .field_v3 .red-effect::after{
-  border: var(--uiFieldBorderWidth) solid red;
+  border: 2px solid red;
   transition: height .2s ease-out, opacity .2s ease-out;
 }
 
@@ -3107,14 +3099,5 @@ effect 3
 LEVEL 4. SETTINGS
 =====
 */
-
-.field{
-  --fieldBorderColor: #777;
-  --fieldBorderColorActive: #7182ef
-  ;
-}
-
-
-
 
 
