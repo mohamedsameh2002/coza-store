@@ -234,10 +234,11 @@ def PRODUCT_DETAILS (request,id):
         valeue=None
         rating=None
     
-    is_fav=product.favorits.filter(email__iexact=request.user.email).exists()
     if request.user.is_authenticated:
+        is_fav=product.favorits.filter(email__iexact=request.user.email).exists()
         all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
     else:
+        is_fav=False
         all_favorit=[]
     #==========
     

@@ -342,7 +342,7 @@
 					<div class="right-top-bar flex-w h-full">
 						
                         {% if request.user.is_authenticated %}
-						<a href="#" style="gap: 7px;" class="flex-c-m trans-04 p-lr-25">
+						<a href="{{request.user.get_absolute_url}}" style="gap: 7px;" class="flex-c-m trans-04 p-lr-25">
 							<img class="user-profile-img-base" src="{{userprofile.profile_pictuer.url}}" >
 							<p class="user-profile-name-base">{{request.user.full_name}}</p>
 						</a>
