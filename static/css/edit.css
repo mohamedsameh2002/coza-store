@@ -156,7 +156,7 @@
 .singup .container .content .manw-sing form button{
   background-color: #000000;
   color: white;
-  padding: 0 2%;
+  padding: 0 3%;
   width: fit-content;
   margin: 40px 20px;
   text-align: center;
@@ -3070,6 +3070,10 @@ CORE STYLES
 }
 
 .field__input:focus ~ .field__label-wrap .field__label{
+  --fieldHintFontSize: var(--fieldHintFontSizeFocused, .99rem);
+  top: var(--fieldHintTopHover, .65rem);
+}
+.field__input:not(:placeholder-shown) ~ .field__label-wrap .field__label{
   --fieldHintFontSize: var(--fieldHintFontSizeFocused, .99rem);
   top: var(--fieldHintTopHover, .65rem);
 }

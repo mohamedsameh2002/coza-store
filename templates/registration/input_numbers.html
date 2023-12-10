@@ -4,7 +4,10 @@
 {% load i18n %}
 
 
-
+<style>
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {-webkit-appearance: none;margin: 0;}
+</style>
 
 {% if LANGUAGE_CODE == 'en' %}
 <style>
@@ -36,12 +39,12 @@
         <form class="code-form">
           <h4 class="text-center mb-4">{% trans "Enter The Code" %}</h4>
           <div class="d-flex mb-3">
-              <input name='code' id="one-inp" class='form-control' required/>
-              <input name='code' id="tow-inp" class='form-control' required/>
-              <input name='code' id="three-inp" class='form-control' required/>
-              <input name='code' id="four-inp" class='form-control' required/>
-              <input name='code' id="five-inp" class='form-control' required/>
-              <input name='code' id="six-inp" class='form-control' required/>
+              <input type="number" name='code' id="one-inp" class='form-control' required/>
+              <input type="number" name='code' id="tow-inp" class='form-control' required/>
+              <input type="number" name='code' id="three-inp" class='form-control' required/>
+              <input type="number" name='code' id="four-inp" class='form-control' required/>
+              <input type="number" name='code' id="five-inp" class='form-control' required/>
+              <input type="number" name='code' id="six-inp" class='form-control' required/>
             </div>
             <span class="loader-validation"></span>
           </form>
