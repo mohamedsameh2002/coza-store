@@ -15,24 +15,24 @@ from django.db.models.signals import post_save,post_delete
 def PRODUCTS (request):
     if '/en/' in request.path:lang='en'
     else:lang='ar'
-    if cache.get_many(['products','category','colors','sizes']):
-        products=cache.get('products')
-        category=cache.get('category')
-        colors=cache.get('colors')
-        sizes=cache.get('sizes')
-    else:
-        products=Product.objects.filter(is_available=True).order_by('-created_date')[:1]
-        category=Category.objects.all()
-        sizes=Customizations.objects.filter(status=True).values('sizes__size_name','sizes__size_name_ar','sizes__id').distinct()
-        colors=Customizations.objects.filter(status=True).values('colors__color_name','colors__color_code','colors__id').distinct()
-        cache.set_many({'products':products,'sizes':sizes,'colors':colors,'category':category},7000)
+    # if cache.get_many(['products','category','colors','sizes']):
+    #     products=cache.get('products')
+    #     category=cache.get('category')
+    #     colors=cache.get('colors')
+    #     sizes=cache.get('sizes')
+    # else:
+    products=Product.objects.filter(is_available=True).order_by('-created_date')[:1]
+    category=Category.objects.all()
+    sizes=Customizations.objects.filter(status=True).values('sizes__size_name','sizes__size_name_ar','sizes__id').distinct()
+    colors=Customizations.objects.filter(status=True).values('colors__color_name','colors__color_code','colors__id').distinct()
+        # cache.set_many({'products':products,'sizes':sizes,'colors':colors,'category':category},7000)
     count_products=Product.objects.count()
     if request.user.is_authenticated:
-        if cache.get('all_favorit'):
-            all_favorit=cache.get('all_favorit')
-        else:
-            all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
-            cache.set('all_favorit',all_favorit,7000)
+        # if cache.get('all_favorit'):
+        #     all_favorit=cache.get('all_favorit')
+        # else:
+        all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
+            # cache.set('all_favorit',all_favorit,7000)
     else:
         all_favorit=[]
     
