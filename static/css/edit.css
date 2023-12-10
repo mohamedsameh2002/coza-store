@@ -1308,7 +1308,6 @@ input[type="range"]::-webkit-slider-thumb {
 
 
 
-#half-stars-example {
 
   /* use display:inline-flex to prevent whitespace issues. alternatively, you can put all the children of .rating-group on a single line */
   
@@ -1317,8 +1316,7 @@ input[type="range"]::-webkit-slider-thumb {
     pointer-events: none;
   }
   .rating-group {
-    display: flex;
-    -webkit-display: flex;
+    display: -webkit-inline-flex;
   }
   
   /* hide radio inputs */
@@ -1379,7 +1377,6 @@ input[type="range"]::-webkit-slider-thumb {
   }
 
   
-}
 
 /* End rating  */
 
