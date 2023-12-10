@@ -16,13 +16,13 @@ app = Celery('PROJECT')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
 
-app.conf.beat_schedule={
-    'ovry10':{
-        'task':'PROJECT.celery.pre',
-        'schedule':20,
-        # 'args':10
-    }
-}
+# app.conf.beat_schedule={
+#     'ovry10':{
+#         'task':'PROJECT.celery.pre',
+#         'schedule':20,
+#         # 'args':10
+#     }
+# }
 
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks()
@@ -33,12 +33,12 @@ def debug_task(self):
     print(f'Request: {self.request!r}')
 
 
-@app.task(bind=True, ignore_result=False)
-def pre(self):
-    try:
-        from cart.models import CartItem
-        CartItem.objects.all().delete()
-    except:
-        print('not imported yet')
-    return
+# @app.task(bind=True, ignore_result=False)
+# def pre(self):
+#     try:
+#         from cart.models import CartItem
+#         CartItem.objects.all().delete()
+#     except:
+#         print('not imported yet')
+#     return
 
