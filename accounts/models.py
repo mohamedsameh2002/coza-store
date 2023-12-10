@@ -14,6 +14,8 @@ import os
 import secrets
 import random
 import string
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 # Create your models here.
@@ -171,3 +173,7 @@ class UserProfile (models.Model):
     
 
 
+@receiver(post_save,sender=Accounts)
+def create_profile(*args,**kwargs):
+    if kwargs['instance'].is_manual == False and kwargs['created'] == True:
+        UserProfile.objects.create(user=kwargs['instance'])

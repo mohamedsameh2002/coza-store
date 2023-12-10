@@ -886,7 +886,7 @@ msgstr "لم يتم اضافة عنوان"
 
 #: .\templates\registration\user_profile.html:115
 msgid "Your Orders"
-msgstr "تتبع طلبك"
+msgstr "طلباتك"
 
 #: .\templates\registration\user_profile.html:120
 msgid "order#"
