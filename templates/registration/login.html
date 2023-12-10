@@ -15,7 +15,7 @@
             {% csrf_token %}
             <div class="field field_v1 email-feld">
               <label for="email" class="ha-screen-reader">{% trans "E-mail" %}</label>
-              <input type="email" name='email' id="email-inp" class="field__input inp-email " placeholder="" {% if email_value %} value="{{email_value}}" {% else %}value=""{% endif %} required>
+              <input type="email" name='email' id="email-inp" class="field__input inp-email " placeholder=" " {% if email_value %} value="{{email_value}}" {% else %}value=""{% endif %} required>
               <span class="field__label-wrap" aria-hidden="true">
                 <span class="loader"></span>
                 <span class="field__label">{% trans "E-mail" %}</span>
@@ -32,7 +32,7 @@
 
             <div class="field field_v1 passw-feld">
               <label for="password" class="ha-screen-reader">{% trans "Password" %}</label>
-              <input type="password"  name='password' id="passw-inp" class="field__input inp-passw " placeholder="" required>
+              <input type="password"  name='password' id="passw-inp" class="field__input inp-passw " placeholder=" " required>
               <span class="field__label-wrap" aria-hidden="true">
                 <span class="field__label">{% trans "Password" %}</span>
               </span>
