@@ -28,7 +28,7 @@ def BLOG (request,tag_slug=None):
     categoriys=Category.objects.all()
 
     archive = Blog.objects.annotate(year=ExtractYear('published_at')).values('year').distinct()
-    tags=Tag.objects.all().order_by('-created_date')
+    tags=Tag.objects.all()
     context={
         'blogs':page_obj,
         'categoriys':categoriys,
