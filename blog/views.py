@@ -42,11 +42,12 @@ def BLOG (request,tag_slug=None):
 
 
 def hide_noti_icon(request):
-    notifs=Notification.objects.filter(reply_recipient=request.user)
-    if Notification.objects.filter(reply_recipient=request.user).exists():
-        for i in notifs:
-            i.seen=True
-        i.save()
+    if request.user.is_authenticated:
+        notifs=Notification.objects.filter(reply_recipient=request.user)
+        if Notification.objects.filter(reply_recipient=request.user).exists():
+            for i in notifs:
+                i.seen=True
+            i.save()
     return JsonResponse({})
 
 
