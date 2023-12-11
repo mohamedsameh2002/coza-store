@@ -141,7 +141,7 @@ def PAYMENT_PAGE(request,total=0,quantity=0):
             'item_number':order_number,
             'invoice':invoice,
             'currency_code':'USD',
-            'notify_url':f"https://{host}{reverse('paypal-ipn')}",
+            'notify_url':f"https://java-store.onrender.com/{reverse('paypal-ipn')}",
             'return':f"https://{host}{reverse('order_complete')}?pym-m=online&order-num={order_number}&invoice={invoice}",
             'cancel_url':f"https://{host}{reverse('payment-cancel')}",
         }
