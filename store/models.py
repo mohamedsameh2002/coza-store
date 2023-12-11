@@ -52,9 +52,10 @@ class Size_List (models.Model):
         return self.size_name
 
     
-def image_upload_one (instance,filename):
-    random_namper=random.randint(0,10000000)
-    return f"products/one/ {random_namper}.png"
+# def image_upload_one (instance,filename):
+#     random_namper=random.randint(0,10000000)
+#     return f"products/one/ {random_namper}.png"
+
 class Product (models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     product_name = models.CharField(max_length=50, unique=True)
@@ -68,7 +69,7 @@ class Product (models.Model):
 
     price = models.IntegerField()
 
-    image = models.ImageField(upload_to=image_upload_one)
+    image = models.ImageField(upload_to='products/one')
     avg_rate=models.DecimalField(decimal_places=1,max_digits=2,default=0.0)
     is_available = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -102,15 +103,15 @@ class Product (models.Model):
         
 
 
-def image_upload (instance,filename):
-    random_namper=random.randint(0,10000000)
-    return f"products/multi/ {random_namper}.png"
+# def image_upload (instance,filename):
+#     random_namper=random.randint(0,10000000)
+#     return f"products/multi/ {random_namper}.png"
 
 
 
 class ProductGallery (models.Model):
     product=models.ForeignKey(Product,on_delete=models.CASCADE,default=None)
-    img=models.ImageField(upload_to=image_upload)
+    img=models.ImageField(upload_to='products/multi')
     def __str__(self) -> str:
         return self.product.product_name
     
