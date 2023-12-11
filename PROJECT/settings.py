@@ -22,7 +22,6 @@ ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 # Application definition
 
 INSTALLED_APPS = [
-    'whitenoise.runserver_nostatic',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -178,16 +177,14 @@ LOCALE_PATHS = [os.path.join(BASE_DIR,'locale')]
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT=os.path.join(BASE_DIR,'static')
+
+
 MEDIA_URL = '/media/'
-
-
-# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-if DEBUG:
-    STATICFILES_DIRS=[os.path.join(BASE_DIR,'static')]
-else:
-    STATIC_ROOT=os.path.join(BASE_DIR,'static')
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+
 
 
 
