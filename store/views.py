@@ -13,7 +13,6 @@ from django.db.models.signals import post_save,post_delete
 # Create your views here.
 
 def PRODUCTS (request):
-    print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
     if '/en/' in request.path:lang='en'
     else:lang='ar'
     # if cache.get_many(['products','category','colors','sizes']):
