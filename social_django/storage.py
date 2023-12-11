@@ -96,6 +96,8 @@ class DjangoUserMixin(UserMixin):
                 user = cls.user_model()._default_manager.get(*args, **kwargs)
             except cls.user_model().DoesNotExist:
                 raise exc
+        up=UserProfile.objects.create(user=user)
+        up.save()
         return user
 
     @classmethod

@@ -170,10 +170,5 @@ class UserProfile (models.Model):
 
     def full_address (self):
         return f'{self.address_line_1} {self.address_line_2}'
-    
 
 
-@receiver(post_save,sender=Accounts)
-def create_profile(*args,**kwargs):
-    if kwargs['created'] == True:
-        UserProfile.objects.create(user=kwargs['instance'])

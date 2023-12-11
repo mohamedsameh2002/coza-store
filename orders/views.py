@@ -261,7 +261,7 @@ def GENERATE_INVOICE (request,order_number):
             else :
                 total = total - total_discount
 
-    template_path = 'includes/t.html'
+    template_path = 'includes/invoice.html'
     context = {'order_products': order_products,'order':order,'total':total}
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
