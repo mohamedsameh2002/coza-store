@@ -213,7 +213,7 @@ EMAIL_PORT=587
 
 
 PAYPAL_RECEIVER_EMAIL = 'barbar22.m@gmail.com'
-PAYPAL_TEST = True
+PAYPAL_TEST = False
 
 #Django Admin 
 
