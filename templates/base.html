@@ -460,12 +460,12 @@
 						{% trans "Total" %}: ${{total}}
 					</div>
 
-					<div {% if LANGUAGE_CODE == 'ar' %}style="gap:7px;"{% endif %} class="header-cart-buttons flex-w w-full">
-						<a style="margin: 0;" href="{% url 'cart' %}" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+					<div {% if LANGUAGE_CODE == 'ar' %}style="gap:15px;"{% endif %} class="header-cart-buttons flex-w w-full">
+						<a href="{% url 'cart' %}" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
 							{% trans "View Cart" %}
 						</a>
 						{% if cart_items %}
-						<a style="margin: 0;" href="{% url 'chekout' %}" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+						<a href="{% url 'chekout' %}" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
 							{% trans "Check Out" %}
 						</a>
 						{% endif %}
