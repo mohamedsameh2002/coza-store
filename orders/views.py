@@ -221,20 +221,6 @@ def payment_cancel(request):
 
 
 
-# def CHECK_PAYMENT(func):
-#     def wrapper(request, *args, **kwargs):
-#         time.sleep(1)
-#         invoice = request.GET.get('invoice')
-#         payerID = request.GET.get('PayerID')
-#         try:
-#             payment = Payment.objects.get(payer_id=payerID, invoice_id=invoice, user=request.user)
-#         except:
-#             wrapper(request, *args, **kwargs) 
-#         return func(request, *args, **kwargs)
-#     return wrapper
-
-
-
 
     
 
@@ -265,8 +251,8 @@ def GENERATE_INVOICE (request,order_number):
     context = {'order_products': order_products,'order':order,'total':total}
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')
-    # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-    response['Content-Disposition'] = 'filename="report.svg"'
+    response['Content-Disposition'] = 'attachment; filename="invoice.pdf"'
+    # response['Content-Disposition'] = 'filename="report.svg"'
     # find the template and render it.
     template = get_template(template_path)
     html = template.render(context)

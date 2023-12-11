@@ -6,7 +6,7 @@
       </style>
     <style>
 
-        *{font-family: 'Markazi Text', serif !important;}
+        *{font-family: 'Markazi Text', serif !important;font-weight: 500;}
 
         @media (max-width:660px) {
             .mobile_hide {
@@ -154,7 +154,7 @@
                                             <td class="pad" style="padding-left:10px;padding-right:10px;">
                                                 <div style="color:#ffffff;font-family:'Roboto', Tahoma, Verdana, Segoe, sans-serif;font-size:14px;font-weight:400;line-height:150%;text-align:center;mso-line-height-alt:21px;">
                                                     <p style="margin: 0; word-break: break-word;">{{order.user.full_name}},</p>
-                                                    <p style="margin: 0; word-break: break-word;">{{order.address_line_2}}, {{order.address_line_1}},{{order.city}},{{order.state}},{{order.country}}</p>
+                                                    <p style="margin: 0; word-break: break-word;">{{order.address_line_2}},{{order.address_line_1}},{{order.city}},{{order.state}},{{order.country}}</p>
                                                     <p style="margin: 0; word-break: break-word;">{{order.phone}}</p>
                                                 </div>
                                             </td>
@@ -244,7 +244,7 @@
                                 <tr>
                                     <td class="pad">
                                         <div style="color:#ffffff;font-family:'Lato', Tahoma, Verdana, Segoe, sans-serif;font-size:14px;line-height:120%;text-align:center;mso-line-height-alt:16.8px;">
-                                            <p style="margin: 0; word-break: break-word;">{% if lang == 'en' %}{{order.product.product_name}}{% else %}{{order.product.product_name_ar}}{% endif %}</p>
+                                            <p style="margin: 0; word-break: break-word;">{{order.product.product_name}}</p>
                                         </div>
                                     </td>
                                 </tr>
