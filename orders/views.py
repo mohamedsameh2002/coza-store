@@ -130,7 +130,6 @@ def PAYMENT_PAGE(request,total=0,quantity=0):
     paypal_payment=None
     try:
         order=Order.objects.get(user=user,is_order=False,order_numper=order_number)
-        order_products=OrderProduct.objects.filter(order__id=order.id)
         host=request.get_host()
         invoice=uuid.uuid4()
         paypal_checkout={
