@@ -132,7 +132,6 @@ def PAYMENT_PAGE(request,total=0,quantity=0):
         order=Order.objects.get(user=user,is_order=False,order_numper=order_number)
         order_products=OrderProduct.objects.filter(order__id=order.id)
         host=request.get_host()
-        print(host)
         invoice=uuid.uuid4()
         paypal_checkout={
             'business':settings.PAYPAL_RECEIVER_EMAIL,
@@ -142,9 +141,9 @@ def PAYMENT_PAGE(request,total=0,quantity=0):
             'item_number':order_number,
             'invoice':invoice,
             'currency_code':'USD',
-            'notify_url':f"http://java-store.onrender.com/en{reverse('paypal-ipn')}",
-            'return':f"http://java-store.onrender.com/en{reverse('order_complete')}?pym-m=online&order-num={order_number}&invoice={invoice}",
-            'cancel_url':f"http://java-store.onrender.com/en{reverse('payment-cancel')}",
+            'notify_url':f"http://{host}{reverse('paypal-ipn')}",
+            'return':f"http://{host}{reverse('order_complete')}?pym-m=online&order-num={order_number}&invoice={invoice}",
+            'cancel_url':f"http://{host}{reverse('payment-cancel')}",
         }
         paypal_payment=PayPalPaymentsForm(initial=paypal_checkout)
     except:
