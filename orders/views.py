@@ -165,7 +165,7 @@ def ORDER_COMPLEAT (request):
 
 def CHECK_ORDER (request):
     pyment_method=request.GET.get('pyment_method')
-    order_number=request.GET.get('order_number')
+    order_number=request.GET.get('order-num')
     user=request.user
     template=False
     if '/en/' in request.path:lang='en'
