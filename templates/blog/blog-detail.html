@@ -565,7 +565,7 @@
 
 		$('.loader').hide()
 		var loading = false;
-		var page = 1;  
+		var page = 15;  
 		$(window).scroll(function() {
 			if($(window).scrollTop() + $(window).height() >= $(".bg0.p-t-52.p-b-20").height() && !loading && page != 0) {
 				loading = true;
@@ -586,7 +586,7 @@
 					success: function(data) {
 						$(".body-system").append(data.html);
 						loading = false;
-						if (data.count > lent){page += 1;}
+						if (data.count > lent){page += 15;}
 						else{page = 0; }
 						$('.loader').hide()
 						

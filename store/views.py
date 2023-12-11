@@ -21,7 +21,7 @@ def PRODUCTS (request):
     #     colors=cache.get('colors')
     #     sizes=cache.get('sizes')
     # else:
-    products=Product.objects.filter(is_available=True).order_by('-created_date')[:1]
+    products=Product.objects.filter(is_available=True).order_by('-created_date')[:40]
     category=Category.objects.all()
     sizes=Customizations.objects.filter(status=True).values('sizes__size_name','sizes__size_name_ar','sizes__id').distinct()
     colors=Customizations.objects.filter(status=True).values('colors__color_name','colors__color_code','colors__id').distinct()
@@ -223,7 +223,7 @@ def PRODUCT_DETAILS (request,id):
     colors=Customizations.objects.filter(status=True,product=product).values('colors__color_name','colors__color_name_ar').distinct()
     
 
-    reviews=ReviewRating.objects.filter(status=True,product=product).order_by('-created_at')[:1]
+    reviews=ReviewRating.objects.filter(status=True,product=product).order_by('-created_at')[:20]
     count_reviews=ReviewRating.objects.filter(status=True,product=product).order_by('-created_at').count()
     try:
         user=request.user
@@ -332,7 +332,7 @@ class Favorite_Scroll(ListView):
     ordering='created_date'
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return Product.objects.filter(favorits__email__iexact=self.request.user.email,is_available=True).order_by('-favorits')[:1]
+            return Product.objects.filter(favorits__email__iexact=self.request.user.email,is_available=True).order_by('-favorits')[:30]
         return None
     
     # def get_context_data(self, **kwargs):
@@ -425,70 +425,70 @@ def FILTER(request):
         if len(colors) > 0 and len(sizes) > 0 and len(categorys) > 0 :
             x=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-created_date').distinct().count()  
             count=x
-            products=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-created_date').distinct()[:1]
+            products=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-created_date').distinct()[:40]
 
 
         elif  len(colors) > 0 and len(sizes) > 0 :
             x=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes).order_by('-created_date').distinct().count()  
             count=x
-            products=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes).order_by('-created_date').distinct()[:1]
+            products=products.filter(customizations__colors__id__in=colors,customizations__sizes__id__in=sizes).order_by('-created_date').distinct()[:40]
 
 
 
         elif len(colors) > 0  and len(categorys) > 0 :
             x=products.filter(customizations__colors__id__in=colors,category__id__in=categorys).order_by('-created_date').distinct().count()  
             count=x
-            products=products.filter(customizations__colors__id__in=colors,category__id__in=categorys).order_by('-created_date').distinct()[:1]
+            products=products.filter(customizations__colors__id__in=colors,category__id__in=categorys).order_by('-created_date').distinct()[:40]
 
 
         elif  len(sizes) > 0 and len(categorys) > 0 :
             x=products.filter(customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-created_date').distinct().count()  
             count=x
-            products=products.filter(customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-created_date').distinct()[:1]
+            products=products.filter(customizations__sizes__id__in=sizes,category__id__in=categorys).order_by('-created_date').distinct()[:40]
 
             
         else  :
             if len(colors) > 0:
                 x=products.filter(customizations__colors__id__in=colors).order_by('-created_date').distinct().count()  
                 count=x
-                products=products.filter(customizations__colors__id__in=colors).order_by('-created_date').distinct()[:1] 
+                products=products.filter(customizations__colors__id__in=colors).order_by('-created_date').distinct()[:40] 
 
             elif len(sizes) > 0:
                 x=products.filter(customizations__sizes__id__in=sizes).order_by('-created_date').distinct().count()  
                 count=x
-                products=products.filter(customizations__sizes__id__in=sizes).order_by('-created_date').distinct()[:1] 
+                products=products.filter(customizations__sizes__id__in=sizes).order_by('-created_date').distinct()[:40] 
 
             elif  len(categorys) > 0:
                 x=products.filter(category__id__in=categorys).order_by('-created_date').distinct().count()  
                 count=x
-                products=products.filter(category__id__in=categorys).order_by('-created_date').distinct()[:1] 
+                products=products.filter(category__id__in=categorys).order_by('-created_date').distinct()[:40] 
 
     else:
         count=products.filter(is_available=True).distinct().count()
 
         if storby :
             if storby == ['1']:
-                products=products.filter(is_available=True).distinct()[:1]
+                products=products.filter(is_available=True).distinct()[:40]
             elif storby == ['2']:
                 if '/en/' in request.path:
-                    products=products.filter(is_available=True).order_by('product_name').distinct()[:1]
+                    products=products.filter(is_available=True).order_by('product_name').distinct()[:40]
                 else:
-                    products=products.filter(is_available=True).order_by('product_name_ar').distinct()[:1]
+                    products=products.filter(is_available=True).order_by('product_name_ar').distinct()[:40]
             elif storby == ['3']:
                 if '/en/' in request.path:
-                    products=products.filter(is_available=True).order_by('-product_name').distinct()[:1]
+                    products=products.filter(is_available=True).order_by('-product_name').distinct()[:40]
                 else:
-                    products=products.filter(is_available=True).order_by('-product_name_ar').distinct()[:1]
+                    products=products.filter(is_available=True).order_by('-product_name_ar').distinct()[:40]
             elif storby == ['4']:
-                products=products.filter(is_available=True).order_by('-avg_rate').distinct()[:1]
+                products=products.filter(is_available=True).order_by('-avg_rate').distinct()[:40]
             elif storby == ['5']:
-                products=products.filter(is_available=True).order_by('-created_date').distinct()[:1]
+                products=products.filter(is_available=True).order_by('-created_date').distinct()[:40]
             elif storby == ['6']:
-                products=products.filter(is_available=True).order_by('price').distinct()[:1]
+                products=products.filter(is_available=True).order_by('price').distinct()[:40]
             elif storby == ['7']:
-                products=products.filter(is_available=True).order_by('-price').distinct()[:1]
+                products=products.filter(is_available=True).order_by('-price').distinct()[:40]
         else:
-            products=products.filter(is_available=True).order_by('-created_date').distinct()[:1]
+            products=products.filter(is_available=True).order_by('-created_date').distinct()[:40]
 
     if request.user.is_authenticated:
         all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
@@ -538,7 +538,7 @@ def SAVE_REVIEW (request,id):
         product.avg_rate=product.averegeReview()
         product.save()
 
-    reviews=ReviewRating.objects.filter(status=True,product=product).order_by('-created_at')[:1]
+    reviews=ReviewRating.objects.filter(status=True,product=product).order_by('-created_at')[:40]
     count=ReviewRating.objects.filter(status=True,product=product).order_by('-created_at').count()
     template_rev=render_to_string('ajax/reviews.html',{'reviews':reviews})
     is_rev_exi=ReviewRating.objects.filter(user=user_profile,product=product).exists()
