@@ -15,7 +15,7 @@
             {% csrf_token %}
             <div class="field field_v1">
               <label for="first-name" class="ha-screen-reader" >{% trans "First name" %}</label>
-              <input name='first_name' id="first-inp"   class="field__input" placeholder="" required>
+              <input name='first_name' id="first-inp"   class="field__input" placeholder=" " required>
               <span class="field__label-wrap" aria-hidden="true">
                 <span class="field__label">{% trans "First name" %}</span>
               </span>
@@ -23,7 +23,7 @@
 
             <div class="field field_v1">
               <label for="first-name" class="ha-screen-reader">{% trans "Last name" %}</label>
-              <input name='last_name' id="last-inp"  class="field__input" placeholder="" required> 
+              <input name='last_name' id="last-inp"  class="field__input" placeholder=" " required> 
               <span class="field__label-wrap" aria-hidden="true">
                 <span class="field__label">{% trans "Last name" %}</span>
               </span>
@@ -32,7 +32,7 @@
             
             <div class="field field_v1 email-feld">
               <label for="first-name" class="ha-screen-reader">{% trans "E-mail" %}</label>
-              <input type="email" name='email' id="email-inp" class="field__input inp-email " placeholder="" required>
+              <input type="email" name='email' id="email-inp" class="field__input inp-email " placeholder=" " required>
               <span class="field__label-wrap" aria-hidden="true">
                 <span class="loader"></span>
                 <span class="field__label">{% trans "E-mail" %}</span>
@@ -51,7 +51,7 @@
 
             <div class="field field_v1 passw-feld">
               <label for="first-name" class="ha-screen-reader">{% trans "Password" %}</label>
-              <input type="password"  name='password' id="passw-inp" class="field__input inp-passw " placeholder="" required>
+              <input type="password"  name='password' id="passw-inp" class="field__input inp-passw " placeholder=" " required>
               <span class="field__label-wrap" aria-hidden="true">
                 <span class="loader-password"></span>
                 <span class="field__label">{% trans "Password" %}</span>
