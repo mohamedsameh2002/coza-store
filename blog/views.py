@@ -59,7 +59,10 @@ def hide_noti_icon(request):
 def BLOG_DETAIL (request,slug,id):
     blog=Blog.objects.get(slug=slug,id=id)
     categoriys=Category.objects.all()
-    userprofile=UserProfile.objects.get(user=request.user)
+    if request.user.is_authenticated:
+        userprofile=UserProfile.objects.get(user=request.user)
+    else:
+        userprofile=None
     try:
         comments=Comments.objects.filter(post=blog).order_by('-created_date')[:4]
     except:

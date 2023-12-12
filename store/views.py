@@ -538,7 +538,7 @@ def SAVE_REVIEW (request,id):
         product.avg_rate=product.averegeReview()
         product.save()
 
-    reviews=ReviewRating.objects.filter(status=True,product=product).order_by('-created_at')[:40]
+    reviews=ReviewRating.objects.filter(status=True,product=product).order_by('-created_at')[:20]
     count=ReviewRating.objects.filter(status=True,product=product).order_by('-created_at').count()
     template_rev=render_to_string('ajax/reviews.html',{'reviews':reviews})
     is_rev_exi=ReviewRating.objects.filter(user=user_profile,product=product).exists()
