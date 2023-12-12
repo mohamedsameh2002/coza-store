@@ -120,7 +120,11 @@
 						<div class="comments-body">
 							<div class="heder-system">
 								<div class="image">
+									{% if request.user.is_authenticated %}
 									<img src="{{userprofile.profile_pictuer.url}}">
+									{% else %}
+									<img src="{% static "images/icons/av12154.png" %}">
+									{% endif %}
 								</div>
 								<div class="input-fld">
 									<form method="post" id="comment-Form" action="{% url 'add_comment'%}">
@@ -131,7 +135,11 @@
 											</div>
 											<div class="comment-meiion">
 												<button class="cancel-comment" type="button">{% trans "cancel" %}</button>
+												{% if request.user.is_authenticated %}
 												<button value="comment">{% trans "comment" %}</button>
+												{% else %}
+												<a href="{% url "login" %}" >{% trans "comment" %}</a>
+												{% endif %}
 											</div>
 										</div>
 									</form>
