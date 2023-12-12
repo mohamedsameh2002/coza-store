@@ -157,7 +157,11 @@
 											<h2>{{comment.user.user.full_name}}</h2>
 											<p>{{comment.comment}}</p>
 											<div class="buttons">
+												{% if request.user.is_authenticated %}
 												<button class="reply-comment" data-id-comment="{{comment.id}}">{% trans "reply" %}</button>
+												{% else %}
+												<button class="reply-comment" ><a href="{% url "login" %}" >{% trans "reply" %}</a></button>
+												{% endif %}
 												<button class="show-btn {% if not comment.is_has_reply %}hide-show-rep {% endif %}" data-show-id="{{comment.id}}"><span>{{comment.count_reply}}</span> {% trans "replays" %}</button>
 												{% if comment.user.user == request.user %}
 												<a href="{% url "delet_com_rep" comment.id 'comment' %}" class="dele-option">{% trans "Delete" %}</a>

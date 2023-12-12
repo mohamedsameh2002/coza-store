@@ -523,8 +523,8 @@ def SAVE_REVIEW (request,id):
             rating=request.POST.get('info[2][rating]'),
             ip=request.META.get('REMOTE_ADDR'),
             )
-        product.avg_rate=product.averegeReview()
-        product.save()
+        # product.avg_rate=product.averegeReview()
+        # product.save()
     elif button == 'edit':
         edit_review=ReviewRating.objects.get(product=product,user=user_profile)
         if request.POST.get('info[1][review]') != edit_review.review:
@@ -533,11 +533,11 @@ def SAVE_REVIEW (request,id):
         edit_review.rating=request.POST.get('info[2][rating]')
         edit_review.save()
         # product.avg_rate=product.averegeReview()
-        product.save()
+        # product.save()
     elif button == 'delete':
         edit_review=ReviewRating.objects.get(product=product,user=user_profile).delete()
-        product.avg_rate=product.averegeReview()
-        product.save()
+        # product.avg_rate=product.averegeReview()
+        # product.save()
 
     reviews=ReviewRating.objects.filter(status=True,product=product).order_by('-created_at')[:20]
     count=ReviewRating.objects.filter(status=True,product=product).order_by('-created_at').count()

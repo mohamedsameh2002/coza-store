@@ -219,7 +219,10 @@ def LOAD_COMMENTS(request):
     lent=int( request.GET.get('lent'))
     id=request.GET['id']
     slug=request.GET['slug']
-    userprofile=UserProfile.objects.get(user=request.user)
+    if request.user.is_authenticated:
+        userprofile=UserProfile.objects.get(user=request.user)
+    else:
+        userprofile=None
     blog=Blog.objects.get(slug=slug,id=id)
     comments=Comments.objects.filter(post=blog).order_by('-created_date')[lent:lent+page]
     count=Comments.objects.filter(post=blog).count()
