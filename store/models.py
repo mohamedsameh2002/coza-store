@@ -97,6 +97,7 @@ class Product (models.Model):
         if reviews['average'] is not None:
             avg= float(reviews['average'])
         return avg
+    
     def get_absolute_url(self):
         return reverse("product_details", args=[self.id])
     

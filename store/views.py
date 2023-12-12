@@ -509,6 +509,7 @@ def FILTER(request):
 def SAVE_REVIEW (request,id):
     if '/en/' in request.path:lang='en'
     else:lang='ar'
+    print('xxxxxxxxxxx')
     button=request.POST.get('button')
     direction=(request.POST.get('direction'))
     product=Product.objects.get(id=id)
@@ -531,7 +532,7 @@ def SAVE_REVIEW (request,id):
             edit_review.direction = direction
         edit_review.rating=request.POST.get('info[2][rating]')
         edit_review.save()
-        product.avg_rate=product.averegeReview()
+        # product.avg_rate=product.averegeReview()
         product.save()
     elif button == 'delete':
         edit_review=ReviewRating.objects.get(product=product,user=user_profile).delete()
