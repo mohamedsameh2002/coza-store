@@ -211,7 +211,7 @@ body{
 /* End sidbar cart  */
 
 /* start product ditail  */
-/* .rating__input {right: -600px !important;} */
+.rating__input {right: -9999px !important;}
 .container .reviews-list .sengle-review .image{margin-left: 7px;}
 .container .reviews-list .sengle-review{margin-right: -10px;}
 .container .reviews-list .sengle-review .text .rev-heder #half-stars-example{margin: 0 -5px;}
