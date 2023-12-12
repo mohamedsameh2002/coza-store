@@ -1315,8 +1315,8 @@ input[type="range"]::-webkit-slider-thumb {
   
   /* hide radio inputs */
   .rating__input {
-   position: absolute !important;
-   left: -9999px !important;
+   position: absolute;
+   left: -9999px ;
   }
 
   /* set icon padding and size */
