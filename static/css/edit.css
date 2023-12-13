@@ -1273,8 +1273,10 @@ input[type="range"]::-webkit-slider-thumb {
 
 .counTfaVE-dis{
   font-size: 13px;
-  padding: 3px 10px 0;
+  padding: 2px 7px 0;
   font-weight: 700;
+  order: 1;
+  margin: 0px -13px;
 }
 
 .hart-popup{
