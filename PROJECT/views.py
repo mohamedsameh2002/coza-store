@@ -29,4 +29,4 @@ def HELP (request):
 
 
 def error_404_page(request,exception):
-    return render(request,'project/error_page.html')
+    return render(request,'project/error_page.html',status=404)
