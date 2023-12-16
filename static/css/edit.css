@@ -2685,6 +2685,7 @@ input[type="range"]::-webkit-slider-thumb {
 /* start base  */
 .user-profile-img-base{
   width: 30px;
+  height: 32px;
   border-radius: 50%;
 }
 .user-profile-name-base{
