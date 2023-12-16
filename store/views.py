@@ -67,7 +67,7 @@ def QUICK_VIEW (request):
     }
     return JsonResponse(data)
 
-@cache_page(2500)
+# @cache_page(2500)
 def LOAD_MORE(request):
     colors=request.GET.getlist('_filterObj[color][]')
     sizes=request.GET.getlist('_filterObj[size][]')
@@ -392,7 +392,7 @@ def SEARCH (request):
     return render (request,'store/search.html',context)
 
 
-@cache_page(2500)
+# @cache_page(2500)
 def FILTER(request):
     colors=request.GET.getlist('_filterObj[color][]')
     sizes=request.GET.getlist('_filterObj[size][]')

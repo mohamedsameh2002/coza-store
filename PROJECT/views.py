@@ -6,11 +6,11 @@ from django.core.cache import cache
 
 
 def home (request):
-    if cache.get('products'):
-        products=cache.get('products')
+    if cache.get('products_home'):
+        products=cache.get('products_home')
     else:
         products=Product.objects.filter(is_available=True).order_by('?')[:16]
-        cache.set('products',products,4000)
+        cache.set('products_home',products,4000)
         all_favorit=[]
     if request.user.is_authenticated:
         all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
