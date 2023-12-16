@@ -58,8 +58,8 @@ class Size_List (models.Model):
 
 class Product (models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    product_name = models.CharField(max_length=50, unique=False)
-    product_name_ar = models.CharField(max_length=50, unique=False,null=True)
+    product_name = models.CharField(max_length=50, unique=True)
+    product_name_ar = models.CharField(max_length=50, unique=True,null=True)
 
     description = RichTextField(null=True)
     description_ar = RichTextField(null=True)
