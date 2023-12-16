@@ -6,7 +6,7 @@ from accounts.models import UserProfile,Accounts
 
 
 def home (request):
-    products=Product.objects.filter(is_available=True).order_by('-update_date')
+    products=Product.objects.filter(is_available=True).order_by('-update_date')[:16]
     all_favorit=[]
     if request.user.is_authenticated:
         all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))

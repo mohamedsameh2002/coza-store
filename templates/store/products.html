@@ -151,11 +151,9 @@
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-pic hov-img0 label-new" {% if LANGUAGE_CODE == 'en' %}data-label="{{product.category.category_name}}" {% else %} data-label="{{product.category.category_name_ar}}" {% endif %}>
-							
 							<img src= "{{product.image.url}}" alt="IMG-PRODUCT" class="ImgPROd" >
 							<button class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1 QuicK-ViEw" data-link-action="quickview" title="Quick view" data-quick-id="{{product.id}}">{% trans "QuicK ViEw" %}</button>
 						</div>
-
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
 								
@@ -343,7 +341,7 @@
 			<!-- Load more -->
 			
 			<div class="flex-c-m flex-w w-full p-t-45">
-				<button  class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04" id="loadMore" data-limit="40" data-total="{{count_products}}">
+				<button  class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04" id="loadMore" data-limit="8" data-total="{{count_products}}">
 					<span class="loadmore-loder"></span>
 					<span class="loadmor-text">{% trans "Load More" %}</span>
 				</button>

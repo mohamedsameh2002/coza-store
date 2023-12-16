@@ -51,7 +51,7 @@
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item  product-box">
 					<!-- Block2 -->
 					<div class="block2">
-						<div class="block2-pic hov-img0 label-new" data-label="{{product.product_name}}">
+						<div class="block2-pic hov-img0 label-new" {% if LANGUAGE_CODE == 'en' %}data-label="{{product.category.category_name}}" {% else %} data-label="{{product.category.category_name_ar}}" {% endif %}>
 							
 							<img src= "{{product.image.url}}" alt="IMG-PRODUCT" class="ImgPROd" >
 							<button class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1 QuicK-ViEw" data-link-action="quickview" title="Quick view" data-quick-id="{{product.id}}">{% trans "QuicK ViEw" %}</button>
@@ -460,7 +460,7 @@
 	<script>
 		$('.loader').hide()
 		var loading = false;
-		var page = 15;  
+		var page = 8;  
 		$(window).scroll(function() {
 			if($(window).scrollTop() + $(window).height() >= $("#faveorIT-content").height() && !loading && page != 0) {
 				loading = true;

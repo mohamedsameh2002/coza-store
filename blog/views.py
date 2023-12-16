@@ -26,7 +26,7 @@ def BLOG (request,tag_slug=None):
     if tag_slug:
         tag=get_object_or_404(Tag,slug=tag_slug)
         blogs=blogs.filter(tags__in=[tag])
-    paginator = Paginator(blogs, 2)
+    paginator = Paginator(blogs, 7)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     categoriys=Category.objects.all()
@@ -64,7 +64,7 @@ def BLOG_DETAIL (request,slug,id):
     else:
         userprofile=None
     try:
-        comments=Comments.objects.filter(post=blog).order_by('-created_date')[:4]
+        comments=Comments.objects.filter(post=blog).order_by('-created_date')[:15]
     except:
         comments=None
     archive = Blog.objects.annotate(year=ExtractYear('published_at')).values('year').distinct()
