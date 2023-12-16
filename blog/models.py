@@ -17,20 +17,19 @@ class Category (models.Model):
     
 
 
-def image_upload (instance,filename):
-    random_namper=random.randint(0,10000000)
-    return f"blog/ {random_namper}.jpg"
+# def image_upload (instance,filename):
+#     random_namper=random.randint(0,10000000)
+#     return f"blog/ {random_namper}.jpg"
 class Blog (models.Model):
     publisher=models.ForeignKey(UserProfile,on_delete=models.CASCADE)
-    topic=models.CharField(max_length=300,unique=True)
     slug = models.SlugField(max_length=200, unique=True,null=True,blank=True)
-    tags=TaggableManager()
-    topic_ar=models.CharField(max_length=300,unique=True,null=True)
-    
+    topic=models.CharField(max_length=300,unique=True)
     content=models.TextField()
+    topic_ar=models.CharField(max_length=300,unique=True,null=True)
     content_ar=models.TextField()
 
-    image=models.ImageField(upload_to=image_upload)
+    tags=TaggableManager()
+    image=models.ImageField(upload_to='blog')
     p_products=models.ManyToManyField(Product,null=True,blank=True)
     category=models.ForeignKey(Category,on_delete=models.CASCADE)
     published_at = models.DateTimeField(auto_now_add=True)
