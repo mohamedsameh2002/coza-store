@@ -21,18 +21,14 @@ def PRODUCTS (request):
         colors=cache.get('colors')
         sizes=cache.get('sizes')
     else:
-        products=Product.objects.filter(is_available=True).order_by('-created_date')[:8]
+        products=Product.objects.filter(is_available=True).order_by('?')[:8]
         category=Category.objects.all()
         sizes=Customizations.objects.filter(status=True).values('sizes__size_name','sizes__size_name_ar','sizes__id').distinct()
         colors=Customizations.objects.filter(status=True).values('colors__color_name','colors__color_code','colors__id').distinct()
         cache.set_many({'products':products,'sizes':sizes,'colors':colors,'category':category},5000)
     count_products=Product.objects.count()
     if request.user.is_authenticated:
-        if cache.get('all_favorit'):
-            all_favorit=cache.get('all_favorit')
-        else:
-            all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
-            cache.set('all_favorit',all_favorit,5000)
+        all_favorit=list(Product.objects.filter(favorits__email__iexact=request.user.email))
     else:
         all_favorit=[]
     

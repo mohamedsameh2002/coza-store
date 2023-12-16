@@ -462,7 +462,6 @@
 								</div>
 	
 								<div  class="block2-txt-child2 flex-r p-t-3">
-									<h2 {% if LANGUAGE_CODE == 'en' %} style="margin-right: -6px;" {% else %} style="margin-left: -10px;" {% endif %} class="counTfaVE-dis" data-like-text-id="{{product.id}}">{{product.all_likes}}</h2>
 									<label class="hartcont">
 										<input class="DisADdfaV-ns-dait" data-product-id-fav="{{product.id}}"  type="checkbox" {% if product in all_favorit  %} checked="checked" {% endif %}>
 										<div class="checkmark">
@@ -785,7 +784,6 @@ $('.DisADdfaV-ns-dait').click(function(){
 		success: function(data){
 			$('.square-FaVE-PhoNe').text(data.count);
 			$('.square-FaVE-Pc').text(data.count); 
-			$('.counTfaVE-dis[data-like-text-id="' + id + '"]').text(data.likes); 
 		}
 
 	});

@@ -59,22 +59,17 @@ class Size_List (models.Model):
 class Product (models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     product_name = models.CharField(max_length=50, unique=True)
-    product_name_ar = models.CharField(max_length=50, unique=True,null=True)
-
     description = RichTextField(null=True)
+    product_name_ar = models.CharField(max_length=50, unique=True,null=True)
     description_ar = RichTextField(null=True)
-
-
-    favorits=models.ManyToManyField(Accounts,null=True,blank=True)
-
     price = models.IntegerField()
-
     image = models.ImageField(upload_to='products/one')
-    avg_rate=models.DecimalField(decimal_places=1,max_digits=2,default=0.0)
-    is_available = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    is_available = models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
+    avg_rate=models.DecimalField(decimal_places=1,max_digits=2,default=0.0)
+    favorits=models.ManyToManyField(Accounts,null=True,blank=True)
 
     def __str__(self):
         return self.product_name
