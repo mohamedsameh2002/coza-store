@@ -96,7 +96,7 @@
             <div class="mtext-102 cl2 p-b-15">
                 {% trans "Sizes" %}
             </div>
-            <ul style="margin: 0px -45px;" class="ks-cboxtags flter-mobile">
+            <ul style="margin: 0px -34px;" class="ks-cboxtags flter-mobile">
                 {% for size in sizes %}
                     {% if LANGUAGE_CODE == 'en' %}
                     <li><input type="checkbox" class="filter-checkbox" id="{{size.sizes__size_name}}" data-filter="size" value="{{size.sizes__id}}"><label for="{{size.sizes__size_name}}">{{size.sizes__size_name}}</label></li>

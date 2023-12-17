@@ -9,68 +9,137 @@
 			{% trans "About" %}
 		</h2>
 	</section>	
-
+<style>
+	.mtext-111{font-size: 29px;}
+	.stext-113{font-size: 17px;font-family: system-ui}
+	li{margin: 4px 0;font-size: 17px;}
+	body{font-weight: 500 !important;font-family: system-ui}
+	.p-b-148{padding-bottom: 74px;}
+	li {list-style-type: disc;}
+	.cl6{color: #5e5e5e;}
+</style>
 
 	<!-- Content page -->
 	<section class="bg0 p-t-75 p-b-120">
 		<div class="container">
 			<div class="row p-b-148">
 				<div class="col-md-7 col-lg-8">
+
+					{% if LANGUAGE_CODE == 'en' %}
 					<div class="p-t-7 p-r-85 p-r-15-lg p-r-0-md">
 						<h3 class="mtext-111 cl2 p-b-16">
-							Our Story
+							the beginning
 						</h3>
-
-						<p class="stext-113 cl6 p-b-26">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris consequat consequat enim, non auctor massa ultrices non. Morbi sed odio massa. Quisque at vehicula tellus, sed tincidunt augue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas varius egestas diam, eu sodales metus scelerisque congue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas gravida justo eu arcu egestas convallis. Nullam eu erat bibendum, tempus ipsum eget, dictum enim. Donec non neque ut enim dapibus tincidunt vitae nec augue. Suspendisse potenti. Proin ut est diam. Donec condimentum euismod tortor, eget facilisis diam faucibus et. Morbi a tempor elit.
-						</p>
-
-						<p class="stext-113 cl6 p-b-26">
-							Donec gravida lorem elit, quis condimentum ex semper sit amet. Fusce eget ligula magna. Aliquam aliquam imperdiet sodales. Ut fringilla turpis in vehicula vehicula. Pellentesque congue ac orci ut gravida. Aliquam erat volutpat. Donec iaculis lectus a arcu facilisis, eu sodales lectus sagittis. Etiam pellentesque, magna vel dictum rutrum, neque justo eleifend elit, vel tincidunt erat arcu ut sem. Sed rutrum, turpis ut commodo efficitur, quam velit convallis ipsum, et maximus enim ligula ac ligula. 
-						</p>
-
-						<p class="stext-113 cl6 p-b-26">
-							Any questions? Let us know in store at 8th floor, 379 Hudson St, New York, NY 10018 or call us on (+1) 96 716 6879
+						<p  class="stext-113 cl6 p-b-26">
+							Praise be to God, Lord of the Worlds, I finished my project “Java Store”, the online store. Praise be to God, our Lord enabled me to finish the backend 100%, and the front end I participated in by 60% even though it is not my specialty. I tried as much as I could to do my best and I hope that I will If I do well, it is from God, and if I do evil, it is from myself and the devil....
 						</p>
 					</div>
+					{% else %}
+					<div class="p-t-7 p-r-85 p-r-15-lg p-r-0-md">
+						<h3 class="mtext-111 cl2 p-b-16">
+							البداية
+						</h3>
+						<p class="stext-113 cl6 p-b-26">
+							الحمد لله رب العالمين انتهيت من مشروعي "جافا ستور" المتجر الألكتروني ,الحمد لله ربنا قدرني اني اخلص الباك ايند بنسبة 100% ,و الفرونت ايند  شاركت فيه بنسبة 60%  بالرغم انه مش تخصصي ,حاولت علي قد ما اقدر اقدم احسن حاجه عندي واتمنى اني اكون قدرت اخلصه علي اكمل وجه ,إن أحسنت فمن الله، وإن أسأت فمن نفسي والشيطان....
+						</p>
+					</div>
+					{% endif %}
 				</div>
-
 				<div class="col-11 col-md-5 col-lg-4 m-lr-auto">
 					<div class="how-bor1 ">
 						<div class="hov-img0">
-							<img src="{% static 'images/about-01.jpg' %}" alt="IMG">
+							<img src="{% static 'images/073419478_n.jpg' %}" alt="IMG">
 						</div>
 					</div>
 				</div>
 			</div>
 			
-			<div class="row">
-				<div class="order-md-2 col-md-7 col-lg-8 p-b-30">
-					<div class="p-t-7 p-l-85 p-l-15-lg p-l-0-md">
+			<div class="row p-b-148">
+				<div class="col-md-7 col-lg-8">
+					{% if LANGUAGE_CODE == 'en' %}
+					<div class="p-t-7 p-r-85 p-r-15-lg p-r-0-md">
 						<h3 class="mtext-111 cl2 p-b-16">
-							Our Mission
+							Some features of the site
 						</h3>
+						<ul>
+							<li>The site has an organized and powerful management interface</li>
+							<li>The website supports Arabic and English</li>
+							<li>All site commands are not synchronized and the page is not reloaded</li>
+							<li>Cache has been activated on some pages of the site “store data in random memory”  to make the site faster</li>
+							<li>The site can send asynchronous messages</li>
+							<li>Supports registration with social media programs, Facebook and Gmail</li>
+							<li>If you forget your password, a code will be sent to you in the “html” template</li>
+							<li>A welcome message will be sent to you once you register on the site, along with a discount code</li>
+							<li>You have your own personal file that you can edit</li>
+							<li>If you do not register, the cart products will be stored in the session</li>
+							<li>The site supports a system of coupons and discount codes</li>
+							<li>The site sends weekly notifications to customers informing them of everything new</li>
+							<li>You can write your review and rate the products</li>
+							<li>You can add products to your favorites list</li>
+							<li>Payment is activated via PayPal</li>
+							<li>The site generates PDF invoices</li>
+							<li>The site has a blog that publishes the latest fashion news</li>
+							<li>You can comment and respond to posts on the blog</li>
+							<li>And other advantages...</li>
+						</ul>
+					</div>
+					{% else %}
+					<div class="p-t-7 p-r-85 p-r-15-lg p-r-0-md">
+						<h3 class="mtext-111 cl2 p-b-16">
+							بعض مميزات الموقع
+						</h3>
+						<ul>
+							<li>الموقع له واجهة ادارة منظمة و قوية</li>
+							<li>الموقع يدعم اللغة العربية و الانجليزية</li>
+							<li>جميع اوامر الموقع غير متزامنه ولا يتم عمل اعادة تحميل للصفحه</li>
+							<li>تم تفعيل الكاش في بعض صفحات الموقع "تخزين البيانات في الذاكرة العشوائية" لجعل الموقع اسرع</li>
+							<li>يستطيع الموقع ارسال رسائل غير متزامنة</li>
+							<li>يدعم التسجيل ببرامج التواصل , الفيسبوك و الجيميل</li>
+							<li>اذا نسيت كلمة السر يرسل لك رمز في قالب "html"</li>
+							<li>يرسل لك رسالة ترحيب بمجرد تسجيلك في الموقع و معها كود خصم</li>
+							<li>لك ملف شخصي خاص بك تستطيع تستطيع التعديل عليه</li>
+							<li>ان لم تسجل يتم تخزين منتجات العربه في الجلسه</li>
+							<li>الموقع يدعم نظام الكبونات و اكواد الخصم</li>
+							<li>الموقع يرسال اشعارات اسبوعية الي العملاء يخبرهم بكل جديد</li>
+							<li>تستطيع كتابة مراجعتك و تقييم المنتجات</li>
+							<li>تستطيع اضافة المنتجات الي قائمة المفضلة</li>
+							<li>تم تفعيل الدفع بواستطة باي بال</li>
+							<li>يولد الموقع فواتير pdf</li>
+							<li>يوجد في الموقع مدونة تنشر اخر اخبار الموضه</li>
+							<li>تستطيع ان تعلق و ترد علي المنشورات في المدونة</li>
+							<li>وغيرهم من المزايا...</li>
+							
+						</ul>
+					</div>
+					{% endif %}
 
-						<p class="stext-113 cl6 p-b-26">
-							Mauris non lacinia magna. Sed nec lobortis dolor. Vestibulum rhoncus dignissim risus, sed consectetur erat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam maximus mauris sit amet odio convallis, in pharetra magna gravida. Praesent sed nunc fermentum mi molestie tempor. Morbi vitae viverra odio. Pellentesque ac velit egestas, luctus arcu non, laoreet mauris. Sed in ipsum tempor, consequat odio in, porttitor ante. Ut mauris ligula, volutpat in sodales in, porta non odio. Pellentesque tempor urna vitae mi vestibulum, nec venenatis nulla lobortis. Proin at gravida ante. Mauris auctor purus at lacus maximus euismod. Pellentesque vulputate massa ut nisl hendrerit, eget elementum libero iaculis.
-						</p>
-
-						<div class="bor16 p-l-29 p-b-9 m-t-22">
-							<p class="stext-114 cl6 p-r-40 p-b-11">
-								Creativity is just connecting things. When you ask creative people how they did something, they feel a little guilty because they didn't really do it, they just saw something. It seemed obvious to them after a while.
-							</p>
-
-							<span class="stext-111 cl8">
-								- Steve Job’s 
-							</span>
+				</div>
+				<div class="col-11 col-md-5 col-lg-4 m-lr-auto">
+					<div class="how-bor1 ">
+						<div class="hov-img0">
+							<img src="{% static 'images/Screenshot 2023-12-17 222827.jpg' %}" alt="IMG">
 						</div>
 					</div>
 				</div>
+			</div>
+			<div class="row p-b-148">
+				<div class="col-md-7 col-lg-8">
+					<div class="p-t-7 p-r-85 p-r-15-lg p-r-0-md">
+						<h3 class="mtext-111 cl2 p-b-16">
+							Basic tools
+						</h3>
 
-				<div class="order-md-1 col-11 col-md-5 col-lg-4 m-lr-auto p-b-30">
-					<div class="how-bor2">
+						<ul>
+							<li>Django framework</li>
+							<li>Redis</li>
+							<li>Celery</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-11 col-md-5 col-lg-4 m-lr-auto">
+					<div class="how-bor1 ">
 						<div class="hov-img0">
-							<img src="{% static 'images/about-01.jpg' %}" alt="IMG">
+							<img src="{% static 'images/54654.png' %}" alt="IMG">
 						</div>
 					</div>
 				</div>
