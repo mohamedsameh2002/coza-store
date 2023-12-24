@@ -97,10 +97,10 @@ def MK_ORDER (request,total=0,quantity=0,grand_total=0,tax=0):
                 costimiz=Customizations.objects.get(product=item.product,colors=item.color,sizes=item.size)
                 costimiz.stock-=item.quantity
                 costimiz.save()
+                if costimiz.stock <= 0:
+                    costimiz.delete()
             except:
                 pass
-            if costimiz.stock <= 0:
-                costimiz.delete()
 
         # clear the cart
         CartItem.objects.filter(user=curent_user).delete()

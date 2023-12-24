@@ -522,25 +522,26 @@ $('#Add-To-carT').click(function(){
 	var lang="{{lang}}"
 
 	if ( size == null) {
-		var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-		if (lang == 'en'){
-			swal(nameProduct, "Not added, please select a color and size!", "error"); 
-		}
-		else{
-			swal(nameProduct, "!لم يتم اضافته , يرجى اختيار لون و حجم ", "error"); 
-		}
+		//var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+		//if (lang == 'en'){
+			//swal(nameProduct, "Not added, please select a color and size!", "error"); 
+		//}
+		//else{
+			//swal(nameProduct, "!لم يتم اضافته , يرجى اختيار لون و حجم ", "error"); 
+		//}
+		console.log('noo')
 	}
 	else {
 		
-		var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-		if (lang == 'en'){
-			swal(nameProduct, "is added to cart !", "success");
-		}
-		else{
-			swal(nameProduct, "!تمت اضافته الي عربة التسوق", "success");
-		}
+		//var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+		//if (lang == 'en'){
+			//swal(nameProduct, "is added to cart !", "success");
+		//}
+		//else{
+			//swal(nameProduct, "!تمت اضافته الي عربة التسوق", "success");
+		//}
 		
-
+		console.log('1')
 	$.ajax({
 
 		url:'/cart/add_cart/',
@@ -553,6 +554,7 @@ $('#Add-To-carT').click(function(){
 		},
 		dataType:'json',
 		success: function(data){
+			console.log('2')
 			$('.square-CarT-Pc').text(data['cart_count']); 
 			$('.square-CarT-PhoNE').text(data['cart_count']);
 			$('.Noti-ShopCart-PC').text(data['cart_count']);
